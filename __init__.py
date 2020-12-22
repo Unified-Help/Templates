@@ -1,6 +1,4 @@
 from flask import Flask, render_template, request, redirect, url_for, session
-from Forms import CreateUserForm
-import shelve, User
 
 app = Flask(__name__)
 
