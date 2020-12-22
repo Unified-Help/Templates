@@ -1,10 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+{% extends "base.html" %}
+
+  {% block head %}
+    <script src="{{url_for('static', filename = 'js/main.js')}}"></script>
+  {% endblock %}
+
 <body>
 
+  {% block content %}
+
+  <main>
+
+  </main><!-- End #main -->
+  {% endblock %}
+
+  <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
+
 </body>
-</html>
