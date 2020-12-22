@@ -131,7 +131,6 @@
 
   {% endblock %}
 
-  {% block scripts %}
   <!-- Vendor JS Files -->
   <script src="{{url_for('static', filename = 'vendor/jquery/jquery.min.js')}}"></script>
   <script src="{{url_for('static', filename = 'vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
@@ -144,6 +143,8 @@
 
   <!-- Template Main JS File -->
   <script src="{{url_for('static', filename = 'js/main.js')}}"></script>
+
+  {% block scripts %}
   {% endblock %}
 
 </body>
