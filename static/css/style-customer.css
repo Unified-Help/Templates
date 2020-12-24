@@ -2,13 +2,12 @@ body{
     font-family: 'Trebuchet MS',
     'Lucida Sans Unicode', 'Lucida Grande',
      'Lucida Sans', Arial, sans-serif;
-
-
 }
 .navbar{
   background-color: #45B8FF;
 }
 .category{
+    margin-top: 50px;
     background-color: #45B8FF;
 }
 .forum-col{
