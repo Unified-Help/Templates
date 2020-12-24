@@ -18,6 +18,10 @@ def donate():
 def forum():
     return render_template('Forum.html')
 
+@app.route("/accpunt")
+def account():
+    return render_template('Account.html')
+
 
 @app.errorhandler(404)
 def page_not_found(e):
