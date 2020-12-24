@@ -18,6 +18,7 @@ def donate():
 def forum():
     return render_template('Forum.html')
 
+
 @app.route("/accpunt")
 def account():
     return render_template('Account.html')
