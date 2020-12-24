@@ -36,25 +36,15 @@
 <body>
 
   <!-- ======= Header ======= -->
-  <header id="header" class="fixed-top">
-    <div class="container-fluid d-flex">
-
-      <div class="logo mr-auto">
-        <h1 class="text-light"><a href="index.html"><span>Unified Help</span></a></h1>
-      </div>
-
       {% block navbar %}
         {% include 'includes/_navbar.html' %}
       {% endblock %}
 
-    </div>
-  </header><!-- End Header -->
 
   {% block content %}
   {% endblock %}
 
-  {% block footer %}
-    <!-- ======= Footer ======= -->
+  <!-- ======= Footer ======= -->
   <footer id="footer">
 
     <div class="footer-newsletter" data-aos="fade-up">
@@ -127,8 +117,10 @@
         &copy; Copyright <strong><span>Unified Help 2020</span></strong>. All Rights Reserved
       </div>
     </div>
-  </footer><!-- End Footer -->
+  </footer>
+  <!-- End Footer -->
 
+  {% block footer %}
   {% endblock %}
 
   <!-- Vendor JS Files -->
