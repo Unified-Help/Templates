@@ -11,7 +11,6 @@ def home():
 
 @app.route("/donate")
 def donate():
-
     return render_template('Donate.html')
 
 
