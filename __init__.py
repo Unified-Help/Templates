@@ -14,6 +14,11 @@ def donate():
     return render_template('Donate.html')
 
 
+@app.route("/forum")
+def forum():
+    return render_template('Forum.html')
+
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('error404.html'), 404
