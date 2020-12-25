@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}UnifiedHelpForum{% endblock %}
   {% block head %}
-    <link href="{{url_for('static', filename = 'css/style-customer.css')}}" rel="stylesheet">
+    <link href="{{url_for('static', filename = 'css/style-forum.css')}}" rel="stylesheet">
   {% endblock %}
 
 <body>
@@ -9,7 +9,10 @@
   {% block content %}
   <main>
 
-
+    <form class="form-inline">
+             <input type="text" class="form-control  mr-3 mb-2 mb-sm-0" placeholder="search">
+             <button type="submit" class="btn btn-dark">Search</button>
+              </form>
 
     <!---Breadcrumb Nav-->
       <div class="container my-3">
@@ -100,7 +103,6 @@
         </div>
   </div>
   </div>
-    <!--end of Aside Section-->
 
 
       <!--End of Category-->
