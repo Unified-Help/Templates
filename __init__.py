@@ -18,11 +18,8 @@ def donate():
 def forum():
     return render_template('Forum.html')
 
-@app.route("/faq")
-def faq():
-    return render_template('FAQ.html')
 
-@app.route("/accpunt")
+@app.route("/account")
 def account():
     return render_template('Account.html')
 
