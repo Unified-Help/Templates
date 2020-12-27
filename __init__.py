@@ -5,7 +5,6 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    # return "Hello World!"
     return render_template('index.html')
 
 
@@ -14,9 +13,20 @@ def donate():
     return render_template('Donate.html')
 
 
+@app.route("/donate/details")
+def donateDetails():
+    return render_template('donateDetails.html')
+
+
+@app.route("/donate/details/money")
+def donateMoney():
+    return render_template('donateMoney.html')
+
+
 @app.route("/forum")
 def forum():
     return render_template('Forum.html')
+
 
 @app.route("/faq")
 def faq():
@@ -35,4 +45,3 @@ def page_not_found(e):
 
 if __name__ == "__main__":
     app.run(debug=True)
-
