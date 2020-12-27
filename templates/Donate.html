@@ -2,23 +2,18 @@
 {% block title %}Donate{% endblock %}
 
 {% block head %}
-<link href="{{url_for('static', filename = 'css/donateForm.css')}}" rel="stylesheet">
-{% endblock %}
 
-
-
-{% block content %}
-<br /><br /><br /><br /><br /><br />
-<form>
-  <div class="form-row" style = "text-align: center; ">
-    <div class="col-6">
-      <button type="submit" class="btn btn-primary"><a href = "{{url_for('donateDetails')}}">Donate</a></button>
-    </div>
-    <div class="col-6">
-      <button type="submit" class="btn btn-primary " style="text-decoration: none;"><a href = "{{url_for('donateDetails')}}">Donation Transaction</a></button>
-    </div>
-  </div>
-</form>
+<!--<br /><br /><br /><br /><br /><br />-->
+<!--<form>-->
+<!--  <div class="form-row" style = "text-align: center; ">-->
+<!--    <div class="col-6">-->
+<!--      <button type="submit" class="btn btn-primary"><a href = "{{url_for('donateDetails')}}">Donate</a></button>-->
+<!--    </div>-->
+<!--    <div class="col-6">-->
+<!--      <button type="submit" class="btn btn-primary " style="text-decoration: none;"><a href = "{{url_for('donateDetails')}}">Donation Transaction</a></button>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</form>-->
 {% endblock %}
 
 {% block scripts %}
