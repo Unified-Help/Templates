@@ -19,13 +19,15 @@ def donate():
 @app.route("/donate/details", methods=['GET', 'POST'])
 def donateDetails():
     donateForm = donationForm(request.form)
-    if donateForm.donationType == "M":
-        return redirect(url_for('donate_Money'))
-        # donate_Money()
-    if donateForm.donationType == "I":
-        return redirect(url_for('donate_Item'))
-        # donate_Item()
 
+    if request.method == "POST" and donateForm.validate():
+        donation_type = donateForm.donationType.data
+        # Checks to see which choice is selected and will bring the user to the specific part of the form (money or
+        # item)
+        if donation_type == "M":
+            return redirect(url_for('donate_Money'))
+        if donation_type == "I":
+            return redirect(url_for('donate_Item'))
     return render_template('donateDetails.html', form=donateForm)
 
 
@@ -38,8 +40,10 @@ def donate_Money():
 @app.route("/donate/details/item", methods=['GET', 'POST'])
 def donate_Item():
     donate_item = donateItem(request.form)
-    if donate_item.collectionType == "WP":
-        collection_pickup()
+    if request.method == "POST" and donate_item.validate():
+        # Checks to see if user picked pickup and will bring them to the address portion of the form to fill
+        if donate_item.collectionType.data == "WP":
+            return redirect(url_for('collection_pickup'))
     return render_template('donateItem.html', form=donate_item)
 
 

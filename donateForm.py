@@ -14,11 +14,11 @@ class donationForm(Form):
 class donateMoney(donationForm):
     # If donor inputs Monetary Donation
     # Money Information
-    moneyAmount = IntegerField("Donation Amount", [validators.Length(min=1, max=150), validators.DataRequired()])
+    moneyAmount = IntegerField("Donation Amount (SGD$)", [validators.Length(min=1, max=150), validators.DataRequired()])
     cardInfo_Name = StringField('Full Name', [validators.Length(min=1, max=150), validators.DataRequired()])
     cardInfo_Number = StringField('Card Number', [validators.Length(min=1, max=150), validators.DataRequired()])
     cardInfo_CVV = StringField('CVV', [validators.Length(min=1, max=150), validators.DataRequired()])
-    cardInfo_DateExpiry = StringField('Date of Expiry (dd/mm/yyyy)',
+    cardInfo_DateExpiry = StringField('Date of Expiry (mm/yy)',
                                       [validators.Length(min=1, max=150), validators.DataRequired()])
 
 
@@ -37,7 +37,7 @@ class donateItem(donationForm):
     itemImage = FileField('Picture of Item', validators=[FileAllowed(['jpg', 'png'], 'Images only!')])
 
     # Collection Types and Information
-    collectionDate = DateField('Pick a Date (dd/mm/yy)', format='%d-%m-%y')
+    collectionDate = DateField('Pick a Date (dd/mm/yyyy)', format='%d-%m-%y')
     collectionTime = DateTimeField("Pick a Time (24hr format, e.g. 0000)", format='%H:%M')
     collectionType = RadioField('Type of Collection', choices=[('D', 'Drop Off'), ('WP', 'We Pick Up')],
                                 default='D')
