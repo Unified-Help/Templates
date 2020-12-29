@@ -1,13 +1,13 @@
 class Donate:
     donor_id = 0
 
-    def __init__(self, donate_who, donate_type):
+    def __init__(self):
         # Donate.donor_id += 1
         self.__donor_id = Donate.donor_id
         # base donation choices
         # self.__donation_choice = ""
-        self.__donate_who = donate_who
-        self.__donate_type = donate_type
+        self.__donate_who = ""
+        self.__donate_type = ""
 
         # money donations
         self.__money_amount = 0

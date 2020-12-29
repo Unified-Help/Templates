@@ -33,7 +33,7 @@ def donateDetails():
             print("Error in retrieving Donors from donorStorage.db")
 
         donor = Donate.Donate(donateForm.donateToWho.data, donateForm.donationType.data)
-
+        # donor = Donate.Donate.set_donate_who(donateForm.donateToWho.data)
         donor_choice[donor.get_donor_id()] = donor
 
         db["Donors"] = donor_choice
