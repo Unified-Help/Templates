@@ -8,37 +8,23 @@
 
 
 {% block content %}
-<br /><br /><br /><br />
+{% from "includes/_formHelper.html" import render_field %}
 
-<form style="text-align: center;">
-  <div style = "margin-left: 700px; " class="form-row">
-    <div class="form-group col-md-5 text-center">
-      <label for="inputEmail4">Donate to Who?</label>
-      <select id="inputState" class="form-control">
-        <option selected>Under Privileged</option>
-        <option>Physically Handicaped</option>
-        <option>Special Needs</option>
-        <option>Natural Disaster Survivors</option>
-      </select>
-    </div>
+<br/><br/><br/><br/>
+
+<form method="POST" action="">
+  <div class="form-group">
+    {{ render_field(form.donateToWho, class="form-control") }}
   </div>
-
-  <div style = "margin-left: 700px; " class="form-row">
-    <div class="form-group col-md-5">
-      <label for="inputPassword4">Donation Type</label>
-      <select id="inputState" class="form-control">
-        <option selected>Monetary Donation</option>
-        <option>Item Donation</option>
-      </select>
-    </div>
+  <div class="form-group">
+    {{ render_field(form.donationType, class="form-control") }}
   </div>
-
-  <button type="submit" class="btn btn-primary">Donate!</button>
+  <br/>
+  <input type="submit" value="Next Step" class="btn btn-primary"/>
 </form>
 
-<br /><br /><br /><br />
 {% endblock %}
 
 {% block scripts %}
-<script src="{{url_for('static', filename = 'js/donateForm.js')}}"></script>
+<!--<script src="{{url_for('static', filename = 'js/donateForm.js')}}"></script>-->
 {% endblock %}

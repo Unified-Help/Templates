@@ -1,12 +1,16 @@
 class Donate:
-    def __init__(self):
+    def __init__(self, donate_who, donate_type):
         # base donation choices
-        self.__donation_choice = ""
-        self.__donate_who = ""
-        self.__donate_type = ""
+        # self.__donation_choice = ""
+        self.__donate_who = donate_who
+        self.__donate_type = donate_type
 
         # money donations
         self.__money_amount = 0
+        self.__cardInfo_Name = ""
+        self.__cardInfo_Number = ""
+        self.__cardInfo_CVV = ""
+        self.__cardInfo_DateExpiry = ""
 
         # item donations
         self.__item_type = ""
@@ -17,11 +21,9 @@ class Donate:
         self.__item_height = 0
         self.__collection_type = ""
 
-        if self.__collection_type == "pickup":
-            self.__date_day = ""
-            self.__date_month = ""
-            self.__date_year = ""
-            self.__date_time = ""
+        # collection details
+        self.__date = ""
+        self.__time = ""
 
         self.__donation_confirmation = ""
 

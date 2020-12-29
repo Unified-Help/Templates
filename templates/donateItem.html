@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Donate Item{% endblock %}
+
+{% block head %}
+<!--<link href="{{url_for('static', filename = 'css/donateForm.css')}}" rel="stylesheet">-->
+{% endblock %}
+
+
+
+{% block content %}
+{% from "includes/_formHelper.html" import render_field %}
+
+<br /><br /><br /><br /><br /><br />
+
+<form method="POST" action="">
+  <div class="form-group">
+    {{ render_field(form.itemType, class="form-control") }}
+  </div>
+  <div class="form-group">
+    {{ render_field(form.itemName, class="form-control") }}
+  </div>
+  <div class="form-group">
+    {{ render_field(form.itemWeight, class="form-control") }}
+  </div>
+  <div class="form-group">
+    {{ render_field(form.itemHeight, class="form-control") }}
+  </div>
+  <div class="form-group">
+    {{ render_field(form.itemLength, class="form-control") }}
+  </div>
+  <div class="form-group">
+    {{ render_field(form.itemWidth, class="form-control") }}
+  </div>
+  <div class="form-group">
+    {{ render_field(form.itemImage, class="form-control") }}
+  </div>
+  <div class="form-group">
+    {{ render_field(form.collectionDate, class="form-control") }}
+  </div>
+  <div class="form-group">
+    {{ render_field(form.collectionTime, class="form-control") }}
+  </div>
+  <div class="form-group">
+    {{ render_field(form.collectionType, class="form-control") }}
+  </div>
+
+  <br />
+  <input type="submit" value="Next Step" class="btn btn-primary" />
+</form>
+
+{% endblock %}
+
+{% block scripts %}
+<!--<script src="{{url_for('static', filename = 'js/donateForm.js')}}"></script>-->
+{% endblock %}
