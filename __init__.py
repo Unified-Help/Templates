@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from donateForm import donationForm, donateMoney, donateItem, itemPickUp
-import shelve
+from CreateAccountForm import CreateAccountForm
+import shelve, User
 from Donate import DonationID, DonateBaseChoice, DonateMoney, DonateItem, CollectionItemPickUp
 
 app = Flask(__name__)
@@ -160,6 +161,28 @@ def faq():
 @app.route("/account")
 def account():
     return render_template('Account.html')
+
+@app.route('/CreateAccount', methods=['GET', 'POST'])
+def create_account():
+    create_account_form = CreateAccountForm(request.form)
+    if request.method == 'POST' and create_account_form.validate():
+        users_dict = {}
+        db = shelve.open('storage.db', 'c')
+
+        try:
+            users_dict = db['Users']
+        except:
+            print("Error in retrieving Users from storage.db.")
+
+        user = User.User(create_account_form.first_name.data, create_account_form.last_name.data, create_account_form.gender.data, create_account_form.membership.data, create_account_form.remarks.data)
+        users_dict[user.get_user_id()] = user
+        db['Users'] = users_dict
+
+        db.close()
+
+        session['user_created'] = user.get_first_name() + ' ' + user.get_last_name()
+
+    return render_template('CreateAccount.html', form=create_account_form)
 
 
 # Error Handling

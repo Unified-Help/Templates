@@ -15,7 +15,11 @@
               <li class="navLinks"><a href="{{url_for('faq')}}">FAQ</a></li>
             </ul>
           </li>
-          <li class="navLinks"><a href="{{url_for('account')}}">Account</a></li>
+          <li class="drop-down"><a href="{{url_for('account')}}">Login</a>
+            <ul>
+              <li class="navLinks"><a href="{{url_for('create_account')}}">Create Account</a></li>
+            </ul>
+          </li>
         </ul>
       </nav><!-- .nav-menu -->
     </div>
