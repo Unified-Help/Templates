@@ -14,12 +14,12 @@ class donationForm(Form):
 class donateMoney(donationForm):
     # If donor inputs Monetary Donation
     # Money Information
-    moneyAmount = IntegerField("Donation Amount (SGD$)*", [validators.Length(min=1, max=150), validators.DataRequired()])
+    moneyAmount = IntegerField("Donation Amount (SGD$)*", [validators.NumberRange(min=1, max=150), validators.DataRequired()])
     cardInfo_Name = StringField('Full Name*', [validators.Length(min=1, max=150), validators.DataRequired()])
     cardInfo_Number = StringField('Card Number*', [validators.Length(min=1, max=150), validators.DataRequired()])
     cardInfo_CVV = StringField('CVV*', [validators.Length(min=1, max=150), validators.DataRequired()])
-    cardInfo_DateExpiry = StringField('Date of Expiry (mm/yy)*',
-                                      [validators.Length(min=1, max=150), validators.DataRequired()])
+    # cardInfo_DateExpiry = StringField('Date of Expiry (mm/yy)*',
+    #                                   [validators.Length(min=1, max=150), validators.DataRequired()])
 
 
 class donateItem(donationForm):
@@ -30,10 +30,10 @@ class donateItem(donationForm):
                                     ('E', 'Electronics'), ('B', 'Books')], default='C')
     itemName = StringField("Name of Item (T-Shirt, Laptop etc.)*",
                            [validators.Length(min=1, max=150), validators.DataRequired()])
-    itemWeight = DecimalField("Weight of Item (kg)*", [validators.Length(min=1, max=150), validators.DataRequired()])
-    itemHeight = FloatField("Height of Item (m)", [validators.Length(min=1, max=150), validators.Optional()])
-    itemLength = FloatField("Length of Item (m)", [validators.Length(min=1, max=150), validators.Optional()])
-    itemWidth = FloatField("Width of Item (m)", [validators.Length(min=1, max=150), validators.Optional()])
+    itemWeight = FloatField("Weight of Item (kg)*", [validators.NumberRange(min=1, max=150), validators.DataRequired()])
+    itemHeight = FloatField("Height of Item (m)*", [validators.NumberRange(min=1, max=150), validators.Optional()])
+    itemLength = FloatField("Length of Item (m)*", [validators.NumberRange(min=1, max=150), validators.Optional()])
+    itemWidth = FloatField("Width of Item (m)*", [validators.NumberRange(min=1, max=150), validators.Optional()])
     itemImage = FileField('Picture of Item', validators=[FileAllowed(['jpg', 'png'], 'Images only!')])
 
     # Collection Types and Information
@@ -47,5 +47,5 @@ class itemPickUp(donateItem):
     # If donor picks PickUp as collection type, they are required to input their address.
     pickupAddress1 = StringField("Address Line 1*", [validators.Length(min=1, max=150), validators.DataRequired()])
     pickupAddress2 = StringField("Address Line 2*", [validators.Length(min=1, max=150), validators.DataRequired()])
-    pickupAddress3 = StringField("Address Line 3", [validators.Length(min=1, max=150), validators.Optional()])
+    pickupAddress3 = StringField("Address Line 3*", [validators.Length(min=1, max=150), validators.Optional()])
     pickupPostalCode = StringField("Postal Code*", [validators.Length(min=1, max=6), validators.DataRequired()])

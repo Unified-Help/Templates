@@ -18,6 +18,14 @@ def donate():
     return render_template('Donate.html')
 
 
+@app.route("/donate/history")
+def donateHistory():
+    donors_dict = {}
+
+
+    return render_template('donationHistory.html')
+
+
 @app.route("/donate/details", methods=['GET', 'POST'])
 def donateDetails():
     donateForm = donationForm(request.form)
@@ -56,7 +64,7 @@ def donateDetails():
 @app.route("/donate/details/money", methods=['GET', 'POST'])
 def donate_Money():
     donate_money = donateMoney(request.form)
-    if request.method == "POST" and donate_money.validate():
+    if request.method == "POST":
         donor_moneychoices = {}
 
         dbMC = shelve.open("donorMoneyChoices", "c")
@@ -66,15 +74,17 @@ def donate_Money():
         except:
             print("Error in retrieving Donors MC from donorMoneyChoices")
 
-        donor = DonateMoney(donateMoney.moneyAmount.data, donateMoney.cardInfo_Name.data,
-                            donateMoney.cardInfo_Number.data, donateMoney.cardInfo_CVV.data,
-                            donateMoney.cardInfo_DateExpiry.data)
+        donor = DonateMoney(donate_money.moneyAmount.data, donate_money.cardInfo_Name.data,
+                            donate_money.cardInfo_Number.data, donate_money.cardInfo_CVV.data,
+                            donate_money.cardInfo_DateExpiry.data)
         donorid = DonationID()
         getdonorid = donorid.set_donation_id()
 
         donor_moneychoices[getdonorid] = donor
 
         dbMC["Donors MC"] = donor_moneychoices
+
+        dbMC.close()
 
     return render_template('donateMoney.html', form=donate_money)
 
@@ -92,24 +102,27 @@ def donate_Item():
         except:
             print("Error in retrieving Donors IM from donorItemChoices")
 
-        donor = DonateItem(donateItem.itemName.data, donateItem.itemName.data, donateItem.collectionType.data,
-                           donateItem.collectionDate.data, donateItem.collectionTime)
+        donor = DonateItem(donate_item.itemName.data, donate_item.itemName.data, donate_item.itemWeight.data,
+                           donate_item.itemHeight.data, donate_item.itemLength.data, donate_item.itemWidth.data,
+                           donate_item.collectionType.data, donate_item.collectionDate.data, donate_item.collectionTime)
         donorid = DonationID()
         getdonorid = donorid.set_donation_id()
 
-        if donateItem.itemWeight.data > 0:
-            donor.set_item_weight(donateItem.itemWeight.data)
-        if donateItem.itemLength.data > 0:
-            donor.set_item_length(donateItem.itemLength.data)
-        if donateItem.itemWidth.data > 0:
-            donor.set_item_width(donateItem.itemWidth.data)
-        if donateItem.itemHeight.data > 0:
-            donor.set_item_height(donateItem.itemHeight.data)
+        # if donate_item.itemWeight.data != "":
+        #     donor.set_item_weight(donate_item.itemWeight.data)
+        # if donate_item.itemLength.data != "":
+        #     donor.set_item_length(donate_item.itemLength.data)
+        # if donate_item.itemWidth.data != "":
+        #     donor.set_item_width(donate_item.itemWidth.data)
+        # if donate_item.itemHeight.data != "":
+        #     donor.set_item_height(donate_item.itemHeight.data)
         # Still have to upload images into shelve (watch keysha's vid)
 
         donor_itemchoices[getdonorid] = donor
 
         dbIM["Donors IM"] = donor_itemchoices
+
+        dbIM.close()
 
         # Checks to see if user picked pickup and will bring them to the address portion of the form to fill
         if donate_item.collectionType.data == "WP":
@@ -130,17 +143,19 @@ def collection_pickup():
         except:
             print("Error in retrieving Donors PUC from donorPickUpChoices")
 
-        donor = CollectionItemPickUp(itemPickUp.pickupAddress1.data, itemPickUp.pickupAddress2.data,
-                                     itemPickUp.pickupPostalCode.data)
+        donor = CollectionItemPickUp(collection_pick_up.pickupAddress1.data, collection_pick_up.pickupAddress2.data,
+                                     collection_pick_up.pickupAddress3, collection_pick_up.pickupPostalCode.data)
         donorid = DonationID()
         getdonorid = donorid.set_donation_id()
 
-        if itemPickUp.pickupAddress3.data != "":
-            donor.set_address2(itemPickUp.pickupAddress3.data)
+        # if len(collection_pick_up.pickupAddress3.data) != 0:
+        #     donor.set_address2(collection_pick_up.pickupAddress3.data)
 
         donor_pickupchoices[getdonorid] = donor
 
         dbPUC["Donors PUC"] = donor_pickupchoices
+
+        dbPUC.close()
 
     return render_template('donateItemPickup.html', form=collection_pick_up)
 

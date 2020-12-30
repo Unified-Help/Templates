@@ -2,7 +2,7 @@ class DonationID:
     donation_id_counter = 0
 
     def __init__(self):
-        self.__donation_id = 0
+        self.__donation_id = DonationID.donation_id_counter
         # DonationID.donation_id += 1
         # self.__donation_id = DonationID.donation_id
 
@@ -90,13 +90,14 @@ class DonateMoney:
 
 # Item Donations
 class DonateItem:
-    def __init__(self, item_type, item_name, collection_type, date, time):
+    def __init__(self, item_type, item_name, item_weight, item_height, item_length, item_width
+                 , collection_type, date, time):
         self.__item_type = item_type
         self.__item_name = item_name
-        self.__item_weight = 0
-        self.__item_length = 0
-        self.__item_width = 0
-        self.__item_height = 0
+        self.__item_weight = item_weight
+        self.__item_height = item_height
+        self.__item_length = item_length
+        self.__item_width = item_width
 
         # Collection Details
         self.__collection_type = collection_type
@@ -162,10 +163,10 @@ class DonateItem:
 
 # Item Pick Up
 class CollectionItemPickUp:
-    def __init__(self, address1, address2, postal_code):
+    def __init__(self, address1, address2, address3, postal_code):
         self.__address1 = address1
         self.__address2 = address2
-        self.__address3 = ""
+        self.__address3 = address3
         self.__postal_code = postal_code
 
     # Accessors
