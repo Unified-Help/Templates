@@ -74,7 +74,7 @@ def donateDetails():
 @app.route("/donate/details/money", methods=['GET', 'POST'])
 def donate_Money():
     donate_money = donateMoney(request.form)
-    if request.method == "POST":
+    if request.method == "POST" and donate_money.validate():
         donor_moneychoices = {}
 
         dbMC = shelve.open("donorMoneyChoices", "c")
@@ -100,7 +100,7 @@ def donate_Money():
 @app.route("/donate/details/item", methods=['GET', 'POST'])
 def donate_Item():
     donate_item = donateItem(request.form)
-    if request.method == "POST":
+    if request.method == "POST" and donate_item.validate():
         donor_itemchoices = {}
 
         dbIM = shelve.open("donorItemChoices", "c")
