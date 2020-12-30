@@ -6,8 +6,8 @@
     </content>
     <orderEntry type="jdk" jdkName="Python 3.8 (Templates) (3)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="Assignment Templates" />
     <orderEntry type="module" module-name="Flask Prac" />
     <orderEntry type="module" module-name="Staff-Side" />
+    <orderEntry type="module" module-name="Templates" />
   </component>
 </module>

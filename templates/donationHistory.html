@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Donate History{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+
+
+{% block content %}
+
+<br/><br/><br/><br/>
+<h2>Donation History</h2>
+<div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Donation ID</th>
+                <th>Description</th>
+                <th>To Who</th>
+                <th>Collection Details</th>
+                <th>Value</th>
+                <th>Confirmed?</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for donor in donors_list %}
+            <tr>
+                <td>{{ donor }}</td>
+                <td>{{ donor.get_donate_type() }}</td>
+                <td>{{ donor.get_donate_who() }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
