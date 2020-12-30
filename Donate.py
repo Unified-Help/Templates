@@ -91,7 +91,7 @@ class DonateMoney:
 # Item Donations
 class DonateItem:
     def __init__(self, item_type, item_name, item_weight, item_height, item_length, item_width
-                 , collection_type, date, time):
+                 , collection_type, date, time, address1, address2, address3, postal_code):
         self.__item_type = item_type
         self.__item_name = item_name
         self.__item_weight = item_weight
@@ -103,6 +103,12 @@ class DonateItem:
         self.__collection_type = collection_type
         self.__date = date
         self.__time = time
+
+        # Collection PickUp Details
+        self.__address1 = address1
+        self.__address2 = address2
+        self.__address3 = address3
+        self.__postal_code = postal_code
 
     # Accessors
     def get_item_type(self):
@@ -132,6 +138,19 @@ class DonateItem:
     def get_time(self):
         return self.__time
 
+    def get_address1(self):
+        return self.__address1
+
+    def get_address2(self):
+        return self.__address2
+
+    def get_address3(self):
+        return self.__address3
+
+    def get_postal_code(self):
+        return self.__postal_code
+
+
     # Mutators
     def set_item_type(self, item_type):
         self.__item_type = item_type
@@ -160,29 +179,6 @@ class DonateItem:
     def set_time(self, time):
         self.__time = time
 
-
-# Item Pick Up
-class CollectionItemPickUp:
-    def __init__(self, address1, address2, address3, postal_code):
-        self.__address1 = address1
-        self.__address2 = address2
-        self.__address3 = address3
-        self.__postal_code = postal_code
-
-    # Accessors
-    def get_address1(self):
-        return self.__address1
-
-    def get_address2(self):
-        return self.__address2
-
-    def get_address3(self):
-        return self.__address3
-
-    def get_postal_code(self):
-        return self.__postal_code
-
-    # Mutators
     def set_address1(self, address1):
         self.__address1 = address1
 
@@ -194,3 +190,39 @@ class CollectionItemPickUp:
 
     def set_postal_code(self, postal_code):
         self.__postal_code = postal_code
+
+
+
+# # Item Pick Up
+# class CollectionItemPickUp:
+#     def __init__(self, address1, address2, address3, postal_code):
+#         self.__address1 = address1
+#         self.__address2 = address2
+#         self.__address3 = address3
+#         self.__postal_code = postal_code
+#
+#     # Accessors
+#     def get_address1(self):
+#         return self.__address1
+#
+#     def get_address2(self):
+#         return self.__address2
+#
+#     def get_address3(self):
+#         return self.__address3
+#
+#     def get_postal_code(self):
+#         return self.__postal_code
+#
+#     # Mutators
+#     def set_address1(self, address1):
+#         self.__address1 = address1
+#
+#     def set_address2(self, address2):
+#         self.__address2 = address2
+#
+#     def set_address3(self, address3):
+#         self.__address3 = address3
+#
+#     def set_postal_code(self, postal_code):
+#         self.__postal_code = postal_code
