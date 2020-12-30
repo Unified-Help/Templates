@@ -37,7 +37,7 @@ class DonateBaseChoice:
 
 # Monetary Donations
 class DonateMoney:
-    def __init__(self, money_amount, cardInfo_Name,):
+    def __init__(self, money_amount, cardInfo_Name, cardInfo_Number, card):
         # money donations
         self.__money_amount = 0
         self.__cardInfo_Name = ""
