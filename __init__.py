@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from donateForm import donationForm, donateMoney, donateItem, itemPickUp
-import shelve, Donate
+import shelve
+from Donate import DonationID, DonateBaseChoice, DonateMoney, DonateItem, ItemPickUp
 
 app = Flask(__name__)
 
@@ -23,20 +24,22 @@ def donateDetails():
 
     if request.method == "POST" and donateForm.validate():
 
-        donor_choice = {}
+        donor_basechoice = {}
 
-        db = shelve.open("donorStorage", "c")
+        db = shelve.open("donorBaseChoicesID", "c")
 
         try:
-            donor_choice = db["Donors"]
+            donor_basechoice = db["Donors"]
         except:
             print("Error in retrieving Donors from donorStorage.db")
 
-        donor = Donate.Donate(donateForm.donateToWho.data, donateForm.donationType.data)
-        # donor = Donate.Donate.set_donate_who(donateForm.donateToWho.data)
-        donor_choice[donor.get_donor_id()] = donor
+        donor = DonateBaseChoice(donateForm.donateToWho.data, donateForm.donationType.data)
+        donorid = DonationID()
+        getdonorid = donorid.get_donation_id()
 
-        db["Donors"] = donor_choice
+        donor_basechoice[getdonorid] = donor
+
+        db["Donors"] = donor_basechoice
 
         db.close()
 

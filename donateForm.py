@@ -49,4 +49,3 @@ class itemPickUp(donateItem):
     pickupAddress2 = StringField("Address Line 2*", [validators.Length(min=1, max=150), validators.DataRequired()])
     pickupAddress3 = StringField("Address Line 3", [validators.Length(min=1, max=150), validators.Optional()])
     pickupPostalCode = StringField("Postal Code*", [validators.Length(min=1, max=6), validators.DataRequired()])
-
