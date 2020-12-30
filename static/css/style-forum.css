@@ -2,18 +2,24 @@ body{
     font-family: 'Trebuchet MS',
     'Lucida Sans Unicode', 'Lucida Grande',
      'Lucida Sans', Arial, sans-serif;
-
-
 }
-.navbar{
-  background-color: #45B8FF;
+table{
+  border-radius:6px;
 }
-.category{
-    background-color: #45B8FF;
+.thead-color{
+  background-color: #DB2C25;
+  color: #FFFFFF;
+}
+.btn{
+  float: right;
+  margin-bottom: 10px;
+}
+.form-inline{
+  justify-content: center;
 }
 .forum-col{
-    min-width: 256px;
+    min-width: 16em;
 }
 .last-post-col {
-    min-width: 192px;
+    min-width: 12em;
 }
