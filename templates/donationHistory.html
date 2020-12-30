@@ -25,7 +25,7 @@
         <tbody>
         {% for donor in donors_list %}
             <tr>
-                <td>{{ donor }}</td>
+                <td>{{ donor.get_moneyID() }}</td>
                 <td>{{ donor.get_donate_type() }}</td>
                 <td>{{ donor.get_donate_who() }}</td>
             </tr>

@@ -1,54 +1,36 @@
-class DonationID:
-    donation_id_counter = 0
-
-    def __init__(self):
-        self.__donation_id = DonationID.donation_id_counter
-        # DonationID.donation_id += 1
-        # self.__donation_id = DonationID.donation_id
-
-    # Accessor
-    def get_donation_id(self):
-        return self.__donation_id
-
-    # Mutator
-    def set_donation_id(self):
-        donation_id = DonationID.donation_id_counter
-        donation_id += 1
-        self.__donation_id = donation_id
-        return self.__donation_id
-
-# Test Codes for DonationID()
-# if __name__ == "__main__":
-#     donorid = DonationID()
-#     makedonorid = donorid.set_donation_id()
-#     print(makedonorid)
-
-
 # Donor's Base Choices
-class DonateBaseChoice:
-    def __init__(self, donate_who, donate_type):
-        self.__donate_who = donate_who
-        self.__donate_type = donate_type
-
-    # Accessor Methods
-    def get_donate_who(self):
-        return self.__donate_who
-
-    def get_donate_type(self):
-        return self.__donate_type
-
-    # Mutator Methods
-    def set_donate_who(self, donate_who):
-        self.__donate_who = donate_who
-
-    def set_donate_type(self, donate_type):
-        self.__donate_type = donate_type
+# class DonateBaseChoice:
+#     def __init__(self, donate_who, donate_type):
+#         self.__donate_who = donate_who
+#         self.__donate_type = donate_type
+#
+#     # Accessor Methods
+#     def get_donate_who(self):
+#         return self.__donate_who
+#
+#     def get_donate_type(self):
+#         return self.__donate_type
+#
+#     # Mutator Methods
+#     def set_donate_who(self, donate_who):
+#         self.__donate_who = donate_who
+#
+#     def set_donate_type(self, donate_type):
+#         self.__donate_type = donate_type
 
 
 # Monetary Donations
 class DonateMoney:
-    def __init__(self, money_amount, cardInfo_Name, cardInfo_Number, cardInfo_CVV, cardInfo_DateExpiry):
+    donatemoneyid_counter = 0
+
+    def __init__(self, donate_who, money_amount, cardInfo_Name, cardInfo_Number, cardInfo_CVV, cardInfo_DateExpiry):
+        # Money Donation IDs
+        DonateMoney.donatemoneyid_counter += 1
+        self.__moneyID = DonateMoney.donatemoneyid_counter
+
         # money donations
+        self.__donate_type = "Monetary Donation"
+        self.__donate_who = donate_who
         self.__money_amount = money_amount
         self.__cardInfo_Name = cardInfo_Name
         self.__cardInfo_Number = cardInfo_Number
@@ -56,6 +38,15 @@ class DonateMoney:
         self.__cardInfo_DateExpiry = cardInfo_DateExpiry
 
     # Accessors
+    def get_moneyID(self):
+        return self.__moneyID
+
+    def get_donate_type(self):
+        return self.__donate_type
+
+    def get_donate_who(self):
+        return self.__donate_who
+
     def get_money_amount(self):
         return self.__money_amount
 
@@ -72,6 +63,15 @@ class DonateMoney:
         return self.__cardInfo_DateExpiry
 
     # Mutators
+    def set_moneyID(self, moneyID):
+        self.__moneyID = moneyID
+
+    def set_donate_type(self, donate_type):
+        self.__donate_type = donate_type
+
+    def set_donate_who(self, donate_who):
+        self.__donate_who = donate_who
+
     def set_money_amount(self, money_amount):
         self.__money_amount = money_amount
 
@@ -90,8 +90,17 @@ class DonateMoney:
 
 # Item Donations
 class DonateItem:
-    def __init__(self, item_type, item_name, item_weight, item_height, item_length, item_width
+    donateitemID_counter = 0
+
+    def __init__(self, donate_who, item_type, item_name, item_weight, item_height, item_length, item_width
                  , collection_type, date, time, address1, address2, address3, postal_code):
+        # Item Donation IDs
+        DonateItem.donateitemID_counter += 1
+        self.__itemID = DonateItem.donateitemID_counter
+
+        # Item Details
+        self.__donate_type = "Item Donation"
+        self.__donate_who = donate_who
         self.__item_type = item_type
         self.__item_name = item_name
         self.__item_weight = item_weight
@@ -111,6 +120,15 @@ class DonateItem:
         self.__postal_code = postal_code
 
     # Accessors
+    def get_itemID(self):
+        return self.__itemID
+
+    def get_donate_type(self):
+        return self.__donate_type
+
+    def get_donate_who(self):
+        return self.__donate_who
+
     def get_item_type(self):
         return self.__item_type
 
@@ -150,8 +168,16 @@ class DonateItem:
     def get_postal_code(self):
         return self.__postal_code
 
-
     # Mutators
+    def set_itemID(self, itemID):
+        self.__itemID = itemID
+
+    def set_donate_type(self, donate_type):
+        self.__donate_type = donate_type
+
+    def set_donate_who(self, donate_who):
+        self.__donate_who = donate_who
+
     def set_item_type(self, item_type):
         self.__item_type = item_type
 
@@ -190,39 +216,3 @@ class DonateItem:
 
     def set_postal_code(self, postal_code):
         self.__postal_code = postal_code
-
-
-
-# # Item Pick Up
-# class CollectionItemPickUp:
-#     def __init__(self, address1, address2, address3, postal_code):
-#         self.__address1 = address1
-#         self.__address2 = address2
-#         self.__address3 = address3
-#         self.__postal_code = postal_code
-#
-#     # Accessors
-#     def get_address1(self):
-#         return self.__address1
-#
-#     def get_address2(self):
-#         return self.__address2
-#
-#     def get_address3(self):
-#         return self.__address3
-#
-#     def get_postal_code(self):
-#         return self.__postal_code
-#
-#     # Mutators
-#     def set_address1(self, address1):
-#         self.__address1 = address1
-#
-#     def set_address2(self, address2):
-#         self.__address2 = address2
-#
-#     def set_address3(self, address3):
-#         self.__address3 = address3
-#
-#     def set_postal_code(self, postal_code):
-#         self.__postal_code = postal_code

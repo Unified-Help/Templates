@@ -1,10 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for, session
-from donateForm import donationForm
 from donateMoney import donateMoney
 from donateItem import donateItem
 from CreateAccountForm import CreateAccountForm
 import shelve, User
-from Donate import DonationID, DonateBaseChoice, DonateMoney, DonateItem
+from Donate import DonateMoney, DonateItem
 
 app = Flask(__name__)
 
@@ -25,9 +24,9 @@ def donate():
 def donateHistory():
     donors_dict = {}
 
-    dbBCID = shelve.open("donorBaseChoicesID", "r")
-    donors_dict = dbBCID["Donors BCID"]
-    dbBCID.close()
+    dbMC = shelve.open("donorMoneyChoices", "r")
+    donors_dict = dbMC["Donors MC"]
+    dbMC.close()
 
     donors_list = []
     for key in donors_dict:
@@ -37,7 +36,7 @@ def donateHistory():
     return render_template('donationHistory.html', count=len(donors_list), donors_list=donors_list)
 
 
-@app.route("/donate/details", methods=['GET', 'POST'])
+@app.route("/donate/details")
 def donateDetails():
     # donateForm = donationForm(request.form)
     #
@@ -69,7 +68,7 @@ def donateDetails():
     #         return redirect(url_for('donate_Money'))
     #     if donation_type == "Item Donation":
     #         return redirect(url_for('donate_Item'))
-    return render_template('donateDetails.html', form=donateForm)
+    return render_template('donateDetails.html')
 
 
 @app.route("/donate/details/money", methods=['GET', 'POST'])
@@ -85,13 +84,11 @@ def donate_Money():
         except:
             print("Error in retrieving Donors MC from donorMoneyChoices")
 
-        donor = DonateMoney(donate_money.moneyAmount.data, donate_money.cardInfo_Name.data,
+        donor = DonateMoney(donate_money.donateToWho.data, donate_money.moneyAmount.data, donate_money.cardInfo_Name.data,
                             donate_money.cardInfo_Number.data, donate_money.cardInfo_CVV.data,
                             donate_money.cardInfo_DateExpiry.data)
-        donorid = DonationID()
-        getdonorid = donorid.set_donation_id()
 
-        donor_moneychoices[getdonorid] = donor
+        donor_moneychoices[donor.get_moneyID()] = donor
 
         dbMC["Donors MC"] = donor_moneychoices
 
@@ -113,25 +110,15 @@ def donate_Item():
         except:
             print("Error in retrieving Donors IM from donorItemChoices")
 
-        donor = DonateItem(donate_item.itemName.data, donate_item.itemName.data, donate_item.itemWeight.data,
-                           donate_item.itemHeight.data, donate_item.itemLength.data, donate_item.itemWidth.data,
-                           donate_item.collectionType.data, donate_item.collectionDate.data, donate_item.collectionTime,
-                           donate_item.pickupAddress1.data, donate_item.pickupAddress2.data, donate_item.pickupAddress3,
-                           donate_item.pickupPostalCode.data)
-        donorid = DonationID()
-        getdonorid = donorid.set_donation_id()
+        donor = DonateItem(donate_item.donateToWho.data, donate_item.itemName.data, donate_item.itemName.data,
+                           donate_item.itemWeight.data, donate_item.itemHeight.data, donate_item.itemLength.data,
+                           donate_item.itemWidth.data, donate_item.collectionType.data, donate_item.collectionDate.data,
+                           donate_item.collectionTime, donate_item.pickupAddress1.data, donate_item.pickupAddress2.data,
+                           donate_item.pickupAddress3, donate_item.pickupPostalCode.data)
 
-        # if donate_item.itemWeight.data != "":
-        #     donor.set_item_weight(donate_item.itemWeight.data)
-        # if donate_item.itemLength.data != "":
-        #     donor.set_item_length(donate_item.itemLength.data)
-        # if donate_item.itemWidth.data != "":
-        #     donor.set_item_width(donate_item.itemWidth.data)
-        # if donate_item.itemHeight.data != "":
-        #     donor.set_item_height(donate_item.itemHeight.data)
         # Still have to upload images into shelve (watch keysha's vid)
 
-        donor_itemchoices[getdonorid] = donor
+        donor_itemchoices[donor.get_itemID()] = donor
 
         dbIM["Donors IM"] = donor_itemchoices
 
