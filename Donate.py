@@ -1,17 +1,27 @@
 class DonationID:
-    donation_id = 0
+    donation_id_counter = 0
 
     def __init__(self):
-        DonationID.donation_id += 1
         self.__donation_id = 0
+        # DonationID.donation_id += 1
+        # self.__donation_id = DonationID.donation_id
 
     # Accessor
     def get_donation_id(self):
         return self.__donation_id
 
     # Mutator
-    def set_donation_id(self, donation_id):
+    def set_donation_id(self):
+        donation_id = DonationID.donation_id_counter
+        donation_id += 1
         self.__donation_id = donation_id
+        return self.__donation_id
+
+# Test Codes for DonationID()
+# if __name__ == "__main__":
+#     donorid = DonationID()
+#     makedonorid = donorid.set_donation_id()
+#     print(makedonorid)
 
 
 # Donor's Base Choices
@@ -37,13 +47,13 @@ class DonateBaseChoice:
 
 # Monetary Donations
 class DonateMoney:
-    def __init__(self, money_amount, cardInfo_Name, cardInfo_Number, card):
+    def __init__(self, money_amount, cardInfo_Name, cardInfo_Number, cardInfo_CVV, cardInfo_DateExpiry):
         # money donations
-        self.__money_amount = 0
-        self.__cardInfo_Name = ""
-        self.__cardInfo_Number = ""
-        self.__cardInfo_CVV = ""
-        self.__cardInfo_DateExpiry = ""
+        self.__money_amount = money_amount
+        self.__cardInfo_Name = cardInfo_Name
+        self.__cardInfo_Number = cardInfo_Number
+        self.__cardInfo_CVV = cardInfo_CVV
+        self.__cardInfo_DateExpiry = cardInfo_DateExpiry
 
     # Accessors
     def get_money_amount(self):
@@ -80,18 +90,18 @@ class DonateMoney:
 
 # Item Donations
 class DonateItem:
-    def __init__(self):
-        self.__item_type = ""
-        self.__item_name = ""
+    def __init__(self, item_type, item_name, collection_type, date, time):
+        self.__item_type = item_type
+        self.__item_name = item_name
         self.__item_weight = 0
         self.__item_length = 0
         self.__item_width = 0
         self.__item_height = 0
 
         # Collection Details
-        self.__collection_type = ""
-        self.__date = ""
-        self.__time = ""
+        self.__collection_type = collection_type
+        self.__date = date
+        self.__time = time
 
     # Accessors
     def get_item_type(self):
@@ -151,12 +161,12 @@ class DonateItem:
 
 
 # Item Pick Up
-class ItemPickUp:
-    def __init__(self):
-        self.__address1 = ""
-        self.__address2 = ""
+class CollectionItemPickUp:
+    def __init__(self, address1, address2, postal_code):
+        self.__address1 = address1
+        self.__address2 = address2
         self.__address3 = ""
-        self.__postal_code = ""
+        self.__postal_code = postal_code
 
     # Accessors
     def get_address1(self):
