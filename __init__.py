@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from donateMoney import donateMoney
 from donateItem import donateItem
 from CreateAccountForm import CreateAccountForm
+from ForumForm import createForumPost
+from Forum import ForumPost
 import shelve, User
 from Donate import DonateMoney, DonateItem
 
@@ -179,7 +181,54 @@ def donate_Item():
 # Customer Support
 @app.route("/forum")
 def forum():
-    return render_template('Forum.html')
+    forum_dict = {}
+    db = shelve.open('forumdb', 'c')
+    forum_dict = db['Posts']
+    db.close()
+
+    forum_list = []
+    for key in forum_dict:
+        post = forum_dict.get(key)
+        forum_list.append(post)
+    return render_template('Forum.html',forum_list=forum_list)
+
+# @app.route("/retrieveforumpost")
+# def retrieveforumpost():
+#     forum_dict = {}
+#     db = shelve.open('forumdb', 'c')
+#     forum_dict = db['Posts']
+#     db.close()
+#
+#     forum_list = []
+#     for key in forum_dict:
+#         post = forum_dict.get(key)
+#         forum_list.append(post)
+#
+#     return render_template('retrieveforumpost.html',forum_list=forum_list)
+
+@app.route("/forum/createforumpost", methods=['GET', 'POST'])
+def create_forum_post():
+    create_forum_post_form = createForumPost(request.form)
+    if request.method == 'POST' and create_forum_post_form.validate():
+        forum_dict = {}
+        db = shelve.open('forumdb', 'c')
+
+        try:
+            forum_dict = db['ForumPostID']
+        except:
+            print("Error in retrieving Post from forumdb.")
+
+        post = ForumPost()
+        post.set_username(create_forum_post_form.username.data)
+        post.set_category(create_forum_post_form.category.data)
+        post.set_post_subject(create_forum_post_form.post_subject.data)
+        post.set_post_message(create_forum_post_form.post_message.data)
+        forum_dict[post.get_forum_post_id()] = post
+
+        db['Posts'] = forum_dict
+        db.close()
+
+    return render_template('createForumPost.html',form=create_forum_post_form)
 
 
 @app.route("/faq")
