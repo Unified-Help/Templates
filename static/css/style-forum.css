@@ -3,6 +3,10 @@ body{
     'Lucida Sans Unicode', 'Lucida Grande',
      'Lucida Sans', Arial, sans-serif;
 }
+.search-bar{
+  width: 200px;
+  margin-left: 68.5%;
+}
 table{
   border-radius:6px;
 }
