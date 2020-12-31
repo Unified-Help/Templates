@@ -179,9 +179,13 @@ def create_forum_post():
         except:
             print("Error in retrieving Post from forumdb.")
 
-        post = ForumForm.createForumPost(create_forum_post_form.username.data, create_forum_post_form.post_subject.data,
-                         create_forum_post_form.category.data, create_forum_post_form.post_message.data)
-        forum_dict[ForumPost.get_forum_post_id()] = post
+        post = ForumPost()
+        post.set_username(create_forum_post_form.username.data)
+        post.set_category(create_forum_post_form.category.data)
+        post.set_post_subject(create_forum_post_form.post_subject.data)
+        post.set_post_message(create_forum_post_form.post_message.data)
+        forum_dict[post.get_forum_post_id() ] = post
+
         db['Posts'] = forum_dict
 
         db.close()
