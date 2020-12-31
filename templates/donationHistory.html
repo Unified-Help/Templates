@@ -23,13 +23,28 @@
             </tr>
         </thead>
         <tbody>
-        {% for donor in donors_list %}
+        {% for donorM in donorsM_list %}
             <tr>
-                <td>{{ donor.get_moneyID() }}</td>
-                <td>{{ donor.get_donate_type() }}</td>
-                <td>{{ donor.get_donate_who() }}</td>
+                <td>{{ donorM.get_moneyID() }}</td>
+                <td>{{ donorM.get_donate_type() }}</td>
+                <td>{{ donorM.get_donate_who() }}</td>
+                <td></td>
+                <td>{{ donorM.get_money_amount }}</td>
+                <td></td>
             </tr>
         {% endfor %}
+
+        {% for donorI in donorsI_list %}
+            <tr>
+                <td>{{ donorI.get_itemID() }}</td>
+                <td>{{ donorI.get_item_name() }}</td>
+                <td>{{ donorI.get_donate_who() }}</td>
+                <td>{{ donorI.get_collection_type() }}</td>
+                <td></td>
+                <td></td>
+            </tr>
+        {% endfor %}
+
         </tbody>
     </table>
 </div>
