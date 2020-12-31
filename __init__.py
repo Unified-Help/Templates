@@ -163,6 +163,7 @@ def donate_Item():
 # Customer Support
 @app.route("/forum")
 def forum():
+    # forumDB = shelve.open('forumDB', 'c')
     return render_template('Forum.html')
 
 

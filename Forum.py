@@ -1,6 +1,8 @@
 from wtforms import Form, StringField, RadioField, SelectField, TextAreaField, validators
+import shelve
 
 class ForumPost:
+    category_list = ['Pinned Posts','Announcements','Unified Help Community']
     def __init__(self,username,post_subject,category,post_message,upvotes,downvotes):
         self.__username = username
         self.__post_subject = ''
@@ -34,3 +36,4 @@ class ForumPost:
         return self.__upvotes
     def get_downvotes(self):
         return self.__downvotes
+
