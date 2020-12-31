@@ -32,12 +32,13 @@
           </tr>
         </thead>
         <tbody>
-            {% for post in forum_list %}
-          <tr>
-            <td>
-              <h3 class="h5"><a href="#0">{{ post.get_post_subject() }}</a></h3>
-              <p>{{ post.get_post_message() }}</p>
-            </td>
+        {% for post in forum_list %}
+        <tr>
+          <td>
+            <h3 class="h5"><a href="#0">{{ post.get_post_subject() }}</a></h3>
+            <p>{{ post.get_post_message() }}</p>
+          </td>
+        </tr>
         {% endfor %}
         </tbody>
       </table>
