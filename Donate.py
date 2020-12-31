@@ -23,7 +23,8 @@
 class DonateMoney:
     donatemoneyid_counter = 0
 
-    def __init__(self, donate_who, money_amount, cardInfo_Name, cardInfo_Number, cardInfo_CVV, cardInfo_DateExpiry):
+    def __init__(self, donate_who, money_amount, cardInfo_Name, cardInfo_Number, cardInfo_CVV, cardInfo_DateExpiry,
+                 cardInfo_YearExpiry):
         # Money Donation IDs
         DonateMoney.donatemoneyid_counter += 1
         self.__moneyID = DonateMoney.donatemoneyid_counter
@@ -36,6 +37,7 @@ class DonateMoney:
         self.__cardInfo_Number = cardInfo_Number
         self.__cardInfo_CVV = cardInfo_CVV
         self.__cardInfo_DateExpiry = cardInfo_DateExpiry
+        self.__cardInfo_YearExpiry = cardInfo_YearExpiry
 
     # Accessors
     def get_moneyID(self):
@@ -62,6 +64,9 @@ class DonateMoney:
     def get_cardInfo_DateExpiry(self):
         return self.__cardInfo_DateExpiry
 
+    def get_cardInfo_YearExpiry(self):
+        return self.__cardInfo_YearExpiry
+
     # Mutators
     def set_moneyID(self, moneyID):
         self.__moneyID = moneyID
@@ -87,13 +92,16 @@ class DonateMoney:
     def set_cardInfo_DateExpiry(self, cardInfo_DateExpiry):
         self.__cardInfo_DateExpiry = cardInfo_DateExpiry
 
+    def set_cardInfo_YearExpiry(self, cardInfo_YearExpiry):
+        self.__cardInfo_YearExpiry = cardInfo_YearExpiry
+
 
 # Item Donations
 class DonateItem:
     donateitemID_counter = 0
 
     def __init__(self, donate_who, item_type, item_name, item_weight, item_height, item_length, item_width
-                 , collection_type, date, time, address1, address2, address3, postal_code):
+                 , collection_type, date, month, time, address1, address2, address3, postal_code):
         # Item Donation IDs
         DonateItem.donateitemID_counter += 1
         self.__itemID = DonateItem.donateitemID_counter
@@ -111,6 +119,7 @@ class DonateItem:
         # Collection Details
         self.__collection_type = collection_type
         self.__date = date
+        self.__month = month
         self.__time = time
 
         # Collection PickUp Details
@@ -152,6 +161,9 @@ class DonateItem:
 
     def get_date(self):
         return self.__date
+
+    def get_month(self):
+        return self.__month
 
     def get_time(self):
         return self.__time
@@ -201,6 +213,9 @@ class DonateItem:
 
     def set_date(self, date):
         self.__date = date
+
+    def set_month(self, month):
+        self.__month = month
 
     def set_time(self, time):
         self.__time = time

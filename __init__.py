@@ -22,18 +22,32 @@ def donate():
 
 @app.route("/donate/history")
 def donateHistory():
-    donors_dict = {}
+    # For Monetary Donations
+    donorsM_dict = {}
 
     dbMC = shelve.open("donorMoneyChoices", "r")
-    donors_dict = dbMC["Donors MC"]
+    donorsM_dict = dbMC["Donors MC"]
     dbMC.close()
 
-    donors_list = []
-    for key in donors_dict:
-        donor = donors_dict.get(key)
-        donors_list.append(donor)
+    donorsM_list = []
+    for key in donorsM_dict:
+        donorM = donorsM_dict.get(key)
+        donorsM_list.append(donorM)
 
-    return render_template('donationHistory.html', count=len(donors_list), donors_list=donors_list)
+    # For Item Donations
+    donorsI_dict = {}
+
+    dbIM = shelve.open("donorItemChoices", "r")
+    donorsI_dict = dbIM["Donors IM"]
+    dbIM.close()
+
+    donorsI_list = []
+    for key in donorsI_dict:
+        donorI = donorsI_dict.get(key)
+        donorsI_list = donorI
+
+    return render_template('donationHistory.html', countM=len(donorsM_list), donorsM_list=donorsM_list
+                           , countI=len(donorsI_list), donorsI_list=donorsI_list)
 
 
 @app.route("/donate/details")
@@ -84,9 +98,10 @@ def donate_Money():
         except:
             print("Error in retrieving Donors MC from donorMoneyChoices")
 
-        donor = DonateMoney(donate_money.donateToWho.data, donate_money.moneyAmount.data, donate_money.cardInfo_Name.data,
+        donor = DonateMoney(donate_money.donateToWho.data, donate_money.moneyAmount.data,
+                            donate_money.cardInfo_Name.data,
                             donate_money.cardInfo_Number.data, donate_money.cardInfo_CVV.data,
-                            donate_money.cardInfo_DateExpiry.data)
+                            donate_money.cardInfo_DateExpiry.data, donate_money.cardInfo_YearExpiry.data)
 
         donor_moneychoices[donor.get_moneyID()] = donor
 
@@ -100,7 +115,7 @@ def donate_Money():
 @app.route("/donate/details/item", methods=['GET', 'POST'])
 def donate_Item():
     donate_item = donateItem(request.form)
-    if request.method == "POST" and donate_item.validate():
+    if request.method == "POST":
         donor_itemchoices = {}
 
         dbIM = shelve.open("donorItemChoices", "c")
@@ -113,8 +128,9 @@ def donate_Item():
         donor = DonateItem(donate_item.donateToWho.data, donate_item.itemName.data, donate_item.itemName.data,
                            donate_item.itemWeight.data, donate_item.itemHeight.data, donate_item.itemLength.data,
                            donate_item.itemWidth.data, donate_item.collectionType.data, donate_item.collectionDate.data,
-                           donate_item.collectionTime, donate_item.pickupAddress1.data, donate_item.pickupAddress2.data,
-                           donate_item.pickupAddress3, donate_item.pickupPostalCode.data)
+                           donate_item.collectionMonth.data, donate_item.collectionTime.data,
+                           donate_item.pickupAddress1.data, donate_item.pickupAddress2.data,
+                           donate_item.pickupAddress3.data, donate_item.pickupPostalCode.data)
 
         # Still have to upload images into shelve (watch keysha's vid)
 

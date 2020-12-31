@@ -18,5 +18,16 @@ class donateMoney(Form):
     cardInfo_Name = StringField('Full Name*', [validators.Length(min=1, max=150), validators.DataRequired()])
     cardInfo_Number = StringField('Card Number*', [validators.Length(min=1, max=150), validators.DataRequired()])
     cardInfo_CVV = StringField('CVV*', [validators.Length(min=1, max=150), validators.DataRequired()])
-    cardInfo_DateExpiry = StringField('Date of Expiry (mm/yy)*',
-                                      [validators.Length(min=1, max=150), validators.DataRequired()])
+
+    cardInfo_DateExpiry = SelectField("Date of Expiry*", [validators.DataRequired()],
+                                      choices=[('01', 'January'), ('02', 'Feburary'), ('03', 'March'), ('04', 'April'),
+                                               ('05', 'May'), ('06', 'June'), ('07', 'July'), ('08', 'August'),
+                                               ('09', 'September'), ('10', 'October'), ('11', 'November'),
+                                               ('12', 'December')])
+    cardInfo_YearExpiry = SelectField("", [validators.DataRequired()],
+                                      choices=[('21', '2021'), ('22', '2022'), ('23', '2023'), ('24', '2024'),
+                                               ('25', '2025'), ('26', '2026'), ('27', '2027')])
+
+
+    # cardInfo_DateExpiryS = StringField('Date of Expiry (mm/yy)*',
+    #                                   [validators.Length(min=1, max=150), validators.DataRequired()])
