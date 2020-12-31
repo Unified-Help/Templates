@@ -214,7 +214,7 @@ def create_forum_post():
         db = shelve.open('forumdb', 'c')
 
         try:
-            forum_dict = db['ForumPostID']
+            forum_dict = db['Posts']
         except:
             print("Error in retrieving Post from forumdb.")
 
