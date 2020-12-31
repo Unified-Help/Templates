@@ -2,8 +2,13 @@ from wtforms import Form, StringField, RadioField, SelectField, TextAreaField, v
 import shelve
 
 class ForumPost:
-    category_list = ['Pinned Posts','Announcements','Unified Help Community']
-    def __init__(self,username,post_subject,category,post_message,upvotes,downvotes):
+    forum_post_id_counter = 0
+    # category_list = ['Pinned Posts','Announcements','Unified Help Community']
+    def __init__(self,username,category):
+        # Forum Post IDs
+        ForumPost.forum_post_id_counter += 1
+        self.__forum_Post_ID = ForumPost.forum_post_id_counter
+
         self.__username = username
         self.__post_subject = ''
         self.__category = category
@@ -11,6 +16,8 @@ class ForumPost:
         self.__upvotes = 0
         self.__downvotes = 0
 
+    def set_forum_post_id(self,forum_post_id):
+        self.__forum_Post_ID = forum_post_id
     def set_username(self,username):
         self.__username = username
     def set_post_subject(self,post_subject):
@@ -24,6 +31,8 @@ class ForumPost:
     def set_downvotes(self,downvotes):
         self.__downvotes = downvotes
 
+    def get_forum_post_id(self):
+        return self.__forum_Post_ID
     def get_username(self):
         return self.__username
     def get_post_subject(self):
@@ -36,4 +45,6 @@ class ForumPost:
         return self.__upvotes
     def get_downvotes(self):
         return self.__downvotes
+
+
 
