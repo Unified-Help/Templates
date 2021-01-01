@@ -219,9 +219,8 @@ def create_forum_post():
     if request.method == 'POST' and create_forum_post_form.validate():
         forum_dict = {}
         db = shelve.open('forumdb', 'c')
-
         try:
-            forum_dict = db['ForumPostID']
+            forum_dict = db['Posts']
         except:
             print("Error in retrieving Post from forumdb.")
 
