@@ -261,8 +261,7 @@ def create_account():
             print("Error in retrieving Users from storage.db.")
 
         user = User.User(create_account_form.first_name.data, create_account_form.last_name.data,
-                         create_account_form.gender.data, create_account_form.membership.data,
-                         create_account_form.remarks.data)
+                         create_account_form.username.data, create_account_form.email.data, create_account_form.gender.data)
         users_dict[user.get_user_id()] = user
         db['Users'] = users_dict
 
