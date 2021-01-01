@@ -26,30 +26,36 @@ def donate():
 def donateHistory():
     # For Monetary Donations
     donorsM_dict = {}
+    # donorsI_dict = {}
 
-    dbMC = shelve.open("donorMoneyChoices", "r")
-    donorsM_dict = dbMC["Donors MC"]
-    dbMC.close()
+    db = shelve.open("donorChoices", "r")
+    donorsM_dict = db["Donors"]
+    # donorsI_dict = db["Donors"]
+    db.close()
 
     donorsM_list = []
+    # donorsI_list = []
     for key in donorsM_dict:
         donorM = donorsM_dict.get(key)
         donorsM_list.append(donorM)
+        # donorI = donorsI_dict.get(key)
+        # donorsI_list.append(donorI)
 
     # For Item Donations
-    donorsI_dict = {}
-
-    dbIM = shelve.open("donorItemChoices", "r")
-    donorsI_dict = dbIM["Donors IM"]
-    dbIM.close()
-
-    donorsI_list = []
-    for key in donorsI_dict:
-        donorI = donorsI_dict.get(key)
-        donorsI_list = donorI
+    # donorsI_dict = {}
+    #
+    # dbIM = shelve.open("donorItemChoices", "r")
+    # donorsI_dict = dbIM["Donors IM"]
+    # dbIM.close()
+    #
+    # donorsI_list = []
+    # for key in donorsI_dict:
+    #     donorI = donorsI_dict.get(key)
+    #     donorsI_list = donorI
 
     return render_template('donationHistory.html', countM=len(donorsM_list), donorsM_list=donorsM_list
-                           , countI=len(donorsI_list), donorsI_list=donorsI_list)
+                           )
+    # , countI=len(donorsI_list), donorsI_list=donorsI_list
 
 
 @app.route("/donate/details")
@@ -93,10 +99,10 @@ def donate_Money():
     if request.method == "POST" and donate_money.validate():
         donor_moneychoices = {}
 
-        dbMC = shelve.open("donorMoneyChoices", "c")
+        dbMC = shelve.open("donorChoices", "c")
 
         try:
-            donor_moneychoices = dbMC["Donors MC"]
+            donor_moneychoices = dbMC["Donors"]
         except:
             print("Error in retrieving Donors MC from donorMoneyChoices")
 
@@ -107,7 +113,7 @@ def donate_Money():
 
         donor_moneychoices[donor.get_moneyID()] = donor
 
-        dbMC["Donors MC"] = donor_moneychoices
+        dbMC["Donors"] = donor_moneychoices
 
         dbMC.close()
 
@@ -120,10 +126,10 @@ def donate_Item():
     if request.method == "POST":
         donor_itemchoices = {}
 
-        dbIM = shelve.open("donorItemChoices", "c")
+        dbIM = shelve.open("donorChoices", "c")
 
         try:
-            donor_itemchoices = dbIM["Donors IM"]
+            donor_itemchoices = dbIM["Donors"]
         except:
             print("Error in retrieving Donors IM from donorItemChoices")
 
@@ -138,7 +144,7 @@ def donate_Item():
 
         donor_itemchoices[donor.get_itemID()] = donor
 
-        dbIM["Donors IM"] = donor_itemchoices
+        dbIM["Donors"] = donor_itemchoices
 
         dbIM.close()
 
@@ -190,7 +196,8 @@ def forum():
     for key in forum_dict:
         post = forum_dict.get(key)
         forum_list.append(post)
-    return render_template('Forum.html',forum_list=forum_list)
+    return render_template('Forum.html', forum_list=forum_list)
+
 
 # @app.route("/retrieveforumpost")
 # def retrieveforumpost():
@@ -228,7 +235,7 @@ def create_forum_post():
         db['Posts'] = forum_dict
         db.close()
 
-    return render_template('createForumPost.html',form=create_forum_post_form)
+    return render_template('createForumPost.html', form=create_forum_post_form)
 
 
 @app.route("/faq")

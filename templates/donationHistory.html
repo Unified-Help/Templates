@@ -25,26 +25,27 @@
         <tbody>
         {% for donorM in donorsM_list %}
             <tr>
+                {% if donorM.get_donate_type() == "Monetary Donation" %}
                 <td>{{ donorM.get_moneyID() }}</td>
+                {% elif donorM.get_donate_type() == "Item Donation" %}
+                <td>{{ donorM.get_itemID() }}</td>
+                {% endif %}
+
                 <td>{{ donorM.get_donate_type() }}</td>
                 <td>{{ donorM.get_donate_who() }}</td>
+
+                {% if donorM.get_donate_type() == "Item Donation" %}
+                <td>{{ donorM.get_item_name() }}</td>
                 <td></td>
-                <td>{{ donorM.get_money_amount }}</td>
+                {% endif %}
+
+                {% if donorM.get_donate_type() == "Monetary Donation" %}
+                <td></td>
+                <td>{{ donorM.get_money_amount() }}</td>
+                {% endif %}
                 <td></td>
             </tr>
         {% endfor %}
-
-        {% for donorI in donorsI_list %}
-            <tr>
-                <td>{{ donorI.get_itemID() }}</td>
-                <td>{{ donorI.get_item_name() }}</td>
-                <td>{{ donorI.get_donate_who() }}</td>
-                <td>{{ donorI.get_collection_type() }}</td>
-                <td></td>
-                <td></td>
-            </tr>
-        {% endfor %}
-
         </tbody>
     </table>
 </div>

@@ -24,7 +24,7 @@ class donateItem(Form):
     # itemImage = FileField('Picture of Item', validators=[FileAllowed(['jpg', 'png'], 'Images only!')])
 
     # Collection Types and Information
-    collectionDate = SelectField("", [validators.DataRequired()],
+    collectionDate = SelectField("Pick Collection Date", [validators.DataRequired()],
                                  choices=[('01', '01'), ('02', '02'), ('03', '03'), ('04', '04'), ('05', '05'),
                                           ('06', '06'), ('07', '07'), ('08', '08'), ('09', '09'), ('10', '10'),
                                           ('11', '11'), ('12', '12'), ('13', '13'), ('14', '14'), ('15', '15'),
