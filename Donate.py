@@ -27,7 +27,7 @@ class DonateMoney:
                  cardInfo_YearExpiry):
         # Money Donation IDs
         DonateMoney.donatemoneyid_counter += 1
-        self.__moneyID = DonateMoney.donatemoneyid_counter
+        self.__moneyID = "M" + str(DonateMoney.donatemoneyid_counter)
 
         # money donations
         self.__donate_type = "Monetary Donation"
@@ -104,7 +104,7 @@ class DonateItem:
                  , collection_type, date, month, time, address1, address2, address3, postal_code):
         # Item Donation IDs
         DonateItem.donateitemID_counter += 1
-        self.__itemID = DonateItem.donateitemID_counter
+        self.__itemID = "I" + str(DonateItem.donateitemID_counter)
 
         # Item Details
         self.__donate_type = "Item Donation"

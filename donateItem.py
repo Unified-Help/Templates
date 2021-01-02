@@ -8,7 +8,8 @@ class donateItem(Form):
                               choices=[('', 'Select'), ('Under Privileged', 'Under Privileged'),
                                        ('Physically Handicapped', 'Physically Handicapped'),
                                        ('Natural Disaster Survivors', 'Natural Disaster Survivors'),
-                                       ('Special Needs', 'Special Needs')], default='')
+                                       ('Persons with Intellectual Disabilities', 'Persons with Intellectual Disabilities'),
+                                       ('Seniors', 'Seniors'), ('Special Needs', 'Special Needs')], default='')
 
     # If donor inputs Item Donation
     # Item Information

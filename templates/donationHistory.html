@@ -9,47 +9,61 @@
 {% block content %}
 
 <br/><br/><br/><br/>
-<h2>Donation History</h2>
-<div>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Donation ID</th>
-                <th>Description</th>
-                <th>To Who</th>
-                <th>Collection Details</th>
-                <th>Value</th>
-                <th>Confirmed?</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for donorM in donorsM_list %}
-            <tr>
-                {% if donorM.get_donate_type() == "Monetary Donation" %}
-                <td>{{ donorM.get_moneyID() }}</td>
-                {% elif donorM.get_donate_type() == "Item Donation" %}
-                <td>{{ donorM.get_itemID() }}</td>
-                {% endif %}
+<div style="margin: 1% 1.5%;">
+    <h2>Donation History</h2>
+    <div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Donation ID</th>
+                    <th>Description</th>
+                    <th>To Who</th>
+                    <th>Collection Details</th>
+                    <th>Amount/Value</th>
+                    <th>Confirmed?</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for donorM in donorsM_list %}
+                <tr>
+                    <!-- Donation ID -->
+                    {% if donorM.get_donate_type() == "Monetary Donation" %}
+                    <td>{{ donorM.get_moneyID() }}</td>
+                    {% elif donorM.get_donate_type() == "Item Donation" %}
+                    <td><a href="/donate/itemupdate/{{ donorM.get_itemID() }}">{{ donorM.get_itemID() }}</a></td>
+                    {% endif %}
 
-                <td>{{ donorM.get_donate_type() }}</td>
-                <td>{{ donorM.get_donate_who() }}</td>
+                    <!-- Donation Description -->
+                    {% if donorM.get_donate_type() == "Monetary Donation" %}
+                    <td>{{ donorM.get_donate_type() }}</td>
+                    {% elif donorM.get_donate_type() == "Item Donation" %}
+                    <td>{{ donorM.get_donate_type() }}: <br> {{ donorM.get_item_name() }}</td>
+                    {% endif %}
 
-                {% if donorM.get_donate_type() == "Item Donation" %}
-                <td>{{ donorM.get_item_name() }}</td>
-                <td></td>
-                {% endif %}
+                    <!-- Donate to Who -->
+                    <td>{{ donorM.get_donate_who() }}</td>
 
-                {% if donorM.get_donate_type() == "Monetary Donation" %}
-                <td></td>
-                <td>{{ donorM.get_money_amount() }}</td>
-                {% endif %}
-                <td></td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                    <!-- If item donation, only show collection type -->
+                    {% if donorM.get_donate_type() == "Item Donation" %}
+                    <td>{{ donorM.get_collection_type() }}</td>
+                    <td>-</td>
+                    {% endif %}
+
+                    <!-- If Monetary donation, only show amount donated -->
+                    {% if donorM.get_donate_type() == "Monetary Donation" %}
+                    <td>-</td>
+                    <td>{{ donorM.get_money_amount() }}</td>
+                    {% endif %}
+
+                    <!-- Donation Confirmation -->
+                    <td></td>
+
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
-
 {% endblock %}
 
 {% block scripts %}

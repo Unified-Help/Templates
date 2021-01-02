@@ -24,77 +24,29 @@ def donate():
 
 @app.route("/donate/history")
 def donateHistory():
-    # For Monetary Donations
+    # Displaying Donation History
     donorsM_dict = {}
-    # donorsI_dict = {}
 
     db = shelve.open("donorChoices", "r")
     donorsM_dict = db["Donors"]
-    # donorsI_dict = db["Donors"]
     db.close()
 
     donorsM_list = []
-    # donorsI_list = []
     for key in donorsM_dict:
         donorM = donorsM_dict.get(key)
         donorsM_list.append(donorM)
-        # donorI = donorsI_dict.get(key)
-        # donorsI_list.append(donorI)
 
-    # For Item Donations
-    # donorsI_dict = {}
-    #
-    # dbIM = shelve.open("donorItemChoices", "r")
-    # donorsI_dict = dbIM["Donors IM"]
-    # dbIM.close()
-    #
-    # donorsI_list = []
-    # for key in donorsI_dict:
-    #     donorI = donorsI_dict.get(key)
-    #     donorsI_list = donorI
-
-    return render_template('donationHistory.html', countM=len(donorsM_list), donorsM_list=donorsM_list
-                           )
-    # , countI=len(donorsI_list), donorsI_list=donorsI_list
+    return render_template('donationHistory.html', countM=len(donorsM_list), donorsM_list=donorsM_list)
 
 
 @app.route("/donate/details")
 def donateDetails():
-    # donateForm = donationForm(request.form)
-    #
-    # if request.method == "POST" and donateForm.validate():
-    #
-    #     donor_basechoice = {}
-    #
-    #     dbBCID = shelve.open("donorBaseChoicesID", "c")
-    #
-    #     try:
-    #         donor_basechoice = dbBCID["Donors BCID"]
-    #     except:
-    #         print("Error in retrieving Donors BCID from donorBaseChoicesID")
-    #
-    #     donor = DonateBaseChoice(donateForm.donateToWho.data, donateForm.donationType.data)
-    #     donorid = DonationID()
-    #     getdonorid = donorid.set_donation_id()
-    #
-    #     donor_basechoice[getdonorid] = donor
-    #
-    #     dbBCID["Donors BCID"] = donor_basechoice
-    #
-    #     dbBCID.close()
-    #
-    #     donation_type = donateForm.donationType.data
-    #     # Checks to see which choice is selected and will bring the user to the specific part of the form (money or
-    #     # item)
-    #     if donation_type == "Monetary Donation":
-    #         return redirect(url_for('donate_Money'))
-    #     if donation_type == "Item Donation":
-    #         return redirect(url_for('donate_Item'))
     return render_template('donateDetails.html')
 
 
 @app.route("/donate/details/money", methods=['GET', 'POST'])
 def donate_Money():
+    # Monetary Donations
     donate_money = donateMoney(request.form)
     if request.method == "POST" and donate_money.validate():
         donor_moneychoices = {}
@@ -122,6 +74,7 @@ def donate_Money():
 
 @app.route("/donate/details/item", methods=['GET', 'POST'])
 def donate_Item():
+    # Item Donations
     donate_item = donateItem(request.form)
     if request.method == "POST":
         donor_itemchoices = {}
@@ -140,48 +93,82 @@ def donate_Item():
                            donate_item.pickupAddress1.data, donate_item.pickupAddress2.data,
                            donate_item.pickupAddress3.data, donate_item.pickupPostalCode.data)
 
-        # Still have to upload images into shelve (watch keysha's vid)
-
         donor_itemchoices[donor.get_itemID()] = donor
 
         dbIM["Donors"] = donor_itemchoices
 
         dbIM.close()
 
-        # # Checks to see if user picked pickup and will bring them to the address portion of the form to fill
-        # if donate_item.collectionType.data == "We Pick Up":
-        #     return redirect(url_for('collection_pickup'))
     return render_template('donateItem.html', form=donate_item)
 
 
-# @app.route("/donate/details/item/pickup", methods=['GET', 'POST'])
-# def collection_pickup():
-#     collection_pick_up = itemPickUp(request.form)
-#     if request.method == "POST" and collection_pick_up.validate():
-#         donor_pickupchoices = {}
-#
-#         dbPUC = shelve.open("donorPickUpChoices", "c")
-#
-#         try:
-#             donor_pickupchoices = dbPUC["Donors PUC"]
-#         except:
-#             print("Error in retrieving Donors PUC from donorPickUpChoices")
-#
-#         donor = CollectionItemPickUp(collection_pick_up.pickupAddress1.data, collection_pick_up.pickupAddress2.data,
-#                                      collection_pick_up.pickupAddress3, collection_pick_up.pickupPostalCode.data)
-#         donorid = DonationID()
-#         getdonorid = donorid.set_donation_id()
-#
-#         # if len(collection_pick_up.pickupAddress3.data) != 0:
-#         #     donor.set_address2(collection_pick_up.pickupAddress3.data)
-#
-#         donor_pickupchoices[getdonorid] = donor
-#
-#         dbPUC["Donors PUC"] = donor_pickupchoices
-#
-#         dbPUC.close()
-#
-#     return render_template('donateItemPickup.html', form=collection_pick_up)
+@app.route("/donate/details/confirmation")
+def donate_Confirmation():
+    return render_template('donateConfirmation.html')
+
+
+@app.route("/donate/itemupdate/<string:id>", methods=['GET', 'POST'])
+def donate_ItemUpdate(id):
+    update_donate_item = donateItem(request.form)
+    if request.method == 'POST':
+        donors_dict = {}
+
+        dbUP = shelve.open('donorChoices', 'w')
+        donors_dict = dbUP['Donors']
+
+        donor = donors_dict.get(id)
+
+        # Item Specifications
+        donor.set_item_weight(update_donate_item.itemWeight.data)
+        donor.set_item_height(update_donate_item.itemHeight.data)
+        donor.set_item_length(update_donate_item.itemLength.data)
+        donor.set_item_width(update_donate_item.itemWidth.data)
+
+        # Collection Details
+        donor.set_date(update_donate_item.collectionDate.data)
+        donor.set_month(update_donate_item.collectionMonth.data)
+        donor.set_time(update_donate_item.collectionTime.data)
+        donor.set_collection_type(update_donate_item.collectionType.data)
+
+        # If Collection is pickup
+        donor.set_address1(update_donate_item.pickupAddress1.data)
+        donor.set_address2(update_donate_item.pickupAddress2.data)
+        donor.set_address3(update_donate_item.pickupAddress3.data)
+        donor.set_postal_code(update_donate_item.pickupPostalCode.data)
+
+        dbUP['Donors'] = donors_dict
+        dbUP.close()
+
+        return redirect(url_for('donateHistory'))
+
+    else:
+        donors_dict = {}
+
+        dbUP = shelve.open('donorChoices', 'r')
+        donors_dict = dbUP["Donors"]
+        dbUP.close()
+
+        donor = donors_dict.get(id)
+
+        # Item Specifications
+        update_donate_item.itemWeight.data = donor.get_item_weight()
+        update_donate_item.itemHeight.data = donor.get_item_height()
+        update_donate_item.itemLength.data = donor.get_item_length()
+        update_donate_item.itemWidth.data = donor.get_item_width()
+
+        # Collection Details
+        update_donate_item.collectionDate.data = donor.get_date()
+        update_donate_item.collectionMonth.data = donor.get_month()
+        update_donate_item.collectionTime.data = donor.get_time()
+        update_donate_item.collectionType.data = donor.get_collection_type()
+
+        # If Collection is pickup
+        update_donate_item.pickupAddress1.data = donor.get_address1()
+        update_donate_item.pickupAddress2.data = donor.get_address2()
+        update_donate_item.pickupAddress3.data = donor.get_address3()
+        update_donate_item.pickupPostalCode.data = donor.get_postal_code()
+
+        return render_template('donateItemUpdate.html', form=update_donate_item)
 
 
 # Customer Support
@@ -261,7 +248,8 @@ def create_account():
             print("Error in retrieving Users from storage.db.")
 
         user = User.User(create_account_form.first_name.data, create_account_form.last_name.data,
-                         create_account_form.username.data, create_account_form.email.data, create_account_form.gender.data)
+                         create_account_form.username.data, create_account_form.email.data,
+                         create_account_form.gender.data)
         users_dict[user.get_user_id()] = user
         db['Users'] = users_dict
 

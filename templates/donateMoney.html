@@ -10,33 +10,33 @@
 {% block content %}
 {% from "includes/_formHelper.html" import render_field %}
 <br /><br /><br /><br />
+<div style="margin: 1% 1.5%;">
+  <h2>Money Donation</h2>
 
-<h2>Money Donation</h2>
-
-<form method="POST" action="">
-  <div class="form-group">
-    {{ render_field(form.donateToWho, class="form-control") }}
-  </div>
-  <div class="form-group">
-    {{ render_field(form.moneyAmount, class="form-control") }}
-  </div>
-  <div class="form-group">
-    {{ render_field(form.cardInfo_Name, class="form-control") }}
-  </div>
-  <div class="form-group">
-    {{ render_field(form.cardInfo_Number, class="form-control") }}
-  </div>
-  <div class="form-group">
-    {{ render_field(form.cardInfo_CVV, class="form-control") }}
-  </div>
-  <div class="form-group">
-    {{ render_field(form.cardInfo_DateExpiry, class="form-control") }}
-    {{ render_field(form.cardInfo_YearExpiry, class="form-control") }}
-  </div>
-  <br/>
-  <input type="submit" value="Next Step" class="btn btn-primary"/>
-</form>
-
+  <form method="POST" action="">
+    <div class="form-group">
+      {{ render_field(form.donateToWho, class="form-control") }}
+    </div>
+    <div class="form-group">
+      {{ render_field(form.moneyAmount, class="form-control") }}
+    </div>
+    <div class="form-group">
+      {{ render_field(form.cardInfo_Name, class="form-control") }}
+    </div>
+    <div class="form-group">
+      {{ render_field(form.cardInfo_Number, class="form-control") }}
+    </div>
+    <div class="form-group">
+      {{ render_field(form.cardInfo_CVV, class="form-control") }}
+    </div>
+    <div class="form-group">
+      {{ render_field(form.cardInfo_DateExpiry, class="form-control") }}
+      {{ render_field(form.cardInfo_YearExpiry, class="form-control") }}
+    </div>
+    <br/>
+    <input type="submit" value="Next Step" class="btn btn-primary"/>
+  </form>
+</div>
 {% endblock %}
 
 {% block scripts %}
