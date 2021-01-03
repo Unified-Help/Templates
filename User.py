@@ -1,11 +1,12 @@
 class User:
     count_id = 0
 
-    def __init__(self, first_name, last_name, gender, email):
+    def __init__(self, first_name, last_name, username, gender, email):
         User.count_id += 1
         self.__user_id = User.count_id
         self.__first_name = first_name
         self.__last_name = last_name
+        self.__username = username
         self.__gender = gender
         self.__email = email
 
