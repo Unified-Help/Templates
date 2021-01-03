@@ -1,13 +1,22 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, g
 from donateMoney import donateMoney
 from donateItem import donateItem
-from CreateAccountForm import CreateAccountForm
+from CreateAccountForm import CreateUserForm
 from ForumForm import createForumPost
 from Forum import ForumPost
 import shelve, User
 from Donate import DonateMoney, DonateItem
 
 app = Flask(__name__)
+app.secret_key = 'somesecretkeythatonlyishouldknow'
+
+@app.before_request
+def before_request():
+    g.user = None
+
+    if 'user_id' in session:
+        user = [x for x in users if x.id == session['user_id']][0]
+        g.user = user
 
 
 # Home
@@ -228,17 +237,49 @@ def create_forum_post():
 def faq():
     return render_template('FAQ.html')
 
-
 # Account Management
-@app.route("/account")
-def account():
-    return render_template('Account.html')
 
+class User:
+    def __init__(self, id, username, password):
+        self.id = id
+        self.username = username
+        self.password = password
 
-@app.route('/CreateAccount', methods=['GET', 'POST'])
-def create_account():
-    create_account_form = CreateAccountForm(request.form)
-    if request.method == 'POST' and create_account_form.validate():
+    def __repr__(self):
+        return f'<User: {self.username}>'
+
+users = []
+users.append(User(id=1, username='Anthony', password='password'))
+users.append(User(id=2, username='Becca', password='secret'))
+users.append(User(id=3, username='Carlos', password='somethingsimple'))
+
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        session.pop('user_id', None)
+
+        username = request.form['username']
+        password = request.form['password']
+
+        user = [x for x in users if x.username == username][0]
+        if user and user.password == password:
+            session['user_id'] = user.id
+            return redirect(url_for('profile'))
+
+        return redirect(url_for('login'))
+    return render_template('login.html')
+
+@app.route('/profile')
+def profile():
+    if not g.user:
+        return redirect(url_for('login'))
+
+    return render_template('profile.html')
+
+@app.route('/createUser', methods=['GET', 'POST'])
+def create_user():
+    create_user_form = CreateUserForm(request.form)
+    if request.method == 'POST' and create_user_form.validate():
         users_dict = {}
         db = shelve.open('storage.db', 'c')
 
@@ -247,17 +288,15 @@ def create_account():
         except:
             print("Error in retrieving Users from storage.db.")
 
-        user = User.User(create_account_form.first_name.data, create_account_form.last_name.data,
-                         create_account_form.username.data, create_account_form.email.data,
-                         create_account_form.gender.data)
+        user = User.User(create_user_form.first_name.data, create_user_form.last_name.data, create_user_form.gender.data, create_user_form.username.data, create_user_form.email.data)
         users_dict[user.get_user_id()] = user
         db['Users'] = users_dict
 
         db.close()
 
-        session['user_created'] = user.get_first_name() + ' ' + user.get_last_name()
+        return redirect(url_for('home'))
+    return render_template('createAccount.html', form=create_user_form)
 
-    return render_template('CreateAccount.html', form=create_account_form)
 
 
 # Error Handling

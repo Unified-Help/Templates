@@ -1,6 +1,6 @@
-from wtforms import Form, StringField, RadioField, SelectField, TextAreaField, validators
+from wtforms import Form, StringField, SelectField, validators
 
-class CreateAccountForm(Form):
+class CreateUserForm(Form):
     first_name = StringField('First Name', [validators.Length(min=1, max=150), validators.DataRequired()])
     last_name = StringField('Last Name', [validators.Length(min=1, max=150), validators.DataRequired()])
     username = StringField('Username', [validators.Length(min=1, max=150), validators.DataRequired()])
