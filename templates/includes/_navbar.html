@@ -7,14 +7,31 @@
       </div>
       <nav class="nav-menu d-none d-lg-block">
         <ul id = "navLinks">
-          <li class="active"><a href="{{url_for('home')}}" onclick="">Home</a></li>
-          <li class="navLinks"><a href="{{url_for('donate')}}">Donate</a></li>
+          <!-- Homepage -->
+          <li class="{{ 'active' if active_page == 'home' }}"><a href="{{url_for('home')}}" onclick="">Home</a></li>
+
+          <!-- Transaction Processing -->
+          <li class="drop-down {{ 'active' if active_page == 'donate' }}"><a href="#">Donate</a>
+            <ul>
+              <li class="drop-down"><a href="#">Donate Now!</a>
+                <ul>
+                  <li class="navLinks"><a href="{{url_for('donate_Money')}}">Donate Money</a></li>
+                  <li class="navLinks"><a href="{{url_for('donate_Item')}}">Donate Item</a></li>
+                </ul>
+              </li>
+              <li class="navLinks"><a href="{{url_for('donateHistory')}}">Donate History</a></li>
+            </ul>
+          </li>
+
+          <!-- Customer Support -->
           <li class="drop-down"><a href="#">Customer Support</a>
             <ul>
               <li class="navLinks"><a href="{{url_for('forum')}}">Forum</a></li>
               <li class="navLinks"><a href="{{url_for('faq')}}">FAQ</a></li>
             </ul>
           </li>
+
+          <!-- Account Management -->
           <li class="drop-down"><a href="#">Account</a>
             <ul>
               <li class="navLinks"><a href="{{url_for('login')}}">Login</a></li>
