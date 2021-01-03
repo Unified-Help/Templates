@@ -48,12 +48,12 @@
                     <!-- If item donation, only show collection type -->
                     {% if donorM.get_donate_type() == "Item Donation" %}
                     <td>{{ donorM.get_collection_type() }}</td>
-                    <td>NA</td>
+                    <td>--</td>
                     {% endif %}
 
                     <!-- If Monetary donation, only show amount donated -->
                     {% if donorM.get_donate_type() == "Monetary Donation" %}
-                    <td>NA</td>
+                    <td>--</td>
                     <td>{{ donorM.get_money_amount() }}</td>
                     {% endif %}
 
