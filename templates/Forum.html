@@ -55,74 +55,14 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>
-              <h3 class="h5"><a href="#0">Forum name</a></h3>
-              <p>Lorum ipsum dolor sit amet</p>
-            </td>
-            <td>
-              <div>1</div>
-            </td>
-            <td>
-              <div>8</div>
-            </td>
-            <td>
-              <h4 class="h6"><a href="#0">Post name</a></h4>
-              <div>by <a href="#0">Author name</a></div>
-              <div>05 Apr 2017,20:07</div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <h3 class="h5"><a href="#0">Forum name</a></h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-            </td>
-            <td>
-              <div>1</div>
-            </td>
-            <td>
-              <div>8</div>
-            </td>
-            <td>
-              <h4 class="h6"><a href="#0">Post name</a></h4>
-              <div>by <a href="#0">Author name</a></div>
-              <div>05 Apr 2017,20:07</div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <h3 class="h5"><a href="#0">Forum name</a></h3>
-              <p>Lorum ipsum dolor sit amet</p>
-            </td>
-            <td>
-              <div>1</div>
-            </td>
-            <td>
-              <div>8</div>
-            </td>
-            <td>
-              <h4 class="h6"><a href="#0">Post name</a></h4>
-              <div>by <a href="#0">Author name</a></div>
-              <div>05 Apr 2017,20:07</div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <h3 class="h5"><a href="#0">Forum name</a></h3>
-              <p>Lorum ipsum dolor sit amet</p>
-            </td>
-            <td>
-              <div>1</div>
-            </td>
-            <td>
-              <div>8</div>
-            </td>
-            <td>
-              <h4 class="h6"><a href="#0">Post name</a></h4>
-              <div>by <a href="#0">Author name</a></div>
-              <div>05 Apr 2017,20:07</div>
-            </td>
-          </tr>
+          {% for post in pinned_post_list %}
+        <tr>
+          <td class="container-fluid">
+            <h3 class="h5"><a href="#0">{{ post.get_post_subject() }}</a></h3>
+            <p>{{ post.get_post_message() }}</p>
+          </td>
+        </tr>
+        {% endfor %}
         </tbody>
       </table>
 
