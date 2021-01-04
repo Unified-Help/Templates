@@ -26,16 +26,16 @@
         <thead class="thead-color">
           <tr>
             <th scope="col" class="forum-col">Topics</th>
-            <th scope="col">Posts</th>
-            <th scope="col">Upvotes</th>
-            <th scope="col" class="last-post-col">Date Posted</th>
+            <th scope="col">Created</th>
+            <th scope="col">Replies</th>
+            <th scope="col" class="last-post-col">Last Post</th>
           </tr>
         </thead>
         <tbody>
         {% for post in pinned_posts_list %}
         <tr>
           <td class="container-fluid">
-            <h3 class="h5"><a href="#0">{{ post.get_post_subject() }}</a></h3>
+            <h3 class="h5"><a href="#0">{{ post.get_post_subject() }} {{ post.get_forum_post_id() }}</a></h3>
             <p>{{ post.get_post_message() }}</p>
           </td>
         </tr>
@@ -49,16 +49,16 @@
         <thead class="thead-color">
           <tr>
             <th scope="col" class="forum-col">Topics</th>
-            <th scope="col">Posts</th>
-            <th scope="col">Upvotes</th>
-            <th scope="col" class="last-post-col">Date Posted</th>
+            <th scope="col">Created</th>
+            <th scope="col">Replies</th>
+            <th scope="col" class="last-post-col">Last Post</th>
           </tr>
         </thead>
         <tbody>
         {% for post in announcements_list %}
         <tr>
           <td class="container-fluid">
-            <h3 class="h5"><a href="#0">{{ post.get_post_subject() }}</a></h3>
+            <h3 class="h5"><a href="#0">{{ post.get_post_subject() }} {{ post.get_forum_post_id() }}</a></h3>
             <p>{{ post.get_post_message() }}</p>
           </td>
         </tr>
@@ -73,16 +73,16 @@
         <thead class="thead-color">
           <tr>
             <th scope="col" class="forum-col">Topics</th>
-            <th scope="col">Posts</th>
-            <th scope="col">Upvotes</th>
-            <th scope="col" class="last-post-col">Date Posted</th>
+            <th scope="col">Created</th>
+            <th scope="col">Replies</th>
+            <th scope="col" class="last-post-col">Last Post</th>
           </tr>
         </thead>
         <tbody>
           {% for post in uhc_list %}
         <tr>
           <td class="container-fluid">
-            <h3 class="h5"><a href="#0">{{ post.get_post_subject() }}</a></h3>
+            <h3 class="h5"><a href="#0">{{ post.get_post_subject() }} {{ post.get_forum_post_id() }}</a></h3>
             <p>{{ post.get_post_message() }}</p>
           </td>
         </tr>

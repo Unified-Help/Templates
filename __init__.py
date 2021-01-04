@@ -1,5 +1,6 @@
 # Imports
 from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask_login import login_required, LoginManager
 import shelve
 
 # Donation Imports
@@ -9,7 +10,7 @@ from Donate import DonateMoney, DonateItem
 
 # Customer Support Imports
 from ForumForm import createForumPost
-from Forum import ForumPost
+from Forum import ForumPost, ForumPinnedPostsCounter, ForumAnnoucementsPostCounter, ForumUHCPostCounter
 
 # Account Management Imports
 from Forms import CreateUserForm, LoginForm
@@ -198,32 +199,17 @@ def forum():
     pinned_posts_list = []
     announcements_list = []
     uhc_list = []
-    for key in pinned_posts_list:
+    for key in pinned_posts_dict:
         post = pinned_posts_dict.get(key)
         pinned_posts_list.append(post)
-    for key in announcements_list:
+    for key in announcements_dict:
         post = announcements_dict.get(key)
         announcements_list.append(post)
-    for key in uhc_list:
+    for key in uhc_dict:
         post = uhc_dict.get(key)
         uhc_list.append(post)
     return render_template('Forum.html', pinned_posts_list=pinned_posts_list, announcements_list=announcements_list,
                            uhc_list=uhc_list)
-
-
-# @app.route("/retrieveforumpost")
-# def retrieveforumpost():
-#     forum_dict = {}
-#     db = shelve.open('forumdb', 'c')
-#     forum_dict = db['Posts']
-#     db.close()
-#
-#     forum_list = []
-#     for key in forum_dict:
-#         post = forum_dict.get(key)
-#         forum_list.append(post)
-#
-#     return render_template('retrieveforumpost.html',forum_list=forum_list)
 
 @app.route("/forum/createforumpost", methods=['GET', 'POST'])
 def create_forum_post():
@@ -233,6 +219,7 @@ def create_forum_post():
         announcements_dict = {}
         uhc_dict = {}
         db = shelve.open('forumdb', 'c')
+        usernamedb = shelve.open('account.db', 'r')
         try:
             pinned_posts_dict = db['PinnedPosts']
             announcements_dict = db['Announcements']
@@ -241,24 +228,32 @@ def create_forum_post():
         except:
             print("Error in retrieving data from forumdb.")
 
-        post = ForumPost()
-        post.set_username(create_forum_post_form.username.data)
-        post.set_category(create_forum_post_form.category.data)
-        post.set_post_subject(create_forum_post_form.post_subject.data)
-        post.set_post_message(create_forum_post_form.post_message.data)
-        if create_forum_post_form.category.data == 'Unified Help Community':
-            uhc_dict[post.get_forum_post_id()] = post
-        elif create_forum_post_form.category.data == 'Pinned Posts':
-            pinned_posts_dict[post.get_forum_post_id()] = post
+
+        if create_forum_post_form.category.data == 'Pinned Posts':
+            post = ForumPinnedPostsCounter()
+            post.set_category(create_forum_post_form.category.data)
+            post.set_post_subject(create_forum_post_form.post_subject.data)
+            post.set_post_message(create_forum_post_form.post_message.data)
+            pinned_posts_dict[post.get_forum_pinned_post_id()] = post
+
         elif create_forum_post_form.category.data == 'Announcements':
-            announcements_dict[post.get_forum_post_id()] = post
-        # announcements_dict[post.get_forum_post_id()] = post
-        # uhc_dict[post.get_forum_post_id()] = post
+            post = ForumAnnoucementsPostCounter()
+            post.set_category(create_forum_post_form.category.data)
+            post.set_post_subject(create_forum_post_form.post_subject.data)
+            post.set_post_message(create_forum_post_form.post_message.data)
+            announcements_dict[post.get_forum_announcements_post_id()] = post
+
+        elif create_forum_post_form.category.data == 'Unified Help Community':
+            post = ForumUHCPostCounter()
+            post.set_category(create_forum_post_form.category.data)
+            post.set_post_subject(create_forum_post_form.post_subject.data)
+            post.set_post_message(create_forum_post_form.post_message.data)
+            uhc_dict[post.get_forum_uhc_post_id()] = post
+
         db['PinnedPosts'] = pinned_posts_dict
         db['Announcements'] = announcements_dict
         db['UHC'] = uhc_dict
         db.close()
-
     return render_template('createForumPost.html', form=create_forum_post_form)
 
 
@@ -293,7 +288,7 @@ def create_user():
             print("Error in retrieving Users from account.db.")
 
         user = User(create_user_form.username.data, create_user_form.email.data, create_user_form.gender.data,
-                         create_user_form.password.data, create_user_form.confirm_password.data)
+                    create_user_form.password.data, create_user_form.confirm_password.data)
         users_dict[user.get_user_id()] = user
         db['Users'] = users_dict
 
