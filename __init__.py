@@ -1,11 +1,22 @@
+# Imports
 from flask import Flask, render_template, request, redirect, url_for, session, flash
+import shelve
+
+# Donation Imports
 from donateMoney import donateMoney
 from donateItem import donateItem
-from Forms import CreateUserForm, LoginForm
+from Donate import DonateMoney, DonateItem
+
+# Customer Support Imports
 from ForumForm import createForumPost
 from Forum import ForumPost
-import shelve, User
-from Donate import DonateMoney, DonateItem
+
+# Account Management Imports
+from Forms import CreateUserForm, LoginForm
+from User import User
+
+# Report Generation Imports
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
