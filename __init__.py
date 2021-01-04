@@ -183,34 +183,28 @@ def donate_ItemUpdate(id):
 # Customer Support
 @app.route("/forum")
 def forum():
-    forum_dict = {}
-    pinned_post_dict = {}
+    pinned_posts_dict = {}
     announcements_dict = {}
     uhc_dict = {}
     db = shelve.open('forumdb', 'c')
-    forum_dict = db['Posts']
-    pinned_post_dict = db['PinnedPosts']
+    pinned_posts_dict = db['PinnedPosts']
     announcements_dict = db['Announcements']
     uhc_dict = db['UHC']
     db.close()
 
-    forum_list = []
-    pinned_post_list = []
+    pinned_posts_list = []
     announcements_list = []
     uhc_list = []
-    for key in forum_dict:
-        post = forum_dict.get(key)
-        forum_list.append(post)
-    for key in pinned_post_list:
-        post = pinned_post_dict.get(key)
-        pinned_post_list.append(post)
+    for key in pinned_posts_list:
+        post = pinned_posts_dict.get(key)
+        pinned_posts_list.append(post)
     for key in announcements_list:
         post = announcements_dict.get(key)
         announcements_list.append(post)
     for key in uhc_list:
         post = uhc_dict.get(key)
         uhc_list.append(post)
-    return render_template('Forum.html', forum_list=forum_list, pinned_post_list=pinned_post_list, announcements_list=announcements_list, uhc_list=uhc_list)
+    return render_template('Forum.html', pinned_posts_list=pinned_posts_list, announcements_list=announcements_list, uhc_list=uhc_list)
 
 
 # @app.route("/retrieveforumpost")
@@ -231,14 +225,12 @@ def forum():
 def create_forum_post():
     create_forum_post_form = createForumPost(request.form)
     if request.method == 'POST' and create_forum_post_form.validate():
-        forum_dict = {}
-        pinned_post_dict = {}
+        pinned_posts_dict = {}
         announcements_dict = {}
         uhc_dict = {}
         db = shelve.open('forumdb', 'c')
         try:
-            forum_dict = db['Posts']
-            pinned_post_dict = db['PinnedPosts']
+            pinned_posts_dict = db['PinnedPosts']
             announcements_dict = db['Announcements']
             uhc_dict = db['UHC']
 
@@ -251,13 +243,14 @@ def create_forum_post():
         post.set_post_subject(create_forum_post_form.post_subject.data)
         post.set_post_message(create_forum_post_form.post_message.data)
         if create_forum_post_form.category.data == 'Unified Help Community':
-            forum_dict[post.get_forum_post_id()] = post
+            uhc_dict[post.get_forum_post_id()] = post
         elif create_forum_post_form.category.data == 'Pinned Posts':
-            pinned_post_dict[post.get_forum_post_id()] = post
+            pinned_posts_dict[post.get_forum_post_id()] = post
+        elif create_forum_post_form.category.data == 'Announcements':
+            announcements_dict[post.get_forum_post_id()] = post
         # announcements_dict[post.get_forum_post_id()] = post
         # uhc_dict[post.get_forum_post_id()] = post
-        db['Posts'] = forum_dict
-        db['PinnedPosts'] = pinned_post_dict
+        db['PinnedPosts'] = pinned_posts_dict
         db['Announcements'] = announcements_dict
         db['UHC'] = uhc_dict
         db.close()

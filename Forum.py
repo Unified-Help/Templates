@@ -3,7 +3,6 @@ import shelve
 
 class ForumPost:
     forum_post_id_counter = 0
-    # category_list = ['Pinned Posts','Announcements','Unified Help Community']
     def __init__(self):
         # Forum Post IDs
         ForumPost.forum_post_id_counter += 1
@@ -16,8 +15,8 @@ class ForumPost:
         self.__upvotes = 0
         self.__downvotes = 0
 
-    def set_forum_post_id(self,forum_post_id):
-        self.__forum_Post_ID = forum_post_id
+    def set_forum_post_id(self,forum_Post_ID):
+        self.__forum_Post_ID = forum_Post_ID
     def set_username(self,username):
         self.__username = username
     def set_post_subject(self,post_subject):
