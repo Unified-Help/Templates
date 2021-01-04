@@ -1,7 +1,7 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 from donateMoney import donateMoney
 from donateItem import donateItem
-from Forms import CreateUserForm
+from Forms import CreateUserForm, LoginForm
 from ForumForm import createForumPost
 from Forum import ForumPost
 import shelve, User
@@ -254,6 +254,17 @@ def faq():
     return render_template('FAQ.html')
 
 # Account Management
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm(request.form)
+    if form.validate_on_submit():
+        if form.email.data == "anthony@gmail.com" and form.password.data == "password":
+            flash('You have been logged in!', 'success')
+            return redirect(url_for('profile'))
+        else:
+            flash('Login Unsuccessful. Please check username and password', 'danger')
+    return render_template('login.html', title='Login', form=form)
+
 @app.route('/createUser', methods=['GET', 'POST'])
 def create_user():
     create_user_form = CreateUserForm(request.form)
