@@ -292,7 +292,7 @@ def create_user():
         except:
             print("Error in retrieving Users from account.db.")
 
-        user = User.User(create_user_form.username.data, create_user_form.email.data, create_user_form.gender.data,
+        user = User(create_user_form.username.data, create_user_form.email.data, create_user_form.gender.data,
                          create_user_form.password.data, create_user_form.confirm_password.data)
         users_dict[user.get_user_id()] = user
         db['Users'] = users_dict
