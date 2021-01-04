@@ -10,6 +10,7 @@ from Donate import DonateMoney, DonateItem
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
 
+
 # Home
 @app.route("/")
 def home():
@@ -195,7 +196,8 @@ def forum():
     for key in uhc_list:
         post = uhc_dict.get(key)
         uhc_list.append(post)
-    return render_template('Forum.html', pinned_posts_list=pinned_posts_list, announcements_list=announcements_list, uhc_list=uhc_list)
+    return render_template('Forum.html', pinned_posts_list=pinned_posts_list, announcements_list=announcements_list,
+                           uhc_list=uhc_list)
 
 
 # @app.route("/retrieveforumpost")
@@ -253,6 +255,7 @@ def create_forum_post():
 def faq():
     return render_template('FAQ.html')
 
+
 # Account Management
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -264,6 +267,7 @@ def login():
         else:
             flash('Login Unsuccessful. Please check username and password', 'danger')
     return render_template('login.html', title='Login', form=form)
+
 
 @app.route('/createUser', methods=['GET', 'POST'])
 def create_user():
@@ -277,7 +281,8 @@ def create_user():
         except:
             print("Error in retrieving Users from account.db.")
 
-        user = User.User(create_user_form.username.data, create_user_form.email.data, create_user_form.gender.data, create_user_form.password.data, create_user_form.confirm_password.data)
+        user = User.User(create_user_form.username.data, create_user_form.email.data, create_user_form.gender.data,
+                         create_user_form.password.data, create_user_form.confirm_password.data)
         users_dict[user.get_user_id()] = user
         db['Users'] = users_dict
 
@@ -287,6 +292,7 @@ def create_user():
 
         return redirect(url_for('profile'))
     return render_template('CreateAccount.html', form=create_user_form)
+
 
 @app.route('/profile')
 def profile():
@@ -300,8 +306,8 @@ def profile():
         user = users_dict.get(key)
         users_list.append(user)
 
-
     return render_template('profile.html', count=len(users_list), users_list=users_list)
+
 
 @app.route('/updateUser/<int:id>/', methods=['GET', 'POST'])
 def update_user(id):
@@ -339,6 +345,7 @@ def update_user(id):
 
         return render_template('updateAccount.html', form=update_user_form)
 
+
 @app.route('/deleteUser/<int:id>', methods=['POST'])
 def delete_user(id):
     users_dict = {}
@@ -353,6 +360,7 @@ def delete_user(id):
     session['user_deleted'] = user.get_username() + ' ' + user.get_email()
 
     return redirect(url_for('profile'))
+
 
 # Error Handling
 @app.errorhandler(404)
