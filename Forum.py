@@ -1,7 +1,7 @@
 from wtforms import Form, StringField, RadioField, SelectField, TextAreaField, validators
 import shelve
 from ForumForm import Form
-from datetime import datetime
+import datetime
 
 class ForumPost:
     def __init__(self):
@@ -12,6 +12,7 @@ class ForumPost:
         self.__post_reply = ''
         self.__upvotes = 0
         self.__downvotes = 0
+        self.__datetime = datetime.datetime.now()
 
     def set_username(self, username):
         self.__username = username
@@ -34,6 +35,10 @@ class ForumPost:
     def set_downvotes(self, downvotes):
         self.__downvotes = downvotes
 
+    def set_date_time(self, datetime):
+        self.__datetime = datetime
+
+
     def get_username(self):
         return self.__username
 
@@ -55,6 +60,8 @@ class ForumPost:
     def get_downvotes(self):
         return self.__downvotes
 
+    def get_date_time(self):
+        return self.__datetime
 
 class ForumPinnedPostsCounter(ForumPost):
     forum_pinned_post_id_counter = 0

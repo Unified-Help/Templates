@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}UnifiedHelpForum{% endblock %}
+{% block title %}UnifiedHelpForum - Category Overview{% endblock %}
   {% block head %}
     <link href="{{url_for('static', filename = 'css/style-forum.css')}}" rel="stylesheet">
   {% endblock %}
@@ -16,9 +16,10 @@
 
     <div class="container my-3">
       <nav class="breadcrumb">
-          <h6 class="breadcrumb-item active">Index</h6>
+          <a href="#0" class="breadcrumb-item">Index</a>
+          <span class="breadcrumb-item active">Forum category</span>
       </nav>
-      
+
       <a href="/forum/createforumpost"><button type="button" class="btn btn-outline-danger">Create Thread</button></a>
       <br/><br/>
 
@@ -69,7 +70,6 @@
           </thead>
           <tbody>
           {% for post in announcements_list %}
-          {%- if loop.index > 3 %}{% break %}{% endif %}
           <tr>
             <td>
               <h3 class="h5"><a href="#0">{{ post.get_post_subject() }} - Forum Post ID: {{ post.get_forum_announcements_post_id() }}</a></h3>
@@ -102,7 +102,6 @@
           </thead>
           <tbody>
             {% for post in uhc_list %}
-            {%- if loop.index > 3 %}{% break %}{% endif %}
           <tr>
             <td>
               <h3 class="h5"><a href="#0">{{ post.get_post_subject() }}  - Forum Post ID: {{ post.get_forum_uhc_post_id() }}</a></h3>
@@ -135,3 +134,4 @@
   <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
 
 </body>
+
