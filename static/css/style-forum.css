@@ -9,6 +9,7 @@ body{
 }
 table{
   border-radius:6px;
+  table-layout: fixed;
 }
 .thead-color{
   background-color: #DB2C25;
@@ -21,9 +22,12 @@ table{
 .form-inline{
   justify-content: center;
 }
-.forum-col{
-    min-width: 16em;
+.topics-col{
+    width: 550px;
 }
-.last-post-col {
-    min-width: 12em;
+.reply-col{
+    width: 200px;
+}
+.n_d_t-col {
+    width: 200px;
 }

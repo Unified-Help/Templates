@@ -18,80 +18,109 @@
       <nav class="breadcrumb">
           <h6 class="breadcrumb-item active" div="breadcrumb-text-color">Index</h6>
       </nav>
+      <a href="/forum/createforumpost"><button type="button" class="btn btn-outline-danger">Create Thread</button></a>
+      <br/><br/><br/>
+
       <!-- Pinned Threats Forum -->
       <div class="row">
         <div class="col-12 col-xl-12">
-          <h2 class="h4">Pinned Threats</h2>
+          <h2 class="h4">Pinned Post</h2>
           <table class="table table-bordered table-responsive">
-        <thead class="thead-color">
-          <tr>
-            <th scope="col" class="forum-col">Topics</th>
-            <th scope="col">Created</th>
-            <th scope="col">Replies</th>
-            <th scope="col" class="last-post-col">Last Post</th>
-          </tr>
-        </thead>
-        <tbody>
-        {% for post in pinned_posts_list %}
-        <tr>
-          <td class="container-fluid">
-            <h3 class="h5"><a href="#0">{{ post.get_post_subject() }} {{ post.get_forum_post_id() }}</a></h3>
-            <p>{{ post.get_post_message() }}</p>
-          </td>
-        </tr>
-        {% endfor %}
-        </tbody>
-      </table>
+            <thead class="thead-color">
+            <tr>
+              <th scope="col" class="topics-col">Topics</th>
+              <th scope="col" class="n_d_t-col">Created</th>
+              <th scope="col" class="reply-col">Replies</th>
+              <th scope="col" class="n_d_t-col">Last Post</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for post in pinned_posts_list %}
+            <tr>
+              <td>
+                <h3 class="h5"><a href="#0">{{ post.get_post_subject() }} - Forum Post ID: {{ post.get_forum_pinned_post_id() }}</a></h3>
+                <p>{{ post.get_post_message() }}</p>
+              </td>
+              <td >
+                <p>by {{ post.get_username() }}</p>
+              </td>
+              <td>
+                <p> </p>
+              </td>
+              <td>
+                <p>by {{ post.get_username() }}</p>
+              </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+          </table>
 
-      <!-- Announcement Forum -->
-      <h2 class="h4">Announcements</h2>
-      <table class="table table-bordered table-responsive">
-        <thead class="thead-color">
+        <!-- Announcement Forum -->
+        <h2 class="h4">Announcements</h2>
+        <table class="table table-bordered table-responsive">
+          <thead class="thead-color">
+            <tr>
+              <th scope="col" class="topics-col">Topics</th>
+              <th scope="col" class="n_d_t-col">Created</th>
+              <th scope="col" class="reply-col">Replies</th>
+              <th scope="col" class="n_d_t-col">Last Post</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for post in announcements_list %}
           <tr>
-            <th scope="col" class="forum-col">Topics</th>
-            <th scope="col">Created</th>
-            <th scope="col">Replies</th>
-            <th scope="col" class="last-post-col">Last Post</th>
+            <td>
+              <h3 class="h5"><a href="#0">{{ post.get_post_subject() }} - Forum Post ID: {{ post.get_forum_announcements_post_id() }}</a></h3>
+              <p>{{ post.get_post_message() }}</p>
+            </td>
+            <td>
+              <p>by {{ post.get_username() }}</p>
+            </td>
+            <td>
+              <p> </p>
+            </td>
+            <td>
+              <p>by {{ post.get_username() }}</p>
+            </td>
           </tr>
-        </thead>
-        <tbody>
-        {% for post in announcements_list %}
-        <tr>
-          <td class="container-fluid">
-            <h3 class="h5"><a href="#0">{{ post.get_post_subject() }} {{ post.get_forum_post_id() }}</a></h3>
-            <p>{{ post.get_post_message() }}</p>
-          </td>
-        </tr>
-        {% endfor %}
-        </tbody>
-      </table>
+          {% endfor %}
+          </tbody>
+        </table>
 
-      <!-- Unified Help Community Forum -->
-      <h2 class="h4">Unified Help Community</h2>
-      <a href="/forum/createforumpost"><button type="button" class="btn btn-outline-danger">Create Thread</button></a>
-      <table class="table table-bordered table-responsive">
-        <thead class="thead-color">
+        <!-- Unified Help Community Forum -->
+        <h2 class="h4">Unified Help Community</h2>
+        <table class="table table-bordered table-responsive">
+          <thead class="thead-color">
+            <tr>
+              <th scope="col" class="topics-col">Topics</th>
+              <th scope="col" class="n_d_t-col">Created</th>
+              <th scope="col" class="reply-col">Replies</th>
+              <th scope="col" class="n_d_t-col">Last Post</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for post in uhc_list %}
           <tr>
-            <th scope="col" class="forum-col">Topics</th>
-            <th scope="col">Created</th>
-            <th scope="col">Replies</th>
-            <th scope="col" class="last-post-col">Last Post</th>
+            <td>
+              <h3 class="h5"><a href="#0">{{ post.get_post_subject() }}  - Forum Post ID: {{ post.get_forum_uhc_post_id() }}</a></h3>
+              <p>{{ post.get_post_message() }}</p>
+            </td>
+            <td>
+              <p>by {{ post.get_username() }}</p>
+            </td>
+            <td>
+              <p> </p>
+            </td>
+            <td>
+              <p>by {{ post.get_username() }}</p>
+            </td>
           </tr>
-        </thead>
-        <tbody>
-          {% for post in uhc_list %}
-        <tr>
-          <td class="container-fluid">
-            <h3 class="h5"><a href="#0">{{ post.get_post_subject() }} {{ post.get_forum_post_id() }}</a></h3>
-            <p>{{ post.get_post_message() }}</p>
-          </td>
-        </tr>
-        {% endfor %}
-        </tbody>
-      </table>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      </div>
     </div>
-    </div>
-  </div>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

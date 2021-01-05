@@ -231,6 +231,7 @@ def create_forum_post():
 
         if create_forum_post_form.category.data == 'Pinned Posts':
             post = ForumPinnedPostsCounter()
+            post.set_username(create_forum_post_form.username.data)
             post.set_category(create_forum_post_form.category.data)
             post.set_post_subject(create_forum_post_form.post_subject.data)
             post.set_post_message(create_forum_post_form.post_message.data)
@@ -238,6 +239,7 @@ def create_forum_post():
 
         elif create_forum_post_form.category.data == 'Announcements':
             post = ForumAnnoucementsPostCounter()
+            post.set_username(create_forum_post_form.username.data)
             post.set_category(create_forum_post_form.category.data)
             post.set_post_subject(create_forum_post_form.post_subject.data)
             post.set_post_message(create_forum_post_form.post_message.data)
@@ -245,6 +247,7 @@ def create_forum_post():
 
         elif create_forum_post_form.category.data == 'Unified Help Community':
             post = ForumUHCPostCounter()
+            post.set_username(create_forum_post_form.username.data)
             post.set_category(create_forum_post_form.category.data)
             post.set_post_subject(create_forum_post_form.post_subject.data)
             post.set_post_message(create_forum_post_form.post_message.data)

@@ -1,6 +1,7 @@
 from wtforms import Form, StringField, RadioField, SelectField, TextAreaField, validators
 import shelve
 from ForumForm import Form
+from datetime import datetime
 
 class ForumPost:
     def __init__(self):
