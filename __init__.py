@@ -232,6 +232,7 @@ def create_forum_post():
 
         if create_forum_post_form.category.data == 'Pinned Posts':
             post = ForumPinnedPostsCounter()
+            post.set_forum_pinned_post_id()
             post.set_username(create_forum_post_form.username.data)
             post.set_category(create_forum_post_form.category.data)
             post.set_post_subject(create_forum_post_form.post_subject.data)
@@ -241,6 +242,7 @@ def create_forum_post():
 
         elif create_forum_post_form.category.data == 'Announcements':
             post = ForumAnnoucementsPostCounter()
+            post.set_forum_announcements_post_id()
             post.set_username(create_forum_post_form.username.data)
             post.set_category(create_forum_post_form.category.data)
             post.set_post_subject(create_forum_post_form.post_subject.data)

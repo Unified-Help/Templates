@@ -14,6 +14,7 @@ class ForumPost:
         self.__downvotes = 0
         self.__datetime = datetime.datetime.now()
 
+    # Mutator
     def set_username(self, username):
         self.__username = username
 
@@ -39,7 +40,7 @@ class ForumPost:
         self.__datetime = datetime
         self.__datetime = self.__datetime.strftime("%d %b %Y, %H:%M")
 
-
+    # Accessor
     def get_username(self):
         return self.__username
 
@@ -65,14 +66,19 @@ class ForumPost:
         return self.__datetime
 
 class ForumPinnedPostsCounter(ForumPost):
-    forum_pinned_post_id_counter = 0
-
     def __init__(self):
         super().__init__()
-        ForumPinnedPostsCounter.forum_pinned_post_id_counter += 1
-        self.__forum_pinned_post_id = ForumPinnedPostsCounter.forum_pinned_post_id_counter
+        self.__forum_pinned_post_id = ''
 
-    def set_forum_pinned_post_id(self, forum_pinned_post_id):
+    def set_forum_pinned_post_id(self):
+        # Use with -> Don't need to close db
+        with shelve.open('forumdb','r') as db:
+            if len(db['PinnedPosts']) == 0:
+                forum_pinned_post_id = 0
+            else:
+                forum_pinned_post_id = list(db['PinnedPosts'].keys())[-1]
+
+        forum_pinned_post_id += 1
         self.__forum_pinned_post_id = forum_pinned_post_id
 
     def get_forum_pinned_post_id(self):
@@ -80,14 +86,18 @@ class ForumPinnedPostsCounter(ForumPost):
 
 
 class ForumAnnoucementsPostCounter(ForumPost):
-    forum_announcements_id_counter = 0
-
     def __init__(self):
         super().__init__()
-        ForumAnnoucementsPostCounter.forum_announcements_id_counter += 1
-        self.__forum_announcements_post_id = ForumAnnoucementsPostCounter.forum_announcements_id_counter
+        self.__forum_announcements_post_id = ''
 
-    def set_forum_announcements_post_id(self, forum_announcements_post_id):
+    def set_forum_announcements_post_id(self):
+        with shelve.open('forumdb','r') as db:
+            if len(db['Announcements']) == 0:
+                forum_announcements_post_id = 0
+            else:
+                forum_announcements_post_id = list(db['Announcements'].keys())[-1]
+
+        forum_announcements_post_id += 1
         self.__forum_announcements_post_id = forum_announcements_post_id
 
     def get_forum_announcements_post_id(self):
@@ -95,15 +105,20 @@ class ForumAnnoucementsPostCounter(ForumPost):
 
 
 class ForumUHCPostCounter(ForumPost):
-    forum_uhc_id_counter = 0
-
     def __init__(self):
         super().__init__()
-        ForumUHCPostCounter.forum_uhc_id_counter += 1
-        self.__forum_uhc_post_id = ForumUHCPostCounter.forum_uhc_id_counter
+        self.__forum_uhc_post_id = ''
 
-    def set_forum_uhc_post_id(self, forum_uhc_post_id):
+    def set_forum_uhc_post_id(self):
+        with shelve.open('forumdb','r') as db:
+            if len(db['UHC']) == 0:
+                forum_uhc_post_id = 0
+            else:
+                forum_uhc_post_id = list(db['UHC'].keys())[-1]
+
+        forum_uhc_post_id += 1
         self.__forum_uhc_post_id = forum_uhc_post_id
 
     def get_forum_uhc_post_id(self):
         return self.__forum_uhc_post_id
+
