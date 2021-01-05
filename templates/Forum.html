@@ -69,7 +69,6 @@
           </thead>
           <tbody>
           {% for post in announcements_list %}
-          {%- if loop.index > 3 %}{% break %}{% endif %}
           <tr>
             <td>
               <h3 class="h5"><a href="#0">{{ post.get_post_subject() }} - Forum Post ID: {{ post.get_forum_announcements_post_id() }}</a></h3>

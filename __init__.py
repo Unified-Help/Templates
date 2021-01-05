@@ -221,7 +221,6 @@ def create_forum_post():
         announcements_dict = {}
         uhc_dict = {}
         db = shelve.open('forumdb', 'c')
-        usernamedb = shelve.open('account.db', 'r')
         try:
             pinned_posts_dict = db['PinnedPosts']
             announcements_dict = db['Announcements']
