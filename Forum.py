@@ -37,6 +37,7 @@ class ForumPost:
 
     def set_date_time(self, datetime):
         self.__datetime = datetime
+        self.__datetime = self.__datetime.strftime("%d %b %Y, %H:%M")
 
 
     def get_username(self):
