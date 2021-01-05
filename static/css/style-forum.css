@@ -7,13 +7,12 @@ body{
   width: 200px;
   margin-left: 68.5%;
 }
+.forum-cat-color{
+  background-color: #DB2C25;
+}
 table{
   border-radius:6px;
   table-layout: fixed;
-}
-.thead-color{
-  background-color: #DB2C25;
-  color: #FFFFFF;
 }
 .btn{
   float: right;
