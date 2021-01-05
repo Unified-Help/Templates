@@ -1,6 +1,6 @@
 # Imports
 from flask import Flask, render_template, request, redirect, url_for, session, flash
-from flask_login import login_required, LoginManager
+# from flask_login import login_required, LoginManager
 import shelve
 
 # Donation Imports
@@ -20,6 +20,7 @@ from User import User
 
 
 app = Flask(__name__)
+# Jinja for loop lib
 app.jinja_env.add_extension('jinja2.ext.loopcontrols')
 app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
 
@@ -237,7 +238,6 @@ def create_forum_post():
             post.set_post_subject(create_forum_post_form.post_subject.data)
             post.set_post_message(create_forum_post_form.post_message.data)
             post.set_date_time(post.get_date_time())
-            print(post.get_date_time())
             pinned_posts_dict[post.get_forum_pinned_post_id()] = post
 
         elif create_forum_post_form.category.data == 'Announcements':
@@ -246,6 +246,7 @@ def create_forum_post():
             post.set_category(create_forum_post_form.category.data)
             post.set_post_subject(create_forum_post_form.post_subject.data)
             post.set_post_message(create_forum_post_form.post_message.data)
+            post.set_date_time(post.get_date_time())
             announcements_dict[post.get_forum_announcements_post_id()] = post
 
         elif create_forum_post_form.category.data == 'Unified Help Community':
@@ -254,6 +255,7 @@ def create_forum_post():
             post.set_category(create_forum_post_form.category.data)
             post.set_post_subject(create_forum_post_form.post_subject.data)
             post.set_post_message(create_forum_post_form.post_message.data)
+            post.set_date_time(post.get_date_time())
             uhc_dict[post.get_forum_uhc_post_id()] = post
 
         db['PinnedPosts'] = pinned_posts_dict

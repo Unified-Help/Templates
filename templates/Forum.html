@@ -43,13 +43,13 @@
                 <p>{{ post.get_post_message() }}</p>
               </td>
               <td>
-                <p>by {{ post.get_username() }} </p>
+                <p>by {{ post.get_username() }} <br/> {{post.get_date_time() }}</p>
               </td>
               <td>
                 <p> </p>
               </td>
               <td>
-                <p>by {{ post.get_username() }}</p>
+                <p>by {{ post.get_username() }} <br/> {{post.get_date_time() }}</p>
               </td>
             </tr>
             {% endfor %}
@@ -76,13 +76,13 @@
               <p>{{ post.get_post_message() }}</p>
             </td>
             <td>
-              <p>by {{ post.get_username() }}</p>
+              <p>by {{ post.get_username() }} <br/> {{post.get_date_time() }}</p>
             </td>
             <td>
               <p> </p>
             </td>
             <td>
-              <p>by {{ post.get_username() }}</p>
+              <p>by {{ post.get_username() }} <br/> {{post.get_date_time() }}</p>
             </td>
           </tr>
           {% endfor %}
@@ -109,13 +109,13 @@
               <p>{{ post.get_post_message() }}</p>
             </td>
             <td>
-              <p>by {{ post.get_username() }}</p>
+              <p>by {{ post.get_username() }} <br/> {{post.get_date_time() }}</p>
             </td>
             <td>
               <p> </p>
             </td>
             <td>
-              <p>by {{ post.get_username() }}</p>
+              <p>by {{ post.get_username() }} <br/> {{post.get_date_time() }}</p>
             </td>
           </tr>
           {% endfor %}
