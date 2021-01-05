@@ -232,12 +232,14 @@ def create_forum_post():
 
         if create_forum_post_form.category.data == 'Pinned Posts':
             post = ForumPinnedPostsCounter()
+
             post.set_forum_pinned_post_id()
             post.set_username(create_forum_post_form.username.data)
             post.set_category(create_forum_post_form.category.data)
             post.set_post_subject(create_forum_post_form.post_subject.data)
             post.set_post_message(create_forum_post_form.post_message.data)
             post.set_date_time(post.get_date_time())
+
             pinned_posts_dict[post.get_forum_pinned_post_id()] = post
 
         elif create_forum_post_form.category.data == 'Announcements':
@@ -252,6 +254,7 @@ def create_forum_post():
 
         elif create_forum_post_form.category.data == 'Unified Help Community':
             post = ForumUHCPostCounter()
+            post.set_forum_uhc_post_id()
             post.set_username(create_forum_post_form.username.data)
             post.set_category(create_forum_post_form.category.data)
             post.set_post_subject(create_forum_post_form.post_subject.data)
