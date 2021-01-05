@@ -1,33 +1,16 @@
-# Donor's Base Choices
-# class DonateBaseChoice:
-#     def __init__(self, donate_who, donate_type):
-#         self.__donate_who = donate_who
-#         self.__donate_type = donate_type
-#
-#     # Accessor Methods
-#     def get_donate_who(self):
-#         return self.__donate_who
-#
-#     def get_donate_type(self):
-#         return self.__donate_type
-#
-#     # Mutator Methods
-#     def set_donate_who(self, donate_who):
-#         self.__donate_who = donate_who
-#
-#     def set_donate_type(self, donate_type):
-#         self.__donate_type = donate_type
+import shelve
 
 
 # Monetary Donations
 class DonateMoney:
-    donatemoneyid_counter = 0
+    # donatemoneyid_counter = 0
 
     def __init__(self, donate_who, money_amount, cardInfo_Name, cardInfo_Number, cardInfo_CVV, cardInfo_DateExpiry,
                  cardInfo_YearExpiry):
-        # Money Donation IDs
-        DonateMoney.donatemoneyid_counter += 1
-        self.__moneyID = "M" + str(DonateMoney.donatemoneyid_counter)
+        # Money Donation ID
+        # DonateMoney.donatemoneyid_counter += 1
+        # self.__moneyID = "M" + str(DonateMoney.donatemoneyid_counter)
+        self.__moneyID = 0
 
         # money donations
         self.__donate_type = "Monetary Donation"
@@ -68,8 +51,16 @@ class DonateMoney:
         return self.__cardInfo_YearExpiry
 
     # Mutators
-    def set_moneyID(self, moneyID):
-        self.__moneyID = moneyID
+    def set_moneyID(self):
+        with shelve.open('donorChoices', 'r') as db:
+            if len(db['Money']) == 0:
+                donatemoneyid_counter = 0
+            else:
+                donatemoneyid_counter = int(list(db['Money'].keys())[-1].split('M')[-1])
+
+        donatemoneyid_counter += 1
+        self.__moneyID = "M" + str(donatemoneyid_counter)
+        # self.__moneyID = moneyID
 
     def set_donate_type(self, donate_type):
         self.__donate_type = donate_type
@@ -98,13 +89,14 @@ class DonateMoney:
 
 # Item Donations
 class DonateItem:
-    donateitemID_counter = 0
+    # donateitemID_counter = 0
 
     def __init__(self, donate_who, item_type, item_name, item_weight, item_height, item_length, item_width
                  , collection_type, date, month, time, address1, address2, address3, postal_code):
         # Item Donation IDs
-        DonateItem.donateitemID_counter += 1
-        self.__itemID = "I" + str(DonateItem.donateitemID_counter)
+        self.__itemID = 0
+        # DonateItem.donateitemID_counter += 1
+        # self.__itemID = "I" + str(DonateItem.donateitemID_counter)
 
         # Item Details
         self.__donate_type = "Item Donation"
@@ -181,8 +173,16 @@ class DonateItem:
         return self.__postal_code
 
     # Mutators
-    def set_itemID(self, itemID):
-        self.__itemID = itemID
+    def set_itemID(self):
+        with shelve.open('donorChoices', 'r') as db:
+            if len(db['Items']) == 0:
+                donateitemid_counter = 0
+            else:
+                donateitemid_counter = int(list(db['Items'].keys())[-1].split('I')[-1])
+
+        donateitemid_counter += 1
+        self.__itemID = "I" + str(donateitemid_counter)
+        # self.__itemID = itemID
 
     def set_donate_type(self, donate_type):
         self.__donate_type = donate_type

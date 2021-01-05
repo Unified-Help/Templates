@@ -41,17 +41,23 @@ def donate():
 def donateHistory():
     # Displaying Donation History
     donorsM_dict = {}
+    donorsI_dict = {}
 
     db = shelve.open("donorChoices", "r")
-    donorsM_dict = db["Donors"]
+    donorsM_dict = db["Money"]
+    donorsI_dict = db["Items"]
     db.close()
 
     donorsM_list = []
+    donorsI_list = []
     for key in donorsM_dict:
         donorM = donorsM_dict.get(key)
         donorsM_list.append(donorM)
+    for key in donorsI_dict:
+        donorI = donorsI_dict.get(key)
+        donorsI_list.append(donorI)
 
-    return render_template('donationHistory.html', countM=len(donorsM_list), donorsM_list=donorsM_list)
+    return render_template('donationHistory.html', donorsI_list=donorsI_list, donorsM_list=donorsM_list)
 
 
 @app.route("/donate/details")
@@ -69,7 +75,7 @@ def donate_Money():
         dbMC = shelve.open("donorChoices", "c")
 
         try:
-            donor_moneychoices = dbMC["Donors"]
+            donor_moneychoices = dbMC["Money"]
         except:
             print("Error in retrieving Donors MC from donorMoneyChoices")
 
@@ -77,10 +83,11 @@ def donate_Money():
                             donate_money.cardInfo_Name.data,
                             donate_money.cardInfo_Number.data, donate_money.cardInfo_CVV.data,
                             donate_money.cardInfo_DateExpiry.data, donate_money.cardInfo_YearExpiry.data)
+        donor.set_moneyID()
 
         donor_moneychoices[donor.get_moneyID()] = donor
 
-        dbMC["Donors"] = donor_moneychoices
+        dbMC["Money"] = donor_moneychoices
 
         dbMC.close()
 
@@ -97,7 +104,7 @@ def donate_Item():
         dbIM = shelve.open("donorChoices", "c")
 
         try:
-            donor_itemchoices = dbIM["Donors"]
+            donor_itemchoices = dbIM["Items"]
         except:
             print("Error in retrieving Donors IM from donorItemChoices")
 
@@ -107,10 +114,11 @@ def donate_Item():
                            donate_item.collectionMonth.data, donate_item.collectionTime.data,
                            donate_item.pickupAddress1.data, donate_item.pickupAddress2.data,
                            donate_item.pickupAddress3.data, donate_item.pickupPostalCode.data)
+        donor.set_itemID()
 
         donor_itemchoices[donor.get_itemID()] = donor
 
-        dbIM["Donors"] = donor_itemchoices
+        dbIM["Items"] = donor_itemchoices
 
         dbIM.close()
 
@@ -129,7 +137,7 @@ def donate_ItemUpdate(id):
         donors_dict = {}
 
         dbUP = shelve.open('donorChoices', 'w')
-        donors_dict = dbUP['Donors']
+        donors_dict = dbUP['Items']
 
         donor = donors_dict.get(id)
 
@@ -151,7 +159,7 @@ def donate_ItemUpdate(id):
         donor.set_address3(update_donate_item.pickupAddress3.data)
         donor.set_postal_code(update_donate_item.pickupPostalCode.data)
 
-        dbUP['Donors'] = donors_dict
+        dbUP['Items'] = donors_dict
         dbUP.close()
 
         return redirect(url_for('donateHistory'))
@@ -160,7 +168,7 @@ def donate_ItemUpdate(id):
         donors_dict = {}
 
         dbUP = shelve.open('donorChoices', 'r')
-        donors_dict = dbUP["Donors"]
+        donors_dict = dbUP["Items"]
         dbUP.close()
 
         donor = donors_dict.get(id)

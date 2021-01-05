@@ -29,39 +29,44 @@
             {% for donorM in donorsM_list %}
                 <tr>
                     <!-- Donation ID -->
-                    {% if donorM.get_donate_type() == "Monetary Donation" %}
                     <td>{{ donorM.get_moneyID() }}</td>
-                    {% elif donorM.get_donate_type() == "Item Donation" %}
-                    <td><a href="/donate/itemupdate/{{ donorM.get_itemID() }}">{{ donorM.get_itemID() }}</a></td>
-                    {% endif %}
 
                     <!-- Donation Description -->
-                    {% if donorM.get_donate_type() == "Monetary Donation" %}
                     <td>{{ donorM.get_donate_type() }}</td>
-                    {% elif donorM.get_donate_type() == "Item Donation" %}
-                    <td>{{ donorM.get_donate_type() }}: <br> {{ donorM.get_item_name() }}</td>
-                    {% endif %}
 
                     <!-- Donate to Who -->
                     <td>{{ donorM.get_donate_who() }}</td>
 
-                    <!-- If item donation, only show collection type -->
-                    {% if donorM.get_donate_type() == "Item Donation" %}
-                    <td>{{ donorM.get_collection_type() }}</td>
-                    <td>--</td>
-                    {% endif %}
-
                     <!-- If Monetary donation, only show amount donated -->
-                    {% if donorM.get_donate_type() == "Monetary Donation" %}
                     <td>--</td>
                     <td>{{ donorM.get_money_amount() }}</td>
-                    {% endif %}
 
                     <!-- Donation Confirmation -->
                     <td></td>
 
                 </tr>
             {% endfor %}
+            {% for donorI in donorsI_list %}
+                <tr>
+                    <!-- Donation ID -->
+                    <td><a href="/donate/itemupdate/{{ donorI.get_itemID() }}">{{ donorI.get_itemID() }}</a></td>
+
+                    <!-- Donation Description -->
+                    <td>{{ donorI.get_donate_type() }}: <br> {{ donorI.get_item_name() }}</td>
+
+                    <!-- Donate to Who -->
+                    <td>{{ donorI.get_donate_who() }}</td>
+
+                    <!-- If item donation, only show collection type -->
+                    <td>{{ donorI.get_collection_type() }}</td>
+                    <td>--</td>
+
+                    <!-- Donation Confirmation -->
+                    <td></td>
+
+                </tr>
+            {% endfor %}
+
             </tbody>
         </table>
     </div>
