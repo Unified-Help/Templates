@@ -7,6 +7,7 @@
 <body>
   {% block content %}
 <br><br><br>
+  <center>
 <div class="content-section">
         <form method="POST" action="">
             {{ form.hidden_tag() }}
@@ -56,6 +57,7 @@
             Need An Account? <a class="ml-2" href="{{ url_for('create_user') }}">Sign Up Now</a>
         </small>
     </div>
+      </center>
   {% endblock %}
 
 
