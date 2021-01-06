@@ -42,22 +42,47 @@ def donateHistory():
     # Displaying Donation History
     donorsM_dict = {}
     donorsI_dict = {}
+    try:
+        db = shelve.open("donorChoices", "r")
 
-    db = shelve.open("donorChoices", "r")
-    donorsM_dict = db["Money"]
-    donorsI_dict = db["Items"]
-    db.close()
+        if "Money" in db and "Items" not in db:
+            # Money History
+            donorsM_dict = db["Money"]
+            donorsM_list = []
+            for key in donorsM_dict:
+                donorM = donorsM_dict.get(key)
+                donorsM_list.append(donorM)
+            return render_template('donationHistory.html', donorsI_list='', donorsM_list=donorsM_list)
 
-    donorsM_list = []
-    donorsI_list = []
-    for key in donorsM_dict:
-        donorM = donorsM_dict.get(key)
-        donorsM_list.append(donorM)
-    for key in donorsI_dict:
-        donorI = donorsI_dict.get(key)
-        donorsI_list.append(donorI)
+        if "Money" not in db and "Items" in db:
+            # Item History
+            donorsI_dict = db["Items"]
+            donorsI_list = []
+            for key in donorsI_dict:
+                donorI = donorsI_dict.get(key)
+                donorsI_list.append(donorI)
+            return render_template('donationHistory.html', donorsI_list=donorsI_list, donorsM_list='')
 
-    return render_template('donationHistory.html', donorsI_list=donorsI_list, donorsM_list=donorsM_list)
+        if "Money" in db and "Items" in db:
+            # Money History
+            donorsM_dict = db["Money"]
+            donorsM_list = []
+            for key in donorsM_dict:
+                donorM = donorsM_dict.get(key)
+                donorsM_list.append(donorM)
+
+            # Item History
+            donorsI_dict = db["Items"]
+            donorsI_list = []
+            for key in donorsI_dict:
+                donorI = donorsI_dict.get(key)
+                donorsI_list.append(donorI)
+
+            return render_template('donationHistory.html', donorsI_list=donorsI_list, donorsM_list=donorsM_list)
+        db.close()
+
+    except:
+        return render_template('donationHistoryEmpty.html')
 
 
 @app.route("/donate/details")
@@ -221,6 +246,7 @@ def forum():
     return render_template('Forum.html', pinned_posts_list=pinned_posts_list, announcements_list=announcements_list,
                            uhc_list=uhc_list)
 
+
 @app.route("/forum/createforumpost", methods=['GET', 'POST'])
 def create_forum_post():
     create_forum_post_form = createForumPost(request.form)
@@ -236,7 +262,6 @@ def create_forum_post():
 
         except:
             print("Error in retrieving data from forumdb.")
-
 
         if create_forum_post_form.category.data == 'Pinned Posts':
             post = ForumPinnedPostsCounter()
@@ -276,6 +301,7 @@ def create_forum_post():
         db.close()
     return render_template('createForumPost.html', form=create_forum_post_form)
 
+
 @app.route("/forum/pinned_posts")
 def forum_pinned_posts():
     pinned_posts_dict = {}
@@ -290,10 +316,12 @@ def forum_pinned_posts():
     category = pinned_posts_list[0].get_category()
     return render_template('overview-forum-category.html', list=pinned_posts_list, category=category)
 
-@app.route("/forum/pinned_posts/example"    )
+
+@app.route("/forum/pinned_posts/example")
 # @app.route("/forum/pinned_posts/example")
 def itsnew():
     return render_template('forum-post.html')
+
 
 # Specific Forum Post ID - Pinned Posts
 # @app.route("/forum/pinned_posts/<int:forum_pinned_posts_id>/")
@@ -322,7 +350,8 @@ def forum_announcements_posts():
         post = announcements_dict.get(key)
         announcements_list.append(post)
     category = announcements_list[0].get_category()
-    return render_template('overview-forum-category.html', list=announcements_list ,category=category)
+    return render_template('overview-forum-category.html', list=announcements_list, category=category)
+
 
 # Specific Forum Post ID - Announcements
 # @app.route("/forum/announcements")
@@ -353,6 +382,7 @@ def forum_uhc_posts():
         uhc_list.append(post)
     category = uhc_list[0].get_category()
     return render_template('overview-forum-category.html', list=uhc_list, category=category)
+
 
 # Specific Forum Post ID - UHC
 # @app.route("/forum/uhc")
