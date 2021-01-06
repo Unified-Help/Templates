@@ -276,6 +276,44 @@ def create_forum_post():
         db.close()
     return render_template('createForumPost.html', form=create_forum_post_form)
 
+@app.route("/forum/pinned_posts")
+def forum_pinned_posts():
+    pinned_posts_dict = {}
+    db = shelve.open('forumdb', 'c')
+    pinned_posts_dict = db['PinnedPosts']
+    db.close()
+
+    pinned_posts_list = []
+    for key in pinned_posts_dict:
+        post = pinned_posts_dict.get(key)
+        pinned_posts_list.append(post)
+    return render_template('overview-forum-category.html', list=pinned_posts_list)
+
+@app.route("/forum/announcements")
+def forum_announcements_posts():
+    announcements_dict = {}
+    db = shelve.open('forumdb', 'c')
+    announcements_dict = db['Announcements']
+    db.close()
+
+    announcements_list = []
+    for key in announcements_dict:
+        post = announcements_dict.get(key)
+        announcements_list.append(post)
+    return render_template('overview-forum-category.html', list=announcements_list)
+
+@app.route("/forum/uhc")
+def forum_uhc_posts():
+    uhc_dict = {}
+    db = shelve.open('forumdb', 'c')
+    uhc_dict = db['UHC']
+    db.close()
+
+    uhc_list = []
+    for key in uhc_dict:
+        post = uhc_dict.get(key)
+        uhc_list.append(post)
+    return render_template('overview-forum-category.html', list=uhc_list)
 
 @app.route("/faq")
 def faq():
