@@ -288,16 +288,8 @@ def forum_pinned_posts():
         post = pinned_posts_dict.get(key)
         pinned_posts_list.append(post)
     category = pinned_posts_list[0].get_category()
-    endpoint = 'forum_pinned_posts_post'
-    value_id_name = 'forum_pinned_posts_id'
-    value_id = 'post.get_forum_pinned_post_id()'
-    return render_template('overview-forum-category.html', list=pinned_posts_list, category=category, endpoint=endpoint,
-                           value_id_name=value_id_name, value_id=value_id)
+    return render_template('overview-forum-category.html', list=pinned_posts_list, category=category)
 
-# @app.route("/forum/pinned_posts/example"  )
-# # @app.route("/forum/pinned_posts/example")
-# def itsnew():
-#     return render_template('forum-post.html')
 
 # Specific Forum Post ID - Pinned Posts
 @app.route("/forum/pinned_posts/<int:forum_pinned_posts_id>")
@@ -311,11 +303,13 @@ def forum_pinned_posts_post(forum_pinned_posts_id):
 
     post = pinned_posts_dict.get(forum_pinned_posts_id)
     pinned_posts_list.append(post)
+    post_subject = post.get_post_subject()
+    post_author = post.get_username()
+    post_datetime = post.get_date_time()
+    post_message = post.get_post_message()
     category = pinned_posts_list[0].get_category()
-    # endpoint = 'forum_pinned_posts_post'
-    # value_id_name = 'forum_pinned_posts_id'
-    # value_id = 'post.get_forum_pinned_post_id()'
-    return render_template('forum-post.html', pinned_posts_list=pinned_posts_list, category=category)
+    return render_template('forum-post.html', pinned_posts_list=pinned_posts_list, category=category, post_subject=post_subject, post_author=post_author,
+                           post_datetime=post_datetime,post_message=post_message)
 
 @app.route("/forum/announcements")
 def forum_announcements_posts():

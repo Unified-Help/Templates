@@ -1,5 +1,4 @@
 from wtforms import Form, StringField, FloatField, IntegerField, RadioField, SelectField, TextAreaField, validators
-from wtforms.widgets import TextArea
 
 class createForumPost(Form):
     username = StringField('Username:', [validators.Length(min=1, max=150), validators.DataRequired()])
