@@ -8,6 +8,7 @@
 
   {% block content %}
   <br/><br/><br/><br/>
+
   <main>
     <nav class="navbar navbar-dark bg-dark">
       <div class="container">
@@ -25,6 +26,7 @@
         <a href="overview-topics.html" class="breadcrumb-item">Forum name</a>
         <span class="breadcrumb-item active">Forum post title with a complex and long question</span>
       </nav>
+      {% for post in list %}
       <div class="row">
         <div class="col-12">
           <h2 class="h4 text-white bg-info mb-0 p-4 rounded-top">Forum post title with a complex and long question</h2>
@@ -82,6 +84,7 @@
           </table>
         </div>
       </div>
+      {% endfor %}
       <div class="mb-3 clearfix">
         <nav aria-label="Navigate post pages" class="float-lg-right">
           <ul class="pagination pagination-sm mb-lg-0">
