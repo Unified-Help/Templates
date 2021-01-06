@@ -290,6 +290,26 @@ def forum_pinned_posts():
     category = pinned_posts_list[0].get_category()
     return render_template('overview-forum-category.html', list=pinned_posts_list, category=category)
 
+@app.route("/forum/pinned_posts/example"    )
+# @app.route("/forum/pinned_posts/example")
+def itsnew():
+    return render_template('forum-post.html')
+
+# Specific Forum Post ID - Pinned Posts
+# @app.route("/forum/pinned_posts/<int:forum_pinned_posts_id>/")
+# def forum_pinned_posts(forum_pinned_posts_id):
+#     pinned_posts_dict = {}
+#     db = shelve.open('forumdb', 'c')
+#     pinned_posts_dict = db['PinnedPosts']
+#     db.close()
+#
+#     pinned_posts_list = []
+#     for key in pinned_posts_dict:
+#         post = pinned_posts_dict.get(key)
+#         pinned_posts_list.append(post)
+#     category = pinned_posts_list[0].get_category()
+#     return render_template('overview-forum-category.html', list=pinned_posts_list, category=category)
+
 @app.route("/forum/announcements")
 def forum_announcements_posts():
     announcements_dict = {}
@@ -304,6 +324,22 @@ def forum_announcements_posts():
     category = announcements_list[0].get_category()
     return render_template('overview-forum-category.html', list=announcements_list ,category=category)
 
+# Specific Forum Post ID - Announcements
+# @app.route("/forum/announcements")
+# def forum_announcements_posts():
+#     announcements_dict = {}
+#     db = shelve.open('forumdb', 'c')
+#     announcements_dict = db['Announcements']
+#     db.close()
+#
+#     announcements_list = []
+#     for key in announcements_dict:
+#         post = announcements_dict.get(key)
+#         announcements_list.append(post)
+#     category = announcements_list[0].get_category()
+#     return render_template('overview-forum-category.html', list=announcements_list ,category=category)
+
+
 @app.route("/forum/uhc")
 def forum_uhc_posts():
     uhc_dict = {}
@@ -317,6 +353,21 @@ def forum_uhc_posts():
         uhc_list.append(post)
     category = uhc_list[0].get_category()
     return render_template('overview-forum-category.html', list=uhc_list, category=category)
+
+# Specific Forum Post ID - UHC
+# @app.route("/forum/uhc")
+# def forum_uhc_posts():
+#     uhc_dict = {}
+#     db = shelve.open('forumdb', 'c')
+#     uhc_dict = db['UHC']
+#     db.close()
+#
+#     uhc_list = []
+#     for key in uhc_dict:
+#         post = uhc_dict.get(key)
+#         uhc_list.append(post)
+#     category = uhc_list[0].get_category()
+#     return render_template('overview-forum-category.html', list=uhc_list, category=category)
 
 @app.route("/faq")
 def faq():

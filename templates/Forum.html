@@ -16,16 +16,14 @@
 
     <div class="container my-3">
       <nav class="breadcrumb">
-          <h6 class="breadcrumb-item active">Index</h6>
+          <span class="breadcrumb-item active">Unified Help Forum</span>
       </nav>
-      
       <a href="/forum/createforumpost"><button type="button" class="btn btn-outline-danger">Create Thread</button></a>
       <br/><br/>
 
       <!-- Pinned Posts Forum -->
       <div class="row">
         <div class="col-12 col-xl-12">
-
           <h2 class="h4 text-white mb-0 p-4 rounded-top forum-cat-color"><a href="{{url_for('forum_pinned_posts')}}" style="text-decoration: none; color:#ffffff">Pinned Posts</a></h2>
           <table class="table table-bordered table-responsive">
             <thead class="thead-light">
@@ -37,7 +35,7 @@
             </tr>
             </thead>
             <tbody>
-            {% for post in pinned_posts_list %}
+            {% for post in pinned_posts_list|reverse %}
             {%- if loop.index > 3 %}{% break %}{% endif %}
             <tr>
               <td>
@@ -70,7 +68,7 @@
             </tr>
           </thead>
           <tbody>
-          {% for post in announcements_list %}
+          {% for post in announcements_list|reverse %}
           {%- if loop.index > 3 %}{% break %}{% endif %}
           <tr>
             <td>
@@ -103,7 +101,7 @@
             </tr>
           </thead>
           <tbody>
-            {% for post in uhc_list %}
+            {% for post in uhc_list|reverse %}
             {%- if loop.index > 3 %}{% break %}{% endif %}
           <tr>
             <td>

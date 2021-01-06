@@ -5,34 +5,61 @@
   {% endblock %}
 
 <body>
-
   {% block content %}
   <br/><br/><br/><br/>
   <main>
-    <form class="form-inline">
+    <form class="form-inline d-block d-sm-flex">
       <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-danger btn-rounded btn-sm my-0" type="submit">Search</button>
     </form>
-
     <div class="container my-3">
       <nav class="breadcrumb">
-          <a href="{{url_for('forum')}}" class="breadcrumb-item">Index</a>
+          <a href="{{url_for('forum')}}" class="breadcrumb-item" style="text-decoration: none">Unified Help Forum</a>
           <span class="breadcrumb-item active">{{ category }}</span>
       </nav>
-
-      <a href="/forum/createforumpost"><button type="button" class="btn btn-outline-danger">Create Thread</button></a>
+      <form class="form-inline float-lg-left d-block d-sm-flex">
+        <div class="mb-2 mb-sm-0 mr-2">Display posts from previous:</div>
+        <div class="form-group mr-2">
+          <label class="sr-only" for="select-time">Time period</label>
+          <select class="form-control form-control-sm" id="select-time">
+            <option value="all-posts" selected>All posts</option>
+            <option value="day">1 day</option>
+            <option value="week">1 week</option>
+            <option value="month">1 month</option>
+            <option value="year">1 year</option>
+          </select>
+        </div>
+        <div class="mb-2 mb-sm-0 mr-2">Sort by:</div>
+        <div class="form-group mr-2">
+          <label class="sr-only" for="select-sort">Sort by</label>
+          <select class="form-control form-control-sm" id="select-sort">
+            <option value="author">Author</option>
+            <option value="post-time" selected>Post time</option>
+            <option value="subject">Subject</option>
+            <option value="views">Views</option>
+          </select>
+        </div>
+        <div class="form-group mr-2">
+          <label class="sr-only" for="select-direction">Sort direction</label>
+          <select class="form-control form-control-sm" id="select-direction">
+            <option value="ascending">Ascending</option>
+            <option value="descending" selected>Descending</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-sm btn-outline-danger">Go</button>
+      </form>
+      <a href="/forum/createforumpost"><button type="button" class="btn btn-outline-danger">Create Post</button></a>
       <br/><br/>
-
       <div class="row">
         <div class="col-12 col-xl-12">
           <h2 class="h4 text-white mb-0 p-4 rounded-top forum-cat-color">{{ category }}</h2>
-          <table class="table table-bordered table-responsive mb-xl-0">
+          <table class="table table-bordered table-responsive-lg">
             <thead class="thead-light">
             <tr>
-              <th scope="col" style="width: 300">Topics</th>
-              <th scope="col" style="width: 150px">Created</th>
-              <th scope="col" style="width: 50px">Replies</th>
-              <th scope="col" style="width: 150px">Last Post</th>
+              <th scope="col">Topics</th>
+              <th scope="col">Created</th>
+              <th scope="col">Replies</th>
+              <th scope="col">Last Post</th>
             </tr>
             </thead>
             <tbody>
@@ -56,6 +83,18 @@
             </tbody>
           </table>
         </div>
+      </div>
+      <div class="mb-3 clearfix">
+        <nav aria-label="Navigate post pages" class="float-lg-right">
+          <ul class="pagination pagination-sm mb-lg-0">
+            <li class="page-item active"><a href="#0" class="page-link">1 <span class="sr-only">(current)</span></a></li>
+            <li class="page-item"><a href="#0" class="page-link">2</a></li>
+            <li class="page-item"><a href="#0" class="page-link">3</a></li>
+            <li class="page-item"><a href="#0" class="page-link">4</a></li>
+            <li class="page-item"><a href="#0" class="page-link">&hellip; 31</a></li>
+            <li class="page-item"><a href="#0" class="page-link">Next</a></li>
+          </ul>
+        </nav>
       </div>
     </div>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
