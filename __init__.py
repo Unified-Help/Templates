@@ -265,14 +265,12 @@ def create_forum_post():
 
         if create_forum_post_form.category.data == 'Pinned Posts':
             post = ForumPinnedPostsCounter()
-
             post.set_forum_pinned_post_id()
             post.set_username(create_forum_post_form.username.data)
             post.set_category(create_forum_post_form.category.data)
             post.set_post_subject(create_forum_post_form.post_subject.data)
             post.set_post_message(create_forum_post_form.post_message.data)
             post.set_date_time(post.get_date_time())
-
             pinned_posts_dict[post.get_forum_pinned_post_id()] = post
 
         elif create_forum_post_form.category.data == 'Announcements':
@@ -295,10 +293,13 @@ def create_forum_post():
             post.set_date_time(post.get_date_time())
             uhc_dict[post.get_forum_uhc_post_id()] = post
 
+
         db['PinnedPosts'] = pinned_posts_dict
         db['Announcements'] = announcements_dict
         db['UHC'] = uhc_dict
         db.close()
+
+
     return render_template('createForumPost.html', form=create_forum_post_form)
 
 
@@ -315,16 +316,6 @@ def forum_pinned_posts():
         pinned_posts_list.append(post)
     category = pinned_posts_list[0].get_category()
     return render_template('overview-forum-category.html', list=pinned_posts_list, category=category)
-
-<<<<<<< HEAD
-=======
-
-@app.route("/forum/pinned_posts/example")
-# @app.route("/forum/pinned_posts/example")
-def itsnew():
-    return render_template('forum-post.html')
->>>>>>> 7fe3299febdf7571c82ad081e8f8e5e785c1013d
-
 
 # Specific Forum Post ID - Pinned Posts
 @app.route("/forum/pinned_posts/<int:forum_pinned_posts_id>")

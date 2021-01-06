@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Create Forum Post{% endblock %}
 {% block head %}
+  <link href="{{url_for('static', filename = 'css/style-forum.css')}}" rel="stylesheet">
   <style type="text/css">
     #contentcode {
       height: 200px;
@@ -21,14 +22,25 @@
     </nav>
     <div class="container my-3">
       <nav class="breadcrumb">
-        <a href="index.html" class="breadcrumb-item">Board index</a>
-        <a href="overview-forum-category.html" class="breadcrumb-item">Forum category</a>
-        <a href="overview-topics.html" class="breadcrumb-item">Forum name</a>
+        <a href="{{url_for('forum')}}" class="breadcrumb-item" style="text-decoration: none">Unified Help Forum</a>
+        {% if category == 'Pinned Posts' %}
+        <a href="{{ url_for('forum_pinned_posts') }}" class="breadcrumb-item" style="text-decoration: none">{{ category }} Overview</a>
+        {% elif category == 'Announcements' %}
+        <a href="{{ url_for('forum_announcements_posts') }}" class="breadcrumb-item" style="text-decoration: none">{{ category }} Overview</a>
+        {% elif category == 'Unified Help Community' %}
+        <a href="{{ url_for('forum_uhc_posts') }}" class="breadcrumb-item" style="text-decoration: none">{{ category }} Overview</a>
+        {% endif %}
         <span class="breadcrumb-item active">Create new topic</span>
       </nav>
+<!--      <nav class="breadcrumb">-->
+<!--        <a href="index.html" class="breadcrumb-item">Board index</a>-->
+<!--        <a href="overview-forum-category.html" class="breadcrumb-item">Forum category</a>-->
+<!--        <a href="overview-topics.html" class="breadcrumb-item">Forum name</a>-->
+<!--        <span class="breadcrumb-item active">Create new topic</span>-->
+<!--      </nav>-->
       <div class="row">
         <div class="col-12">
-          <h2 class="h4 text-white bg-info mb-3 p-4 rounded">Create new topic</h2>
+          <h2 class="h4 text-white forum-cat-color mb-3 p-4 rounded">Create new topic</h2>
           <form class="mb-3">
             <div class="form-group">
               {{ render_field(form.category, class="form-control") }}

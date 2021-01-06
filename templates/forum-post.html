@@ -22,13 +22,13 @@
     <div class="container my-3">
       <nav class="breadcrumb">
         <a href="{{url_for('forum')}}" class="breadcrumb-item" style="text-decoration: none">Unified Help Forum</a>
-        {% if category == 'Pinned Posts' %}
-        <a href="{{ url_for('forum_pinned_posts') }}" class="breadcrumb-item" style="text-decoration: none">{{ category }} Overview</a>
-        {% elif category == 'Announcements' %}
-        <a href="{{ url_for('forum_announcements_posts') }}" class="breadcrumb-item" style="text-decoration: none">{{ category }} Overview</a>
-        {% elif category == 'Unified Help Community' %}
-        <a href="{{ url_for('forum_uhc_posts') }}" class="breadcrumb-item" style="text-decoration: none">{{ category }} Overview</a>
-        {% endif %}
+<!--        {% if category == 'Pinned Posts' %}-->
+<!--        <a href="{{ url_for('forum_pinned_posts') }}" class="breadcrumb-item" style="text-decoration: none">{{ category }} Overview</a>-->
+<!--        {% elif category == 'Announcements' %}-->
+<!--        <a href="{{ url_for('forum_announcements_posts') }}" class="breadcrumb-item" style="text-decoration: none">{{ category }} Overview</a>-->
+<!--        {% elif category == 'Unified Help Community' %}-->
+<!--        <a href="{{ url_for('forum_uhc_posts') }}" class="breadcrumb-item" style="text-decoration: none">{{ category }} Overview</a>-->
+<!--        {% endif %}-->
         <span class="breadcrumb-item active">{{post_subject}}</span>
       </nav>
       <div class="row">
