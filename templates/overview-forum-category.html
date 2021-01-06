@@ -1,10 +1,5 @@
 {% extends "base.html" %}
-{% for post in list %}
-(% set cat = '' %}
-(% set cat = post.get_category() %}
-{% set category = cat %}
-{% endfor %}
-{% block title %}UnifiedHelpForum - {{ category }} Overview{% endblock %}
+{% block title %}UnifiedHelpForum - {{ category }} Forum Overview{% endblock %}
   {% block head %}
     <link href="{{url_for('static', filename = 'css/style-forum.css')}}" rel="stylesheet">
   {% endblock %}
@@ -21,8 +16,8 @@
 
     <div class="container my-3">
       <nav class="breadcrumb">
-          <a href="#0" class="breadcrumb-item">Index</a>
-          <span class="breadcrumb-item active">Forum category</span>
+          <a href="{{url_for('forum')}}" class="breadcrumb-item">Index</a>
+          <span class="breadcrumb-item active">{{ category }}</span>
       </nav>
 
       <a href="/forum/createforumpost"><button type="button" class="btn btn-outline-danger">Create Thread</button></a>

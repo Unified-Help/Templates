@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}UnifiedHelpForum{% endblock %}
+{% block title %}Unified Help Forum{% endblock %}
   {% block head %}
     <link href="{{url_for('static', filename = 'css/style-forum.css')}}" rel="stylesheet">
   {% endblock %}
@@ -26,7 +26,7 @@
       <div class="row">
         <div class="col-12 col-xl-12">
 
-          <h2 class="h4 text-white mb-0 p-4 rounded-top forum-cat-color"><a href="{{url_for('forum', category=) }}">Pinned Post</a></h2>
+          <h2 class="h4 text-white mb-0 p-4 rounded-top forum-cat-color"><a href="{{url_for('forum_pinned_posts')}}" style="text-decoration: none; color:#ffffff">Pinned Posts</a></h2>
           <table class="table table-bordered table-responsive">
             <thead class="thead-light">
             <tr>
@@ -59,7 +59,7 @@
           </table>
 
         <!-- Announcement Forum -->
-        <h2 class="h4 text-white mb-0 p-4 rounded-top forum-cat-color">Announcements</h2>
+        <h2 class="h4 text-white mb-0 p-4 rounded-top forum-cat-color"><a href="{{url_for('forum_announcements_posts')}}" style="text-decoration: none; color:#ffffff">Announcements</a></h2>
         <table class="table table-bordered table-responsive">
           <thead class="thead-light">
             <tr>
@@ -92,7 +92,7 @@
         </table>
 
         <!-- Unified Help Community Forum -->
-        <h2 class="h4 text-white mb-0 p-4 rounded-top forum-cat-color">Unified Help Community</h2>
+        <h2 class="h4 text-white mb-0 p-4 rounded-top forum-cat-color"><a href="{{url_for('forum_uhc_posts')}}" style="text-decoration: none; color:#ffffff">Unified Help Community</a></h2>
         <table class="table table-bordered table-responsive">
           <thead class="thead-light">
             <tr>
