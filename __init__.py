@@ -363,8 +363,13 @@ def forum_announcements_posts_post(forum_announcements_post_id):
     announcements_list = []
     post = announcements_dict.get(forum_announcements_post_id)
     announcements_list.append(post)
+    post_subject = post.get_post_subject()
+    post_author = post.get_username()
+    post_datetime = post.get_date_time()
+    post_message = post.get_post_message()
     category = announcements_list[0].get_category()
-    return render_template('forum-post.html', list=announcements_list ,category=category)
+    return render_template('forum-post.html', list=announcements_list ,category=category, post_subject=post_subject, post_author=post_author,
+                           post_datetime=post_datetime,post_message=post_message)
 
 
 @app.route("/forum/uhc")
@@ -393,8 +398,13 @@ def forum_uhc_posts_post(forum_uhc_post_id):
     uhc_list = []
     post = uhc_dict.get(forum_uhc_post_id)
     uhc_list.append(post)
+    post_subject = post.get_post_subject()
+    post_author = post.get_username()
+    post_datetime = post.get_date_time()
+    post_message = post.get_post_message()
     category = uhc_list[0].get_category()
-    return render_template('forum-post.html', list=uhc_list, category=category)
+    return render_template('forum-post.html', list=uhc_list, category=category, post_subject=post_subject, post_author=post_author,
+                           post_datetime=post_datetime,post_message=post_message)
 
 @app.route("/faq")
 def faq():
