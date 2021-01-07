@@ -362,6 +362,19 @@ def forum_pinned_posts_post_update(forum_pinned_posts_id):
         forum_pinned_posts_form_update.post_message.data = post.get_post_message()
         return render_template('forum-post_update.html', form=forum_pinned_posts_form_update)
 
+@app.route('/forum/pinned_posts/delete/<int:forum_pinned_posts_id>', methods=['POST'])
+def forum_pinned_posts_post_delete(forum_pinned_posts_id):
+    pinned_posts_dict = {}
+    db = shelve.open('forumdb', 'w')
+    pinned_posts_dict = db['PinnedPosts']
+
+    pinned_posts_dict.pop(forum_pinned_posts_id)
+
+    db['PinnedPosts'] = pinned_posts_dict
+    db.close()
+
+    return redirect(url_for('forum_pinned_posts'))
+
 @app.route("/forum/announcements")
 def forum_announcements_posts():
     announcements_dict = {}
