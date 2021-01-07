@@ -272,6 +272,8 @@ def create_forum_post():
             post.set_post_message(create_forum_post_form.post_message.data)
             post.set_date_time(post.get_date_time())
             pinned_posts_dict[post.get_forum_pinned_post_id()] = post
+            db['PinnedPosts'] = pinned_posts_dict
+            return redirect(url_for('forum_pinned_posts'))
 
         elif create_forum_post_form.category.data == 'Announcements':
             post = ForumAnnoucementsPostCounter()
@@ -282,6 +284,8 @@ def create_forum_post():
             post.set_post_message(create_forum_post_form.post_message.data)
             post.set_date_time(post.get_date_time())
             announcements_dict[post.get_forum_announcements_post_id()] = post
+            db['Announcements'] = announcements_dict
+            return redirect(url_for('forum_announcements_posts'))
 
         elif create_forum_post_form.category.data == 'Unified Help Community':
             post = ForumUHCPostCounter()
@@ -292,14 +296,9 @@ def create_forum_post():
             post.set_post_message(create_forum_post_form.post_message.data)
             post.set_date_time(post.get_date_time())
             uhc_dict[post.get_forum_uhc_post_id()] = post
-
-
-        db['PinnedPosts'] = pinned_posts_dict
-        db['Announcements'] = announcements_dict
-        db['UHC'] = uhc_dict
+            db['UHC'] = uhc_dict
+            return redirect(url_for('forum_uhc_posts'))
         db.close()
-
-
     return render_template('createForumPost.html', form=create_forum_post_form)
 
 
@@ -318,12 +317,12 @@ def forum_pinned_posts():
     return render_template('overview-forum-category.html', list=pinned_posts_list, category=category)
 
 # Specific Forum Post ID - Pinned Posts
-@app.route("/forum/pinned_posts/<int:forum_pinned_posts_id>")
+@app.route("/forum/pinned_posts/<int:forum_pinned_posts_id>", methods=['GET','POST'])
 def forum_pinned_posts_post(forum_pinned_posts_id):
     pinned_posts_dict = {}
     db = shelve.open('forumdb', 'c')
     pinned_posts_dict = db['PinnedPosts']
-    db.close()
+
 
     pinned_posts_list = []
 
@@ -334,9 +333,11 @@ def forum_pinned_posts_post(forum_pinned_posts_id):
     post_author = post.get_username()
     post_datetime = post.get_date_time()
     post_message = post.get_post_message()
+    post_edited = post.get_edited()
     category = pinned_posts_list[0].get_category()
+    db.close()
     return render_template('forum-post.html', list=pinned_posts_list, category=category, post_subject=post_subject, post_author=post_author,
-                           post_datetime=post_datetime,post_message=post_message, post_id=post_id)
+                           post_datetime=post_datetime,post_message=post_message, post_id=post_id,post_edited=post_edited)
 
 @app.route("/forum/pinned_posts/update/<int:forum_pinned_posts_id>", methods=['GET', 'POST'])
 def forum_pinned_posts_post_update(forum_pinned_posts_id):
@@ -348,7 +349,7 @@ def forum_pinned_posts_post_update(forum_pinned_posts_id):
 
         post = pinned_posts_dict.get(forum_pinned_posts_id)
         post.set_post_message(forum_pinned_posts_form_update.post_message.data)
-
+        post.set_edited()
         db['PinnedPosts'] = pinned_posts_dict
         db.close()
         return redirect(url_for('forum_pinned_posts_post',forum_pinned_posts_id = post.get_forum_pinned_post_id()))
@@ -362,7 +363,7 @@ def forum_pinned_posts_post_update(forum_pinned_posts_id):
         forum_pinned_posts_form_update.post_message.data = post.get_post_message()
         return render_template('forum-post_update.html', form=forum_pinned_posts_form_update)
 
-@app.route('/forum/pinned_posts/delete/<int:forum_pinned_posts_id>', methods=['POST'])
+@app.route('/forum/pinned_posts/delete/<int:forum_pinned_posts_id>', methods=['GET','POST'])
 def forum_pinned_posts_post_delete(forum_pinned_posts_id):
     pinned_posts_dict = {}
     db = shelve.open('forumdb', 'w')
