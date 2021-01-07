@@ -329,13 +329,38 @@ def forum_pinned_posts_post(forum_pinned_posts_id):
 
     post = pinned_posts_dict.get(forum_pinned_posts_id)
     pinned_posts_list.append(post)
+    post_id = post.get_forum_pinned_post_id
     post_subject = post.get_post_subject()
     post_author = post.get_username()
     post_datetime = post.get_date_time()
     post_message = post.get_post_message()
     category = pinned_posts_list[0].get_category()
-    return render_template('forum-post.html', pinned_posts_list=pinned_posts_list, category=category, post_subject=post_subject, post_author=post_author,
-                           post_datetime=post_datetime,post_message=post_message)
+    return render_template('forum-post.html', list=pinned_posts_list, category=category, post_subject=post_subject, post_author=post_author,
+                           post_datetime=post_datetime,post_message=post_message, post_id=post_id)
+
+@app.route("/forum/pinned_posts/update/<int:forum_pinned_posts_id>")
+def forum_pinned_posts_post_update(forum_pinned_posts_id):
+    forum_pinned_posts_form_update = createForumPost(request.form)
+    if request.method == 'POST' and forum_pinned_posts_form_update.validate():
+        pinned_posts_dict = {}
+        db = shelve.open('forumdb', 'w')
+        pinned_posts_dict = db['PinnedPosts']
+
+        post = pinned_posts_dict.get(forum_pinned_posts_id)
+        post.set_post_message(forum_pinned_posts_form_update.post_message.data)
+
+        db['PinnedPosts'] = pinned_posts_dict
+        db.close()
+        return redirect(url_for('forum_pinned_posts_post'))
+    else:
+        pinned_posts_dict = {}
+        db = shelve.open('forumdb', 'r')
+        pinned_posts_dict = db['PinnedPosts']
+        db.close()
+
+        post = pinned_posts_dict.get(forum_pinned_posts_id)
+        forum_pinned_posts_form_update.post_message.data = post.get_post_message()
+        return render_template('forum-post_update.html', form=forum_pinned_posts_form_update)
 
 @app.route("/forum/announcements")
 def forum_announcements_posts():

@@ -55,6 +55,11 @@
                 <td>
                   <div><span class="font-weight-bold">Joined:</span><br>03 Apr 2017, 13:46</div>
                   <div><span class="font-weight-bold">Posts:</span><br>123</div>
+                  {% for post in list %}
+                  {% if category == 'Pinned Posts' %}
+                  <p><a href="{{ url_for('forum_pinned_posts_post_update', forum_pinned_posts_id = post.get_forum_pinned_post_id() ) }}">Edit Post Message</a></p>
+                  {% endif %}
+                  {% endfor %}
                 </td>
                 <td>
                   <p>{{post_message}}</p>
