@@ -338,10 +338,10 @@ def forum_pinned_posts_post(forum_pinned_posts_id):
     return render_template('forum-post.html', list=pinned_posts_list, category=category, post_subject=post_subject, post_author=post_author,
                            post_datetime=post_datetime,post_message=post_message, post_id=post_id)
 
-@app.route("/forum/pinned_posts/update/<int:forum_pinned_posts_id>")
+@app.route("/forum/pinned_posts/update/<int:forum_pinned_posts_id>", methods=['GET', 'POST'])
 def forum_pinned_posts_post_update(forum_pinned_posts_id):
     forum_pinned_posts_form_update = createForumPost(request.form)
-    if request.method == 'POST' and forum_pinned_posts_form_update.validate():
+    if request.method == 'POST':
         pinned_posts_dict = {}
         db = shelve.open('forumdb', 'w')
         pinned_posts_dict = db['PinnedPosts']
@@ -351,7 +351,7 @@ def forum_pinned_posts_post_update(forum_pinned_posts_id):
 
         db['PinnedPosts'] = pinned_posts_dict
         db.close()
-        return redirect(url_for('forum_pinned_posts_post'))
+        return redirect(url_for('forum_pinned_posts_post',forum_pinned_posts_id = post.get_forum_pinned_post_id()))
     else:
         pinned_posts_dict = {}
         db = shelve.open('forumdb', 'r')
