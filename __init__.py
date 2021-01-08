@@ -410,6 +410,44 @@ def forum_announcements_posts_post(forum_announcements_post_id):
     return render_template('forum-post.html', list=announcements_list ,category=category, post_subject=post_subject, post_author=post_author,
                            post_datetime=post_datetime,post_message=post_message)
 
+@app.route("/forum/announcements/update/<int:forum_announcements_post_id>", methods=['GET', 'POST'])
+def forum_announcements_posts_post_update(forum_announcements_post_id):
+    forum_announcements_form_update = createForumPost(request.form)
+    if request.method == 'POST':
+        announcements_dict = {}
+        db = shelve.open('forumdb', 'w')
+        announcements_dict = db['Announcements']
+
+
+        post = announcements_dict.get(forum_announcements_post_id)
+        post.set_post_message(forum_announcements_form_update.post_message.data)
+        post.set_edited()
+        db['Announcements'] = announcements_dict
+        db.close()
+        return redirect(url_for('forum_announcements_posts_post',forum_announcements_post_id = post.get_forum_announcements_post_id()))
+    else:
+        announcements_dict = {}
+        db = shelve.open('forumdb', 'r')
+        announcements_dict = db['Announcements']
+        db.close()
+
+        post = announcements_dict.get(forum_announcements_post_id)
+        forum_announcements_form_update.post_message.data = post.get_post_message()
+        return render_template('forum-post_update.html', form=forum_announcements_form_update)
+
+@app.route('/forum/announcements/delete/<int:forum_announcements_post_id>', methods=['GET','POST'])
+def forum_announcements_post_delete(forum_announcements_post_id):
+    announcements_dict = {}
+    db = shelve.open('forumdb', 'w')
+    announcements_dict = db['Announcements']
+
+    announcements_dict.pop(forum_announcements_post_id)
+
+    db['Announcements'] = announcements_dict
+    db.close()
+
+    return redirect(url_for('forum_announcements_posts'))
+
 
 @app.route("/forum/uhc")
 def forum_uhc_posts():
@@ -444,6 +482,44 @@ def forum_uhc_posts_post(forum_uhc_post_id):
     category = uhc_list[0].get_category()
     return render_template('forum-post.html', list=uhc_list, category=category, post_subject=post_subject, post_author=post_author,
                            post_datetime=post_datetime,post_message=post_message)
+
+@app.route("/forum/uhc/update/<int:forum_uhc_post_id>", methods=['GET', 'POST'])
+def forum_uhc_posts_post_update(forum_uhc_post_id):
+    forum_uhc_form_update = createForumPost(request.form)
+    if request.method == 'POST':
+        uhc_dict = {}
+        db = shelve.open('forumdb', 'w')
+        uhc_dict = db['UHC']
+
+
+        post = uhc_dict.get(forum_uhc_post_id)
+        post.set_post_message(forum_uhc_form_update.post_message.data)
+        post.set_edited()
+        db['UHC'] = uhc_dict
+        db.close()
+        return redirect(url_for('forum_uhc_posts_post',forum_uhc_post_id = post.get_forum_uhc_post_id()))
+    else:
+        uhc_dict = {}
+        db = shelve.open('forumdb', 'r')
+        uhc_dict = db['UHC']
+        db.close()
+
+        post = uhc_dict.get(forum_uhc_post_id)
+        forum_uhc_form_update.post_message.data = post.get_post_message()
+        return render_template('forum-post_update.html', form=forum_uhc_form_update)
+
+@app.route('/forum/uhc/delete/<int:forum_uhc_post_id>', methods=['GET','POST'])
+def forum_uhc_post_delete(forum_uhc_post_id):
+    uhc_dict = {}
+    db = shelve.open('forumdb', 'w')
+    uhc_dict = db['UHC']
+
+    uhc_dict.pop(forum_uhc_post_id)
+
+    db['UHC'] = uhc_dict
+    db.close()
+
+    return redirect(url_for('forum_uhc_posts'))
 
 @app.route("/faq")
 def faq():
