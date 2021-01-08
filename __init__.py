@@ -649,6 +649,11 @@ def before_request():
     if 'Users' in session:
         g.user = session['Users']
 
+@app.route('/logout')
+def logout():
+    session.pop('Users', None)
+    return render_template('index.html')
+
 
 @app.route('/retrieveusers')
 def retrieve_users():
