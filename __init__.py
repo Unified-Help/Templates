@@ -631,7 +631,7 @@ def login():
             users_list.append(user)
             username = user.get_username()
             password = user.get_password()
-        if username and password == user:
+        if username == username and password == password:
             return redirect(url_for('profile'))
         return redirect(url_for('login'))
 
