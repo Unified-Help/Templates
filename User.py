@@ -1,3 +1,5 @@
+import datetime
+
 class User:
     count_id = 0
 
@@ -9,6 +11,7 @@ class User:
         self.__gender = gender
         self.__password = password
         self.__confirm_password = confirm_password
+        self.__datetime = datetime.datetime.now()
 
     def get_user_id(self):
         return self.__user_id
@@ -28,6 +31,9 @@ class User:
     def get_confirm_password(self):
         return self.__confirm_password
 
+    def get_date_time(self):
+        return self.__datetime
+
     def set_user_id(self, user_id):
         self.__user_id = user_id
 
@@ -45,3 +51,7 @@ class User:
 
     def set_confirm_password(self, confirm_password):
         self.__confirm_password = confirm_password
+
+    def set_date_time(self, datetime):
+        self.__datetime = datetime
+        self.__datetime = self.__datetime.strftime("%d %b %Y, %H:%M")
