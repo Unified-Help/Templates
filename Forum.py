@@ -79,8 +79,9 @@ class ForumPinnedPostsCounter(ForumPost):
         super().__init__()
         self.__forum_pinned_post_id = ''
 
+
     def set_forum_pinned_post_id(self):
-        # Use with -> Don't need to close db
+        # # Use with -> Don't need to close db
         with shelve.open('forumdb','r') as db:
             if len(db['PinnedPosts']) == 0:
                 forum_pinned_post_id = 0
@@ -129,7 +130,7 @@ class ForumUHCPostCounter(ForumPost):
         super().__init__()
         self.__forum_uhc_post_id = ''
 
-    def set_forum_uhc_post_id(self):
+    def set_forum_uhc_post_id(self,forum_uhc_post_id):
         with shelve.open('forumdb','r') as db:
             if len(db['UHC']) == 0:
                 forum_uhc_post_id = 0
