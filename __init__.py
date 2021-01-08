@@ -122,11 +122,19 @@ def donate_Money():
                             donate_money.cardInfo_DateExpiry.data, donate_money.cardInfo_YearExpiry.data)
         donor.set_moneyID()
 
+        if request.form.get('Cancel') == 'Cancel':
+            donor.set_status("Pending")
+        if request.form.get('Confirm') == 'Confirm':
+            donor.set_status("Confirmed")
+        # print(donor.get_status())
+
         donor_moneychoices[donor.get_moneyID()] = donor
 
         dbMC["Money"] = donor_moneychoices
 
         dbMC.close()
+
+        return redirect(url_for('donateHistory'))
 
     return render_template('donateMoney.html', form=donate_money)
 
@@ -143,7 +151,7 @@ def donate_Item():
         try:
             donor_itemchoices = dbIM["Items"]
         except:
-            print("Error in retrieving Donors IM from donorItemChoices")
+            print("Error in retrieving Donors IM from donorChoices")
 
         donor = DonateItem(donate_item.donateToWho.data, donate_item.itemName.data, donate_item.itemName.data,
                            donate_item.itemWeight.data, donate_item.itemHeight.data, donate_item.itemLength.data,
@@ -153,18 +161,64 @@ def donate_Item():
                            donate_item.pickupAddress3.data, donate_item.pickupPostalCode.data)
         donor.set_itemID()
 
+        if request.form.get('Cancel') == 'Cancel':
+            donor.set_status("Pending")
+        if request.form.get('Confirm') == 'Confirm':
+            donor.set_status("Confirmed")
+        # print(donor.get_status())
+
         donor_itemchoices[donor.get_itemID()] = donor
 
         dbIM["Items"] = donor_itemchoices
 
         dbIM.close()
 
+        return redirect(url_for('donateHistory'))
+
     return render_template('donateItem.html', form=donate_item)
 
 
-@app.route("/donate/details/confirmation")
-def donate_Confirmation():
-    return render_template('donateConfirmation.html')
+@app.route("/donate/details/confirmation/<string:id>", methods=['GET', 'POST'])
+def donate_Confirmation(id):
+    if request.method == 'POST':
+        donation_dict = {}
+
+        db = shelve.open('donorChoices', 'w')
+        if id[0] == "M":
+            donation_dict = db['Money']
+            donor = donation_dict.get(id)
+
+            # Change status with respect to choice
+            if request.form.get('Delete') == 'Delete':
+                donor.set_status("Archive")
+
+            elif request.form.get('Confirm') == 'Confirm':
+                donor.set_status("Confirmed")
+
+            db["Money"] = donation_dict
+
+        elif id[0] == "I":
+            donation_dict = db['Items']
+            donor = donation_dict.get(id)
+
+            # Change status with respect to choice
+            if request.form.get('Delete') == 'Delete':
+                donor.set_status("Archive")
+
+            elif request.form.get('Confirm') == 'Confirm':
+                donor.set_status("Confirmed")
+            print(donor.get_status())
+
+            db['Items'] = donation_dict
+
+        else:
+            print("No such ID")
+
+        db.close()
+        return redirect(url_for('donateHistory'))
+
+    else:
+        return render_template('donateConfirmation.html')
 
 
 @app.route("/donate/itemupdate/<string:id>", methods=['GET', 'POST'])

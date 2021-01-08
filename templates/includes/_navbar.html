@@ -11,9 +11,9 @@
           <li class="{{ 'active' if active_page == 'home' }}"><a href="{{url_for('home')}}" onclick="">Home</a></li>
 
           <!-- Transaction Processing -->
-          <li class="drop-down {{ 'active' if active_page == 'donate' }}"><a href="#">Donate</a>
+          <li class="drop-down {{ 'active' if active_page == 'donate' }}"><a href="{{url_for('donate')}}">Donate</a>
             <ul>
-              <li class="drop-down"><a href="#">Donate Now!</a>
+              <li class="drop-down"><a href="{{url_for('donateDetails')}}">Donate Now!</a>
                 <ul>
                   <li class="navLinks"><a href="{{url_for('donate_Money')}}">Donate Money</a></li>
                   <li class="navLinks"><a href="{{url_for('donate_Item')}}">Donate Item</a></li>

@@ -22,6 +22,9 @@ class DonateMoney:
         self.__cardInfo_DateExpiry = cardInfo_DateExpiry
         self.__cardInfo_YearExpiry = cardInfo_YearExpiry
 
+        # Donation Status
+        self.__status = ""
+
     # Accessors
     def get_moneyID(self):
         return self.__moneyID
@@ -49,6 +52,9 @@ class DonateMoney:
 
     def get_cardInfo_YearExpiry(self):
         return self.__cardInfo_YearExpiry
+
+    def get_status(self):
+        return self.__status
 
     # Mutators
     def set_moneyID(self):
@@ -89,6 +95,9 @@ class DonateMoney:
     def set_cardInfo_YearExpiry(self, cardInfo_YearExpiry):
         self.__cardInfo_YearExpiry = cardInfo_YearExpiry
 
+    def set_status(self, status):
+        self.__status = status
+
 
 # Item Donations
 class DonateItem:
@@ -122,6 +131,9 @@ class DonateItem:
         self.__address2 = address2
         self.__address3 = address3
         self.__postal_code = postal_code
+
+        # Donation Status
+        self.__status = ""
 
     # Accessors
     def get_itemID(self):
@@ -174,6 +186,9 @@ class DonateItem:
 
     def get_postal_code(self):
         return self.__postal_code
+
+    def get_status(self):
+        return self.__status
 
     # Mutators
     def set_itemID(self):
@@ -237,3 +252,6 @@ class DonateItem:
 
     def set_postal_code(self, postal_code):
         self.__postal_code = postal_code
+
+    def set_status(self, status):
+        self.__status = status
