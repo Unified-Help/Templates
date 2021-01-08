@@ -544,10 +544,6 @@ def forum_uhc_post_delete(forum_uhc_post_id):
     return redirect(url_for('forum_uhc_posts'))
 
 
-@app.route("/faq")
-def faq():
-    return render_template('FAQ.html')
-
 
 # Account Management
 
