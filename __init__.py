@@ -1,5 +1,5 @@
 # Imports
-from flask import Flask, render_template, request, redirect, url_for, session, flash, g
+from flask import Flask, render_template, request, redirect, url_for, session, g
 # from flask_login import login_required, LoginManager
 import shelve
 
@@ -599,6 +599,7 @@ def create_user():
 
         user = User(create_user_form.username.data, create_user_form.email.data, create_user_form.gender.data,
                     create_user_form.password.data, create_user_form.confirm_password.data)
+        user.set_date_time(user.get_date_time())
         users_dict[user.get_user_id()] = user
         db['Users'] = users_dict
 
