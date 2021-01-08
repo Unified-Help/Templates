@@ -8,10 +8,6 @@
   {% block content %}
   <br/><br/><br/><br/>
   <main>
-    <form class="form-inline d-block d-sm-flex">
-      <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-danger btn-rounded btn-sm my-0" type="submit">Search</button>
-    </form>
     <div class="container my-3">
       <nav class="breadcrumb">
           <a href="{{url_for('forum')}}" class="breadcrumb-item" style="text-decoration: none">Unified Help Forum</a>
@@ -65,7 +61,7 @@
             </tr>
             </thead>
             <tbody>
-            {% for post in list %}
+            {% for post in list|reverse %}
             <tr>
               <td>
                 {% if category == 'Pinned Posts' %}
