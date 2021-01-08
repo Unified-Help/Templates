@@ -24,6 +24,16 @@ app = Flask(__name__)
 app.jinja_env.add_extension('jinja2.ext.loopcontrols')
 app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
 
+
+@app.before_request
+def before_request():
+    g.customer = None
+
+    if 'customer_id' in session:
+        customer = [x for x in customers if x.id == session['customer_id']][0]
+        g.customer = customer
+
+
 # Home
 @app.route("/")
 def home():
@@ -588,8 +598,46 @@ def forum_uhc_post_delete(forum_uhc_post_id):
     return redirect(url_for('forum_uhc_posts'))
 
 
+@app.route("/faq")
+def faq():
+    return render_template('FAQ.html')
+
 
 # Account Management
+
+class Customer:
+    def __init__(self, id, username, password):
+        self.id = id
+        self.username = username
+        self.password = password
+
+    def __repr__(self):
+        return f'<User: {self.username}>'
+
+
+customers = []
+customers.append(Customer(id=1, username='Anthony', password='password'))
+customers.append(Customer(id=2, username='Becca', password='secret'))
+customers.append(Customer(id=3, username='Carlos', password='somethingsimple'))
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        session.pop('customer_id', None)
+
+        username = request.form['username']
+        password = request.form['password']
+
+        customer = [x for x in customers if x.username == username][0]
+        if customer and customer.password == password:
+            session['customer_id'] = customer.id
+            return redirect(url_for('profile'))
+
+        return redirect(url_for('login'))
+
+    return render_template('login.html')
+
 
 @app.route('/createUser', methods=['GET', 'POST'])
 def create_user():
@@ -611,43 +659,18 @@ def create_user():
 
         db.close()
 
-        session['user_created'] = user.get_username()
+        session['user_created'] = user.get_username() + ' ' + user.get_email()
 
         return redirect(url_for('retrieve_users'))
     return render_template('CreateAccount.html', form=create_user_form)
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    users_dict = {}
-    db = shelve.open('account.db', 'r')
-    users_dict = db['Users']
-    db.close()
-
-    users_list = []
-    for key in users_dict:
-        user = users_dict.get(key)
-        users_list.append(user)
-    if request.method == 'POST':
-        session.pop('Users', None)
-
-        if request.form['password'] == user.get_password():
-            session['Users'] = user.get_username()
-            return redirect(url_for('profile'))
-
-    return render_template('login.html')
 
 @app.route('/profile')
 def profile():
-    if g.user:
-        return render_template('profile.html', user=session['Users'])
-    return redirect(url_for('login'))
+    if not g.customer:
+        return redirect(url_for('login'))
 
-@app.before_request
-def before_request():
-    g.user = None
-
-    if 'Users' in session:
-        g.user = session['Users']
+    return render_template('profile.html')
 
 
 @app.route('/retrieveusers')
@@ -662,7 +685,7 @@ def retrieve_users():
         user = users_dict.get(key)
         users_list.append(user)
 
-    return render_template('index.html', count=len(users_list), users_list=users_list)
+    return render_template('retrieveusers.html', count=len(users_list), users_list=users_list)
 
 
 @app.route('/updateUser/<int:id>/', methods=['GET', 'POST'])
@@ -678,11 +701,12 @@ def update_user(id):
         user.set_email(update_user_form.email.data)
         user.set_gender(update_user_form.gender.data)
         user.set_password(update_user_form.password.data)
+        user.set_confirm_password(update_user_form.confirm_password.data)
 
         db['Users'] = users_dict
         db.close()
 
-        session['user_updated'] = user.get_username()
+        session['user_updated'] = user.get_username() + ' ' + user.get_email()
 
         return redirect(url_for('retrieve_users'))
     else:
@@ -712,7 +736,7 @@ def delete_user(id):
     db['Users'] = users_dict
     db.close()
 
-    session['user_deleted'] = user.get_username()
+    session['user_deleted'] = user.get_username() + ' ' + user.get_email()
 
     return redirect(url_for('retrieve_users'))
 
