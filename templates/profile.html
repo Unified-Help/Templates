@@ -9,11 +9,12 @@
 <body>
   {% block content %}
     <section class="hero is-success is-fullheight" style="background-color:white; text-align:center;">
+      <a href="{{url_for('logout')}}"><button type="submit">Log Out</button></a></li>
       <div class="hero-body">
         <div class="container">
           <img src="static/img/UnifiedHelpLogo.png">
           <h1 class="title" style="color:black;">
-            {{ username }}'s Profile
+            {{user}}'s Profile
           </h1>
           <h2 class="subtitle" style="color:black;">
             You are user number #
