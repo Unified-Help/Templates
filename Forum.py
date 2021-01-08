@@ -130,7 +130,7 @@ class ForumUHCPostCounter(ForumPost):
         super().__init__()
         self.__forum_uhc_post_id = ''
 
-    def set_forum_uhc_post_id(self,forum_uhc_post_id):
+    def set_forum_uhc_post_id(self):
         with shelve.open('forumdb','r') as db:
             if len(db['UHC']) == 0:
                 forum_uhc_post_id = 0
