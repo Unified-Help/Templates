@@ -613,7 +613,7 @@ def create_user():
 
         session['user_created'] = user.get_username()
 
-        return redirect(url_for('retrieve_users'))
+        return redirect(url_for('home'))
     return render_template('CreateAccount.html', form=create_user_form)
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -662,7 +662,7 @@ def retrieve_users():
         user = users_dict.get(key)
         users_list.append(user)
 
-    return render_template('index.html', count=len(users_list), users_list=users_list)
+    return render_template('retrieveusers.html', count=len(users_list), users_list=users_list)
 
 
 @app.route('/updateUser/<int:id>/', methods=['GET', 'POST'])
