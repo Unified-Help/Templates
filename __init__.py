@@ -45,6 +45,7 @@ def donateHistory():
     try:
         db = shelve.open("donorChoices", "r")
 
+        # If only Money donations are created and Items are empty
         if "Money" in db and "Items" not in db:
             # Money History
             donorsM_dict = db["Money"]
@@ -54,6 +55,7 @@ def donateHistory():
                 donorsM_list.append(donorM)
             return render_template('donationHistory.html', donorsI_list='', donorsM_list=donorsM_list)
 
+        # If only Item donations are created and Money is empty
         if "Money" not in db and "Items" in db:
             # Item History
             donorsI_dict = db["Items"]
@@ -63,6 +65,7 @@ def donateHistory():
                 donorsI_list.append(donorI)
             return render_template('donationHistory.html', donorsI_list=donorsI_list, donorsM_list='')
 
+        # Once both item and money donations has been made
         if "Money" in db and "Items" in db:
             # Money History
             donorsM_dict = db["Money"]
@@ -316,13 +319,13 @@ def forum_pinned_posts():
     category = pinned_posts_list[0].get_category()
     return render_template('overview-forum-category.html', list=pinned_posts_list, category=category)
 
+
 # Specific Forum Post ID - Pinned Posts
-@app.route("/forum/pinned_posts/<int:forum_pinned_posts_id>", methods=['GET','POST'])
+@app.route("/forum/pinned_posts/<int:forum_pinned_posts_id>", methods=['GET', 'POST'])
 def forum_pinned_posts_post(forum_pinned_posts_id):
     pinned_posts_dict = {}
     db = shelve.open('forumdb', 'c')
     pinned_posts_dict = db['PinnedPosts']
-
 
     pinned_posts_list = []
 
@@ -336,8 +339,11 @@ def forum_pinned_posts_post(forum_pinned_posts_id):
     post_edited = post.get_edited()
     category = pinned_posts_list[0].get_category()
     db.close()
-    return render_template('forum-post.html', list=pinned_posts_list, category=category, post_subject=post_subject, post_author=post_author,
-                           post_datetime=post_datetime,post_message=post_message, post_id=post_id,post_edited=post_edited)
+    return render_template('forum-post.html', list=pinned_posts_list, category=category, post_subject=post_subject,
+                           post_author=post_author,
+                           post_datetime=post_datetime, post_message=post_message, post_id=post_id,
+                           post_edited=post_edited)
+
 
 @app.route("/forum/pinned_posts/update/<int:forum_pinned_posts_id>", methods=['GET', 'POST'])
 def forum_pinned_posts_post_update(forum_pinned_posts_id):
@@ -352,7 +358,7 @@ def forum_pinned_posts_post_update(forum_pinned_posts_id):
         post.set_edited()
         db['PinnedPosts'] = pinned_posts_dict
         db.close()
-        return redirect(url_for('forum_pinned_posts_post',forum_pinned_posts_id = post.get_forum_pinned_post_id()))
+        return redirect(url_for('forum_pinned_posts_post', forum_pinned_posts_id=post.get_forum_pinned_post_id()))
     else:
         pinned_posts_dict = {}
         db = shelve.open('forumdb', 'r')
@@ -363,7 +369,8 @@ def forum_pinned_posts_post_update(forum_pinned_posts_id):
         forum_pinned_posts_form_update.post_message.data = post.get_post_message()
         return render_template('forum-post_update.html', form=forum_pinned_posts_form_update)
 
-@app.route('/forum/pinned_posts/delete/<int:forum_pinned_posts_id>', methods=['GET','POST'])
+
+@app.route('/forum/pinned_posts/delete/<int:forum_pinned_posts_id>', methods=['GET', 'POST'])
 def forum_pinned_posts_post_delete(forum_pinned_posts_id):
     pinned_posts_dict = {}
     db = shelve.open('forumdb', 'w')
@@ -375,6 +382,7 @@ def forum_pinned_posts_post_delete(forum_pinned_posts_id):
     db.close()
 
     return redirect(url_for('forum_pinned_posts'))
+
 
 @app.route("/forum/announcements")
 def forum_announcements_posts():
@@ -407,8 +415,9 @@ def forum_announcements_posts_post(forum_announcements_post_id):
     post_datetime = post.get_date_time()
     post_message = post.get_post_message()
     category = announcements_list[0].get_category()
-    return render_template('forum-post.html', list=announcements_list ,category=category, post_subject=post_subject, post_author=post_author,
-                           post_datetime=post_datetime,post_message=post_message)
+    return render_template('forum-post.html', list=announcements_list, category=category, post_subject=post_subject,
+                           post_author=post_author,
+                           post_datetime=post_datetime, post_message=post_message)
 
 @app.route("/forum/announcements/update/<int:forum_announcements_post_id>", methods=['GET', 'POST'])
 def forum_announcements_posts_post_update(forum_announcements_post_id):
@@ -480,8 +489,10 @@ def forum_uhc_posts_post(forum_uhc_post_id):
     post_datetime = post.get_date_time()
     post_message = post.get_post_message()
     category = uhc_list[0].get_category()
-    return render_template('forum-post.html', list=uhc_list, category=category, post_subject=post_subject, post_author=post_author,
-                           post_datetime=post_datetime,post_message=post_message)
+    return render_template('forum-post.html', list=uhc_list, category=category, post_subject=post_subject,
+                           post_author=post_author,
+                           post_datetime=post_datetime, post_message=post_message)
+
 
 @app.route("/forum/uhc/update/<int:forum_uhc_post_id>", methods=['GET', 'POST'])
 def forum_uhc_posts_post_update(forum_uhc_post_id):
