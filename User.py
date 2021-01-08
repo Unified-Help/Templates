@@ -45,4 +45,3 @@ class User:
 
     def set_confirm_password(self, confirm_password):
         self.__confirm_password = confirm_password
-

@@ -1,5 +1,5 @@
 # Imports
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash, g
 # from flask_login import login_required, LoginManager
 import shelve
 
@@ -24,6 +24,13 @@ app = Flask(__name__)
 app.jinja_env.add_extension('jinja2.ext.loopcontrols')
 app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
 
+@app.before_request
+def before_request():
+    g.customer = None
+
+    if 'customer_id' in session:
+        customer = [x for x in customers if x.id == session['customer_id']][0]
+        g.customer = customer
 
 # Home
 @app.route("/")
@@ -538,17 +545,37 @@ def faq():
 
 
 # Account Management
+
+class Customer:
+    def __init__(self, id, username, password):
+        self.id = id
+        self.username = username
+        self.password = password
+
+    def __repr__(self):
+        return f'<User: {self.username}>'
+
+customers = []
+customers.append(Customer(id=1, username='Anthony', password='password'))
+customers.append(Customer(id=2, username='Becca', password='secret'))
+customers.append(Customer(id=3, username='Carlos', password='somethingsimple'))
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    form = LoginForm(request.form)
-    if form.validate_on_submit():
-        if form.email.data == "anthony@gmail.com" and form.password.data == "password":
-            flash('You have been logged in!', 'success')
-            return redirect(url_for('profile'))
-        else:
-            flash('Login Unsuccessful. Please check username and password', 'danger')
-    return render_template('login.html', title='Login', form=form)
+    if request.method == 'POST':
+        session.pop('customer_id', None)
 
+        username = request.form['username']
+        password = request.form['password']
+
+        customer = [x for x in customers if x.username == username][0]
+        if customer and customer.password == password:
+            session['customer_id'] = customer.id
+            return redirect(url_for('profile'))
+
+        return redirect(url_for('login'))
+
+    return render_template('login.html')
 
 @app.route('/createUser', methods=['GET', 'POST'])
 def create_user():
@@ -571,12 +598,18 @@ def create_user():
 
         session['user_created'] = user.get_username() + ' ' + user.get_email()
 
-        return redirect(url_for('profile'))
+        return redirect(url_for('retrieve_users'))
     return render_template('CreateAccount.html', form=create_user_form)
-
 
 @app.route('/profile')
 def profile():
+    if not g.customer:
+        return redirect(url_for('login'))
+
+    return render_template('profile.html')
+
+@app.route('/retrieveusers')
+def retrieve_users():
     users_dict = {}
     db = shelve.open('account.db', 'r')
     users_dict = db['Users']
@@ -587,7 +620,7 @@ def profile():
         user = users_dict.get(key)
         users_list.append(user)
 
-    return render_template('profile.html', count=len(users_list), users_list=users_list)
+    return render_template('retrieveusers.html', count=len(users_list), users_list=users_list)
 
 
 @app.route('/updateUser/<int:id>/', methods=['GET', 'POST'])
@@ -595,7 +628,7 @@ def update_user(id):
     update_user_form = CreateUserForm(request.form)
     if request.method == 'POST' and update_user_form.validate():
         users_dict = {}
-        db = shelve.open('account.db', 'w')
+        db = shelve.open('account.db', 'c')
         users_dict = db['Users']
 
         user = users_dict.get(id)
@@ -610,7 +643,7 @@ def update_user(id):
 
         session['user_updated'] = user.get_username() + ' ' + user.get_email()
 
-        return redirect(url_for('profile'))
+        return redirect(url_for('retrieve_users'))
     else:
         users_dict = {}
         db = shelve.open('account.db', 'r')
@@ -640,7 +673,7 @@ def delete_user(id):
 
     session['user_deleted'] = user.get_username() + ' ' + user.get_email()
 
-    return redirect(url_for('profile'))
+    return redirect(url_for('retrieve_users'))
 
 
 # Error Handling
