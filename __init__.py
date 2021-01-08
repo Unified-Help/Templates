@@ -1,5 +1,5 @@
 # Imports
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, g
 # from flask_login import login_required, LoginManager
 import shelve
 
@@ -618,28 +618,37 @@ def create_user():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if request.method == 'POST':
-        session.pop('user_id', None)
-        users_dict = {}
-        db = shelve.open('account.db', 'r')
-        users_dict = db['Users']
-        db.close()
+    users_dict = {}
+    db = shelve.open('account.db', 'r')
+    users_dict = db['Users']
+    db.close()
 
-        users_list = []
-        for key in users_dict:
-            user = users_dict.get(key)
-            users_list.append(user)
-            username = user.get_username()
-            password = user.get_password()
-        if username and password == user:
+    users_list = []
+    for key in users_dict:
+        user = users_dict.get(key)
+        users_list.append(user)
+    if request.method == 'POST':
+        session.pop('Users', None)
+
+        if request.form['password'] == user.get_password():
+            session['Users'] = user.get_username()
             return redirect(url_for('profile'))
-        return redirect(url_for('login'))
 
     return render_template('login.html')
 
 @app.route('/profile')
 def profile():
-    return render_template('profile.html')
+    if g.user:
+        return render_template('profile.html', user=session['Users'])
+    return redirect(url_for('login'))
+
+@app.before_request
+def before_request():
+    g.user = None
+
+    if 'Users' in session:
+        g.user = session['Users']
+
 
 @app.route('/retrieveusers')
 def retrieve_users():
@@ -653,7 +662,7 @@ def retrieve_users():
         user = users_dict.get(key)
         users_list.append(user)
 
-    return render_template('retrieveusers.html', count=len(users_list), users_list=users_list)
+    return render_template('index.html', count=len(users_list), users_list=users_list)
 
 
 @app.route('/updateUser/<int:id>/', methods=['GET', 'POST'])
